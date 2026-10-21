@@ -1,0 +1,34 @@
+name: PR 规范检查
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: 规范检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 取回 PR 提交
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: git fetch --no-tags "https://github.com/${HEAD_REPO}.git" "${HEAD_SHA}:refs/remotes/pr/head"
+      - name: 运行只读检查脚本
+        env:
+          LOGIN: ${{ github.event.pull_request.user.login }}
+          BRANCH: ${{ github.head_ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          HEAD_REF: refs/remotes/pr/head
+        run: python3 .github/scripts/check_pr.py

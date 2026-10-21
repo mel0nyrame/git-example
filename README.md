@@ -4,6 +4,10 @@
 
 个人文件的放置规则见 [members/README.md](members/README.md)。
 
+## 贡献者
+
+[![贡献者头像](https://contrib.rocks/image?repo=mel0nyrame/git-example&max=1000)](https://github.com/mel0nyrame/git-example/graphs/contributors)
+
 ## 分支
 
 - 基于 `main` 创建，命名 `add-你的用户名`，例如 `add-octocat`。
@@ -28,7 +32,8 @@
 ## PR
 
 - 只包含自己的文件，标题格式与 commit 一致。
-- 描述写明：做了什么、改了哪些文件。
+- 创建 PR 时按自动带出的模板填写「做了什么」「改了哪些文件」；用命令行创建时请手动按模板填写。
+- 不要暴露真实姓名：标题、描述、文件内容和 commit 的作者名/邮箱都不要写；提交前用 `git config user.name` 和 `git config user.email` 检查。
 - 目标分支必须是原仓库的 `main`，不是你 Fork 仓库的 `main`。
 - 有冲突时在本地解决后重新提交，不要关闭重开。
 
@@ -37,4 +42,6 @@
 - [ ] 文件位置和命名符合 [members/README.md](members/README.md)。
 - [ ] 没有改动他人的文件，也没有提交 `.DS_Store` 等杂项。
 - [ ] 分支名、commit message、PR 标题都符合本规范。
+- [ ] PR 描述按模板填写，写清了做了什么、改了哪些文件。
+- [ ] 没有暴露真实姓名。
 - [ ] PR 目标分支是原仓库的 `main`。
