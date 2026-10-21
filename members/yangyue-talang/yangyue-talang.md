@@ -27,5 +27,6 @@
 ## 找到我
 
 - GitHub：[yangyue-talang](https://github.com/yangyue-talang)
+- 个人主页：[index.html](./index.html)（浏览器直接打开即可）
 
 > 很高兴认识你，欢迎来提 issue 或者 PR 一起玩。

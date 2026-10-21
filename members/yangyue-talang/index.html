@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yangyue-talang · 个人主页</title>
+<meta name="description" content="yangyue-talang 的个人主页：关于我、正在折腾的事情、想练好的技能和最近关注的方向。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👋</text></svg>">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-soft: #161b22;
+    --card: rgba(22, 27, 34, 0.72);
+    --card-border: rgba(240, 246, 252, 0.10);
+    --fg: #e6edf3;
+    --fg-muted: #9aa7b3;
+    --accent: #58a6ff;
+    --accent-2: #7ee787;
+    --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f8fa;
+      --bg-soft: #ffffff;
+      --card: rgba(255, 255, 255, 0.86);
+      --card-border: rgba(27, 31, 36, 0.10);
+      --fg: #1f2328;
+      --fg-muted: #59636e;
+      --accent: #0969da;
+      --accent-2: #1a7f37;
+      --shadow: 0 18px 40px rgba(31, 35, 40, 0.12);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    color: var(--fg);
+    background:
+      radial-gradient(900px 500px at 12% -10%, rgba(88, 166, 255, 0.18), transparent 60%),
+      radial-gradient(800px 500px at 100% 0%, rgba(126, 231, 135, 0.14), transparent 55%),
+      var(--bg);
+    line-height: 1.7;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 20px 72px; }
+
+  /* ---------- header ---------- */
+  .hero {
+    display: flex; align-items: center; gap: 22px;
+    padding: 28px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+  .avatar {
+    flex: 0 0 auto;
+    width: 84px; height: 84px; border-radius: 24px;
+    display: grid; place-items: center;
+    font-size: 40px; font-weight: 700; letter-spacing: 1px;
+    color: #0d1117;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 10px 24px rgba(88, 166, 255, 0.28);
+  }
+  .hero h1 { margin: 0 0 4px; font-size: 1.9rem; letter-spacing: -0.5px; }
+  .hero h1 span { font-size: 1.4rem; vertical-align: middle; }
+  .hero p { margin: 0; color: var(--fg-muted); }
+  .badges { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    font-size: .78rem; padding: 3px 10px; border-radius: 999px;
+    border: 1px solid var(--card-border); color: var(--fg-muted);
+    background: rgba(127, 127, 127, 0.08);
+  }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 40px; }
+  h2 {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 1.2rem; margin: 0 0 16px; letter-spacing: 0.3px;
+  }
+  h2::before {
+    content: ""; width: 4px; height: 18px; border-radius: 3px;
+    background: linear-gradient(var(--accent), var(--accent-2));
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
+  }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .item { display: flex; gap: 12px; align-items: flex-start; }
+  .item .dot {
+    flex: 0 0 auto; margin-top: 9px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px rgba(88, 166, 255, 0.14);
+  }
+  .item p { margin: 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    font-size: .9rem; padding: 8px 14px; border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: rgba(127, 127, 127, 0.08);
+    transition: transform .18s ease, border-color .18s ease;
+  }
+  .tag:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .fact { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .fact .k { font-size: .78rem; color: var(--fg-muted); text-transform: uppercase; letter-spacing: .6px; }
+  .fact .v { font-weight: 600; }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 12px; text-decoration: none;
+    font-weight: 600; font-size: .95rem;
+    color: #0d1117; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 8px 20px rgba(88, 166, 255, 0.25);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(88, 166, 255, 0.32); }
+  .btn.ghost {
+    color: var(--fg); background: transparent; border: 1px solid var(--card-border); box-shadow: none;
+  }
+  .btn.ghost:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  footer {
+    margin-top: 48px; padding-top: 20px; text-align: center;
+    color: var(--fg-muted); font-size: .85rem;
+    border-top: 1px solid var(--card-border);
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .9em; padding: 2px 6px; border-radius: 6px;
+    background: rgba(127, 127, 127, 0.16);
+  }
+  @media (max-width: 520px) {
+    .hero { flex-direction: column; text-align: center; }
+    .hero .badges { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+  <main class="wrap">
+
+    <header class="hero">
+      <div class="avatar">yy</div>
+      <div>
+        <h1>你好，我是 yangyue-talang <span>👋</span></h1>
+        <p>GitHub 上的一名学习者，正在把 Git 的日常流程用熟。</p>
+        <div class="badges">
+          <span class="badge">GitHub: yangyue-talang</span>
+          <span class="badge">昵称: yy</span>
+          <span class="badge">学习者</span>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>关于我</h2>
+      <div class="card facts">
+        <div class="fact">
+          <div class="k">GitHub 用户名</div>
+          <div class="v">yangyue-talang</div>
+        </div>
+        <div class="fact">
+          <div class="k">常用昵称</div>
+          <div class="v">yy</div>
+        </div>
+        <div class="fact">
+          <div class="k">身份</div>
+          <div class="v">GitHub 上的学习者</div>
+        </div>
+        <div class="fact">
+          <div class="k">当前状态</div>
+          <div class="v">正在把 Git 的日常流程用熟</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>我在折腾什么</h2>
+      <div class="card grid">
+        <div class="item"><span class="dot"></span><p>用 Git 管理自己的小项目，从 <code>git init</code> 到 Pull Request 一步步上手</p></div>
+        <div class="item"><span class="dot"></span><p>写点命令行小工具和自动化脚本，把想法变成能跑起来的东西</p></div>
+        <div class="item"><span class="dot"></span><p>折腾 Markdown、文档和知识管理，喜欢把思路写清楚</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>我想练好的</h2>
+      <div class="card grid">
+        <div class="item"><span class="dot"></span><p>写出更干净的 commit，让历史一眼能读懂</p></div>
+        <div class="item"><span class="dot"></span><p>熟练使用分支、<code>rebase</code> 和 PR 协作流程</p></div>
+        <div class="item"><span class="dot"></span><p>慢慢沉淀一批能复用的脚本和模板</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>最近关注</h2>
+      <div class="card">
+        <div class="tags">
+          <span class="tag">Git / GitHub 工作流</span>
+          <span class="tag">开源协作</span>
+          <span class="tag">自动化 · CI 检查</span>
+          <span class="tag">脚本化日常操作</span>
+          <span class="tag">独立开发者工具链</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>找到我</h2>
+      <div class="card cta">
+        <a class="btn" href="https://github.com/yangyue-talang" target="_blank" rel="noopener">
+          GitHub 主页 →
+        </a>
+        <a class="btn ghost" href="https://github.com/yangyue-talang?tab=repositories" target="_blank" rel="noopener">
+          我的仓库
+        </a>
+        <a class="btn ghost" href="./yangyue-talang.md">
+          Markdown 版介绍
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      很高兴认识你，欢迎来提 issue 或者 PR 一起玩。<br>
+      本页由 <code>members/yangyue-talang/index.html</code> 生成，内容与成员文件保持一致。
+    </footer>
+
+  </main>
+</body>
+</html>
