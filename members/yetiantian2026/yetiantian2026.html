@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yetiantian2026 · 个人名片</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --bg-glow-1: rgba(99, 102, 241, 0.18);
+    --bg-glow-2: rgba(236, 72, 153, 0.14);
+    --surface: rgba(255, 255, 255, 0.78);
+    --surface-solid: #ffffff;
+    --border: rgba(15, 23, 42, 0.08);
+    --text: #0f172a;
+    --text-soft: #475569;
+    --text-muted: #7c889c;
+    --accent: #4f46e5;
+    --accent-2: #db2777;
+    --accent-soft: rgba(79, 70, 229, 0.09);
+    --shadow: 0 24px 60px -24px rgba(15, 23, 42, 0.28);
+    --ring: rgba(79, 70, 229, 0.28);
+    --chip: rgba(15, 23, 42, 0.04);
+    --meta: #94a3b8;
+  }
+
+  html[data-theme="dark"] {
+    --bg: #080b14;
+    --bg-glow-1: rgba(99, 102, 241, 0.28);
+    --bg-glow-2: rgba(236, 72, 153, 0.18);
+    --surface: rgba(20, 25, 40, 0.72);
+    --surface-solid: #111726;
+    --border: rgba(148, 163, 184, 0.14);
+    --text: #eef2ff;
+    --text-soft: #c3ccdd;
+    --text-muted: #8b97ad;
+    --accent: #8b8cf8;
+    --accent-2: #f472b6;
+    --accent-soft: rgba(139, 140, 248, 0.14);
+    --shadow: 0 28px 70px -26px rgba(0, 0, 0, 0.85);
+    --ring: rgba(139, 140, 248, 0.35);
+    --chip: rgba(148, 163, 184, 0.09);
+    --meta: #6b7891;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { min-height: 100%; }
+
+  body {
+    margin: 0;
+    padding: 32px 20px 56px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+                 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    transition: background-color .45s ease, color .45s ease;
+  }
+
+  /* 背景光晕（纯 CSS，无外部图片） */
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .backdrop::before,
+  .backdrop::after {
+    content: "";
+    position: absolute;
+    width: 44vmax;
+    height: 44vmax;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .9;
+    transition: background .45s ease;
+  }
+  .backdrop::before {
+    top: -16vmax;
+    left: -10vmax;
+    background: radial-gradient(circle at 30% 30%, var(--bg-glow-1), transparent 68%);
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .backdrop::after {
+    bottom: -20vmax;
+    right: -12vmax;
+    background: radial-gradient(circle at 60% 60%, var(--bg-glow-2), transparent 68%);
+    animation: drift 22s ease-in-out infinite alternate-reverse;
+  }
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    opacity: .55;
+  }
+
+  @keyframes drift {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(3vmax, 4vmax, 0) scale(1.08); }
+  }
+
+  .page {
+    width: 100%;
+    max-width: 760px;
+    animation: rise .8s cubic-bezier(.22, 1, .36, 1) both;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 顶部工具条 */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding: 0 4px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .brand .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 15px 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text-soft);
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 18px -12px rgba(15, 23, 42, .45);
+    transition: background .35s ease, color .35s ease, border-color .35s ease,
+                transform .18s ease, box-shadow .35s ease;
+  }
+  .theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--ring);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px -14px var(--ring);
+  }
+  .theme-toggle:active { transform: translateY(0) scale(.98); }
+  .theme-toggle:focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+  }
+  .theme-toggle svg {
+    width: 17px;
+    height: 17px;
+    flex: none;
+    transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .3s ease;
+  }
+  .icon-sun { display: none; }
+  .icon-moon { display: block; }
+  html[data-theme="dark"] .icon-sun { display: block; }
+  html[data-theme="dark"] .icon-moon { display: none; }
+  html[data-theme="dark"] .theme-toggle svg { transform: rotate(180deg); }
+
+  /* 主卡片 */
+  .card {
+    position: relative;
+    padding: 44px 44px 38px;
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: background .45s ease, border-color .45s ease, box-shadow .45s ease;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+    opacity: .85;
+  }
+
+  .hero {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  .avatar {
+    position: relative;
+    width: 82px;
+    height: 82px;
+    flex: none;
+    border-radius: 24px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(140deg, var(--accent), var(--accent-2));
+    color: #fff;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    box-shadow: 0 16px 32px -14px var(--ring);
+    user-select: none;
+  }
+  .avatar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(255, 255, 255, .28);
+  }
+
+  .identity { min-width: 0; }
+  .name {
+    margin: 0;
+    font-size: clamp(26px, 4.6vw, 38px);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    font-weight: 800;
+  }
+  .name .wave {
+    display: inline-block;
+    margin-left: 6px;
+    transform-origin: 70% 70%;
+    animation: wave 2.6s ease-in-out infinite;
+  }
+  @keyframes wave {
+    0%, 60%, 100% { transform: rotate(0deg); }
+    68% { transform: rotate(16deg); }
+    76% { transform: rotate(-8deg); }
+    84% { transform: rotate(12deg); }
+  }
+  .tagline {
+    margin: 7px 0 0;
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+
+  .divider {
+    height: 1px;
+    margin: 30px 0;
+    background: linear-gradient(90deg, transparent, var(--border) 12%, var(--border) 88%, transparent);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .intro {
+    margin: 0;
+    font-size: clamp(16px, 2.4vw, 18.5px);
+    color: var(--text-soft);
+  }
+  .intro strong {
+    color: var(--text);
+    font-weight: 700;
+    background: linear-gradient(transparent 62%, var(--accent-soft) 62%);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  /* 学习目标 */
+  .goal {
+    position: relative;
+    margin-top: 26px;
+    padding: 24px 26px;
+    border: 1px dashed var(--ring);
+    border-radius: 20px;
+    background: var(--accent-soft);
+    transition: background .45s ease, border-color .45s ease;
+  }
+  .goal-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .goal-head svg { width: 16px; height: 16px; }
+  .goal p {
+    margin: 0;
+    font-size: clamp(15.5px, 2.3vw, 17.5px);
+    color: var(--text);
+  }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-solid);
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .stat:hover { transform: translateY(-2px); border-color: var(--ring); }
+  .stat b {
+    font-size: 15px;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--meta);
+    letter-spacing: .03em;
+  }
+  .footer .sign {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .footer .sign i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    display: inline-block;
+  }
+
+  @media (max-width: 560px) {
+    body { padding: 22px 14px 40px; }
+    .card { padding: 32px 22px 28px; border-radius: 22px; }
+    .avatar { width: 68px; height: 68px; border-radius: 20px; font-size: 28px; }
+    .hero { gap: 16px; }
+    .goal { padding: 20px; }
+    .brand span:last-child { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="backdrop" aria-hidden="true">
+  <div class="grid-lines"></div>
+</div>
+
+<main class="page">
+  <div class="toolbar">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Member Profile</span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button"
+            aria-label="切换白天/黑夜主题" aria-pressed="false">
+      <!-- 月亮：浅色模式下显示（点击切换到黑夜） -->
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+      </svg>
+      <!-- 太阳：深色模式下显示（点击切换到白天） -->
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6
+                 M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>
+      </svg>
+      <span id="themeLabel">黑夜模式</span>
+    </button>
+  </div>
+
+  <article class="card">
+    <header class="hero">
+      <div class="avatar" aria-hidden="true">Y</div>
+      <div class="identity">
+        <h1 class="name">yetiantian2026<span class="wave" aria-hidden="true">👋</span></h1>
+        <p class="tagline">某可能知名（？）大学的某某学生</p>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <section aria-labelledby="aboutTitle">
+      <h2 class="section-label" id="aboutTitle">关于我</h2>
+      <p class="intro">
+        大家好，我是某可能知名（？）大学的<strong>某某学生</strong>。
+      </p>
+    </section>
+
+    <section class="goal" aria-labelledby="goalTitle">
+      <div class="goal-head" id="goalTitle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.5"/>
+          <circle cx="12" cy="12" r="4.5"/>
+          <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        学习目标
+      </div>
+      <p>
+        尽量快点看懂学长发的这个外国语 PPT，然后获得智商
+        <span aria-hidden="true">+1+1+1</span> 的加成 <span aria-hidden="true">^o^y</span>
+      </p>
+      <div class="stats">
+        <span class="stat"><b>+1</b> 阅读速度</span>
+        <span class="stat"><b>+1</b> 外语理解</span>
+        <span class="stat"><b>+1</b> 智商加成</span>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span class="sign"><i aria-hidden="true"></i> members / yetiantian2026</span>
+      <span>愿早日看懂那份 PPT ✨</span>
+    </footer>
+  </article>
+</main>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var toggle = document.getElementById('themeToggle');
+    var label = document.getElementById('themeLabel');
+    var STORAGE_KEY = 'yetiantian2026-theme';
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      var isDark = theme === 'dark';
+      label.textContent = isDark ? '白天模式' : '黑夜模式';
+      toggle.setAttribute('aria-pressed', String(isDark));
+      toggle.setAttribute('aria-label', isDark ? '切换到白天主题' : '切换到黑夜主题');
+    }
+
+    // 优先使用用户上次的选择，其次跟随系统偏好（均不依赖外部资源）
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) { /* 隐私模式下忽略 */ }
+
+    var prefersDark = window.matchMedia &&
+                      window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    applyTheme(saved === 'dark' || saved === 'light'
+      ? saved
+      : (prefersDark ? 'dark' : 'light'));
+
+    toggle.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try { localStorage.setItem(STORAGE_KEY, next); } catch (e) { /* 忽略 */ }
+    });
+  })();
+</script>
+
+</body>
+</html>

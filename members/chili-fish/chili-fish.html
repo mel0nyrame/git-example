@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学习目标</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --accent: #38bdf8;
+    --accent2: #34d399;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, #0f172a 0%, #1e293b 55%, #0b2035 100%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--card);
+    border: 1px solid rgba(148, 163, 184, .18);
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .45);
+  }
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(56, 189, 248, .4);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-size: 30px;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  h1 span { color: var(--accent); }
+  .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  ul { list-style: none; }
+  li {
+    position: relative;
+    background: rgba(56, 189, 248, .06);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px 18px 16px 44px;
+    margin-bottom: 14px;
+    font-size: 16px;
+    line-height: 1.6;
+    transition: transform .18s ease, background .18s ease;
+  }
+  li:hover {
+    transform: translateX(4px);
+    background: rgba(56, 189, 248, .12);
+  }
+  li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent2);
+    color: #06251b;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  footer {
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(148, 163, 184, .3);
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  code {
+    color: var(--accent);
+    background: rgba(56, 189, 248, .1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <span class="badge">Learning Goals</span>
+    <h1>Hello~ <span>/ 大家好，我是chili-fish</span></h1>
+    <p class="sub">学习目标 · 个人页面</p>
+
+    <ul>
+      <li>学会使用 Git 管理改动</li>
+      <li>学会通过 PR 参与协作</li>
+    </ul>
+
+    <footer>
+      <span>单文件 · 无外部依赖</span>
+      <span><code>members/chili-fish/chili-fish.html</code></span>
+    </footer>
+  </main>
+</body>
+</html>

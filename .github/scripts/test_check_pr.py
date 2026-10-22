@@ -13,7 +13,10 @@ BODY = "## 做了什么\n更新个人页面。\n\n## 改了哪些文件\n更新�
 
 class CheckPRTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix="pr-check-", dir=os.environ.get("TMPDIR"))
+        # Git 可能在提交后仍在写入临时仓库，清理失败不应让测试报错。
+        self.temp = tempfile.TemporaryDirectory(
+            prefix="pr-check-", dir=os.environ.get("TMPDIR"), ignore_cleanup_errors=True,
+        )
         self.addCleanup(self.temp.cleanup)
         self.repo = Path(self.temp.name)
         self.git("init", "-b", "main")
@@ -47,7 +50,8 @@ class CheckPRTests(unittest.TestCase):
         result = subprocess.run(
             [sys.executable, str(SCRIPT)], cwd=self.repo, capture_output=True, text=True,
             env={**os.environ, "LOGIN": "octocat", "BRANCH": "feat/add-profile",
-                 "PR_TITLE": "feat: 更新个人页面", "PR_BODY": BODY, "HEAD_REF": "HEAD", **env},
+                 "BASE_REF": "main", "PR_TITLE": "feat: 更新个人页面",
+                 "PR_BODY": BODY, "HEAD_REF": "HEAD", **env},
         )
         self.assertEqual(result.returncode, 0 if passed else 1, result.stdout + result.stderr)
         if contains:
@@ -187,6 +191,46 @@ class CheckPRTests(unittest.TestCase):
         self.write("members/octocat/octocat.md")
         self.commit("update")
         self.check(False, "commit 信息")
+
+    def test_title_separator_tolerance(self):
+        self.write("members/octocat/octocat.md")
+        self.commit()
+        for title in ("docs:添加说明", "docs:  添加说明", "docs：添加说明", "docs:\t添加说明", "docs:\u3000添加说明"):
+            with self.subTest(title=title):
+                self.check(PR_TITLE=title)
+        for title in ("docs :添加说明", "docs:", "docs:   ", "docs: 测"):
+            with self.subTest(title=title):
+                self.check(False, "PR 标题", PR_TITLE=title)
+
+    def test_meaningless_chinese_description(self):
+        self.write("members/octocat/octocat.md")
+        self.commit()
+        for title in ("docs: 测试", "docs: 更新", "docs: 修改", "docs: 提交", "docs: 添加", "docs: 修复", "docs: add", "docs: fix"):
+            with self.subTest(title=title):
+                self.check(False, "没有意义", PR_TITLE=title)
+        self.check(PR_TITLE="docs: 更新个人说明")
+
+    def test_body_missing_and_empty_sections(self):
+        self.write("members/octocat/octocat.md")
+        self.commit()
+        self.check(False, "缺少「## 改了哪些文件」", PR_BODY="## 做了什么\n改了页面\n")
+        self.check(False, "「## 做了什么」是空的", PR_BODY="## 做了什么\n<!-- 说明 -->\n## 改了哪些文件\n改了页面\n")
+
+    def test_wrong_member_file_path_hint(self):
+        self.write("members/octocat.md")
+        self.commit()
+        self.check(False, "正确路径是 members/octocat/octocat.md")
+
+    def test_target_branch(self):
+        self.write("members/octocat/octocat.md")
+        self.commit()
+        self.check(BASE_REF="main")
+        self.check(False, "目标分支必须是 main", BASE_REF="dev")
+
+    def test_commit_hint(self):
+        self.write("members/octocat/octocat.md")
+        self.commit("update")
+        self.check(False, "git commit --amend")
 
     def test_body_sections(self):
         self.write("members/octocat/octocat.md")

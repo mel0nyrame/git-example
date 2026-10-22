@@ -45,6 +45,7 @@ jobs:
           else
             gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.user.login' > /tmp/pr-login.txt
             gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.head.ref' > /tmp/pr-branch.txt
+            gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.base.ref' > /tmp/pr-base.txt
             gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.title' > /tmp/pr-title.txt
             gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.body // ""' > /tmp/pr-body.txt
           fi
@@ -67,6 +68,7 @@ jobs:
         run: |
           export LOGIN="$(cat /tmp/pr-login.txt)"
           export BRANCH="$(cat /tmp/pr-branch.txt)"
+          export BASE_REF="$(cat /tmp/pr-base.txt)"
           export PR_TITLE="$(cat /tmp/pr-title.txt)"
           export PR_BODY="$(cat /tmp/pr-body.txt)"
           export HEAD_REF="origin/pr-head"

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="hallowed-mimic 的个人学习页面">
+  <title>hallowed-mimic · 个人学习页面</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1f2937;
+      --muted: #55607a;
+      --card: #f8fafc;
+      --border: #e2e8f0;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --card: #1e293b;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      background-image: radial-gradient(var(--border) 1px, transparent 1px);
+      background-size: 22px 22px;
+      background-repeat: repeat;
+      background-position: center;
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-size: clamp(1rem, 2.6vw + 0.7rem, 1.125rem);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: clamp(1.25rem, 5vw, 2.5rem) clamp(0.75rem, 4vw, 2rem);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: clamp(1.25rem, 5vw, 2.5rem);
+    }
+    .nickname {
+      margin: 0 0 0.25rem;
+      font-size: clamp(2rem, 7vw, 2.75rem);
+      line-height: 1.25;
+      text-align: center;
+      word-break: break-word;
+    }
+    .direction {
+      margin: 0 0 1.75rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: clamp(0.9rem, 2.5vw + 0.6rem, 1rem);
+    }
+    h2 {
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      margin: 0 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    ul {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+    li {
+      margin: 0.4em 0;
+    }
+    #theme-toggle {
+      display: block;
+      margin: 0 auto;
+      font: inherit;
+      color: var(--text);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.5em 1.4em;
+      cursor: pointer;
+    }
+    #theme-toggle:hover { border-color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card">
+      <h1 class="nickname" id="nickname">hallowed-mimic</h1>
+      <p class="direction">学习方向：Git 学习与协作实践</p>
+      <h2 id="goals-title">学习目标</h2>
+      <ul>
+        <li>学会使用 GIT 管理改动。</li>
+        <li>学会使用 PR 参与协作。</li>
+      </ul>
+    </section>
+  </main>
+  <button id="theme-toggle" type="button">切换到深色模式</button>
+  <script>
+    (function () {
+      var btn = document.getElementById('theme-toggle');
+      var root = document.documentElement;
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        btn.textContent = (theme === 'dark') ? '切换到浅色模式' : '切换到深色模式';
+      }
+      apply(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        apply(next);
+      });
+    })();
+  </script>
+</body>
+</html>

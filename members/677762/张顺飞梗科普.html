@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eeeeea">
+<meta name="description" content="张顺飞梗科普：哦对了、经典不配赢、飞8分钱、fbfq、弹幕、老梗和直播切片。">
+<title>张顺飞梗科普</title>
+<style>
+:root{--ink:#222;--blue:#2457b4;--line:#c8cad0;--cream:#fffdf5;--paper:#f5f4ee;--red:#d83126;--yellow:#ffe66e;--green:#246b3c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:#e8e9e8;font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;font-size:15px;line-height:1.7}
+button,input{font:inherit}button{cursor:pointer}a{color:var(--blue)}a:hover{text-decoration:none}button:focus-visible,a:focus-visible{outline:3px solid #e76a2b;outline-offset:3px}::selection{background:#ffda52;color:#191919}
+.site{width:min(100% - 28px,1012px);margin:18px auto 44px;background:var(--cream);border:1px solid #a3a3a3;box-shadow:5px 6px 0 #d1d1d1}
+.browser{padding:8px 13px;border-bottom:1px solid #b4b8be;background:#dbdfe5;color:#414754;display:flex;align-items:center;gap:10px;font-size:12px}
+.dots{display:flex;gap:5px}.dots i{width:9px;height:9px;border-radius:50%;background:#e66a62}.dots i:nth-child(2){background:#e9bb55}.dots i:nth-child(3){background:#71b17d}.address{background:#f9fafc;border:1px solid #c9ced5;border-radius:4px;padding:2px 9px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.banner{background:#fff4bc;border-bottom:3px solid #262626;padding:18px 22px 15px;position:relative;overflow:hidden}.banner:after{content:"顺";position:absolute;font:bold 180px/1 serif;right:18px;top:-39px;color:#e7ad2a;opacity:.16;pointer-events:none}.mini{font-size:12px;color:#675428}.banner h1{font-size:clamp(30px,6vw,55px);line-height:1.2;margin:8px 0 9px;letter-spacing:-1px;max-width:760px}.banner h1 .eight{color:#a11c10;background:#ffdf4c;padding:0 7px;transform:rotate(-2deg);display:inline-block}.banner p{margin:6px 0;max-width:750px}.meta{color:#565656;font-size:12px}
+.topnav{display:flex;flex-wrap:wrap;gap:0;background:#eff2f7;border-bottom:1px solid #bbc4d2;padding:0 9px}.topnav a{font-size:13px;padding:10px 12px;text-decoration:none;border-right:1px solid #d4dce7;font-weight:bold}.topnav a:hover{background:#dfe8ff}
+.notice{margin:14px 18px 0;background:#fff;border:1px dashed #bd7720;padding:8px 12px;color:#51350a;font-size:13px;display:flex;gap:10px}.notice strong{flex:none;color:#a32b1c}
+.content{padding:0 18px 22px}.preface{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin-top:16px}.note{border:1px solid var(--line);background:white;padding:14px}.note h2{margin:0 0 6px;font-size:18px}.note p{margin:4px 0}.chalk{border:2px solid #333;background:#fbfbee;transform:rotate(1deg);box-shadow:3px 3px 0 #b1b1a4}.chalk b{font-size:26px;line-height:1.3;display:block}.chalk span{color:#8f1f11;font-weight:bold}
+.voice{font-size:clamp(17px,2vw,23px);line-height:1.6;font-weight:800;margin:8px 0 14px!important}.stamp{display:inline-block;border:2px solid #a22b22;color:#a22b22;transform:rotate(-8deg);font-weight:bold;padding:0 7px;border-radius:2px;font-size:12px;margin-left:7px}
+.sect{margin-top:27px;scroll-margin-top:15px}.secthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:3px double #252525;padding-bottom:5px;margin-bottom:12px}.secthead h2{font-size:22px;margin:0;line-height:1.3}.secthead small{font-size:12px;color:#666}.subline{color:#6b6b6b;font-size:13px;margin:7px 0 13px}
+.timeline{display:flex;flex-wrap:wrap;gap:7px}.year{padding:7px 14px;background:#e8ebf4;border:1px solid #aeb9d2;border-radius:2px;color:#173c7e;font-weight:bold}.year:hover,.year[aria-pressed=true]{background:#1d4a92;color:white;border-color:#1d4a92}.file{margin-top:10px;border:1px solid #aab1bc;background:#fff;display:grid;grid-template-columns:115px 1fr}.fileyear{background:#263f76;color:#fff;display:grid;place-items:center;font-size:33px;font-weight:900;padding:14px 6px}.filebody{padding:13px 16px}.filebody h3{margin:0;font-size:19px}.filebody p{margin:6px 0;font-size:14px}.filebody .proof{font-size:12px;color:#596174;margin-top:7px}.filebody a{font-weight:bold}
+.dictionary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.term{border:1px solid #bcbec2;background:#fff;padding:12px;min-height:148px;position:relative}.term:nth-child(3n+2){background:#fffcef}.term:before{content:"#";color:#bac5df;position:absolute;right:10px;top:0;font-size:35px;font-weight:bold}.term h3{font-size:21px;margin:0 0 6px;color:#ba3121}.term p{margin:0;font-size:13px;position:relative}.term small{display:block;color:#666;margin-top:8px}.term label{font-size:11px;color:#2c518d;font-weight:bold}
+.labrow{display:grid;grid-template-columns:1.08fr .92fr;gap:12px}.box{background:white;border:1px solid #9e9e9e;padding:14px}.boxtitle{font-weight:900;font-size:17px;margin:0 0 7px}.tag{display:inline-block;background:var(--yellow);color:#262626;font-size:11px;border:1px solid #dcbb3e;line-height:1.7;padding:1px 5px;margin-left:5px}
+.bigmoney{font-size:clamp(30px,5vw,42px);font-weight:900;line-height:1.4;color:#bb321a;font-family:Georgia,"Microsoft YaHei",serif;letter-spacing:-2px}.bigmoney small{font-size:15px;letter-spacing:0;color:#666}.coins{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0 14px}.coin{width:31px;height:31px;border:2px dashed #bababa;border-radius:3px;display:grid;place-items:center;font-size:13px;background:#f1f1f1;color:#aaa;transform:rotate(-7deg)}.coin.have{background:#ffd258;color:#5c3d0d;border:2px solid #d2953b;box-shadow:1px 2px 0 #a97730}
+.btn{border:1px solid #282828;border-radius:2px;background:#fff;color:#222;padding:7px 11px;font-size:13px;font-weight:bold;box-shadow:2px 2px 0 #999;max-width:100%}.btn:hover{background:#fff1be}.btn:active{transform:translate(2px,2px);box-shadow:none}.btn.primary{background:#ffd650}.btn.red{background:#f9d0ca}.btnrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:8px}
+.receipt{background:#fffdf0;border:1px dashed #be8b39;margin-top:14px;padding:12px;font-family:ui-monospace,Consolas,"Microsoft YaHei",monospace;font-size:13px}.receipt h4{font-size:15px;margin:0;text-align:center}.receipt .line{border-top:1px dashed #b9aa8c;margin:8px 0}.receipt p{margin:3px 0}.receipt .center{text-align:center;color:#9f311a;font-weight:bold}.hidden{display:none!important}
+.decoder{background:#f5f5f5;padding:10px;border:1px dashed #9a9a9a;margin-top:13px;font-size:13px;min-height:76px}.decoder b{font-size:18px;letter-spacing:2px}.decoder p{margin:3px 0}.hint{font-size:12px;color:#747474;margin:8px 0 0}
+.barrage{border:2px solid #232323;background:repeating-linear-gradient(0deg,#1c2730,#1c2730 29px,#1b222b 30px);min-height:192px;position:relative;overflow:hidden;color:#e8eae8;padding:10px}.screenlabel{font-size:12px;color:#9bb3ad;position:absolute;top:9px;left:11px}.screenhelp{position:absolute;bottom:10px;left:10px;color:#a0aeb2;font-size:12px}.danmu{position:absolute;left:101%;top:20%;white-space:nowrap;font-weight:900;color:#ffe96e;text-shadow:0 1px 3px #000;animation:fly 5.5s linear forwards;font-size:19px;pointer-events:none;max-width:none}.danmu:nth-of-type(2n){color:#86e1ff}.danmu:nth-of-type(3n){color:#fff}
+@keyframes fly{from{transform:translateX(0)}to{transform:translateX(calc(-100% - 1200px))}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.danmu{animation:none;left:10px;top:50%;white-space:normal}}
+.barragelist{background:#fff;border:1px solid #cdcdcd;list-style:none;margin:9px 0 0;padding:7px 10px;min-height:66px;font-size:13px}.barragelist li+li{border-top:1px dotted #dedede}.barragelist strong{color:#385a9c}
+.machine{background:#fff;border:1px solid #ccc;padding:12px}.generated{background:#fffbe1;border:1px solid #e3d28f;padding:10px;font-size:19px;font-weight:bold;min-height:62px;display:flex;align-items:center;justify-content:center;text-align:center}
+.quiz{border:1px solid #a3a3a3;background:#eff3ff;padding:16px}.quiz .question{margin:0 0 11px;font-weight:bold;font-size:18px}.options{display:grid;grid-template-columns:1fr 1fr;gap:7px}.option{text-align:left;padding:9px 10px;border:1px solid #a5aec3;background:white;border-radius:2px}.option:hover:not(:disabled){background:#fff4c3}.option:disabled{cursor:default}.option.correct{background:#caeccf;border-color:#4d995c}.option.wrong{background:#f2d3d1;border-color:#bc5d59}.answerout{font-size:14px;min-height:24px;margin-top:10px;font-weight:bold}
+.footer{margin-top:25px;background:#e6e6e2;border-top:1px solid #c1c1c1;padding:13px 18px 19px;font-size:12px;color:#555}.sources{display:flex;flex-wrap:wrap;gap:8px 18px;padding:0;margin:8px 0;list-style:none}.footer p{margin:5px 0}.flame{color:#a32a1f}.corner{position:fixed;right:14px;bottom:16px;z-index:11;width:55px;height:55px;border:3px solid #161616;border-radius:50%;background:#ffe266;font-size:28px;font-weight:bold;box-shadow:3px 4px 0 #777}.toast{position:fixed;z-index:20;right:15px;bottom:84px;background:#2b2b2b;color:white;max-width:min(90vw,350px);padding:10px 14px;border:2px solid #ffe25d;box-shadow:3px 3px 0 #aaa;font-size:13px}.smallred{color:#a12716}
+@media(max-width:710px){.site{width:100%;margin:0 auto;box-shadow:none;border:none}.banner{padding:17px 15px}.banner:after{font-size:140px;right:-6px;top:-14px}.content{padding:0 13px 20px}.notice{margin:12px 13px 0}.preface,.labrow{grid-template-columns:1fr}.dictionary{grid-template-columns:repeat(2,1fr)}.file{grid-template-columns:75px 1fr}.fileyear{font-size:26px}.filebody{padding:10px}.secthead{display:block}.secthead small{display:block;margin-top:4px}.term{min-height:135px}.options{grid-template-columns:1fr}.browser{padding:6px 9px}.corner{width:47px;height:47px;right:10px;bottom:10px;font-size:24px}.toast{bottom:66px}.notice{display:block}.notice strong{margin-right:8px}}
+@media(max-width:400px){.dictionary{grid-template-columns:1fr}.term{min-height:auto}.year{padding:6px 10px}.topnav a{padding:8px}.banner h1{font-size:29px}}
+</style>
+</head>
+<body>
+<div class="site" id="top">
+ <div class="browser"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="address">meme://张顺飞梗科普/哦对了.html</span><span>×</span></div>
+ <header class="banner">
+  <div class="mini">[老帖重开]　张顺飞相关 · 不定期乱翻旧账</div>
+  <h1>张顺飞梗科普</h1>
+  <p><b>【置顶】</b>哦对了，怎么都 2026 年了还有人在翻这个？</p>
+  <div class="meta">最后编辑：2026-10-21　|　楼主：美味的～呃～未影人　<span class="stamp">这都有顺啊</span></div>
+ </header>
+ <nav class="topnav" aria-label="页面导航"><a href="#timeline">① 梗从哪来</a><a href="#dict">② 黑话词典</a><a href="#eight">③ 飞8分钱</a><a href="#danmu">④ 弹幕现场</a><a href="#exam">⑤ 选 D？</a></nav>
+ <div class="notice"><strong>【吧务】</strong><span>草，谁又把这破帖顶上来了？哦对了，挖坟的先来认梗。</span></div>
+ <main class="content">
+  <div class="preface" id="voices">
+   <div class="note"><h2>电棍：顺飞护航？</h2><p class="voice">“我说实话，首先顺飞护航这个词就已经很好笑了！”</p><p class="meta">2025 年切片标题摘句 · <a href="https://www.bilibili.com/video/BV1JRE7z5Eua/" target="_blank" rel="noopener noreferrer">听听他怎么说 ↗</a></p></div>
+   <div class="note"><h2>辛巴：直接开喷</h2><p class="voice">说张顺飞“颠倒是非”，顺手连情商也一起吐槽了。</p><p class="meta">2026 年切片标题概括 · <a href="https://www.bilibili.com/video/BV1a6wRzhEs8/" target="_blank" rel="noopener noreferrer">原视频在这 ↗</a></p></div>
+  </div>
+  <section id="timeline" class="sect" aria-labelledby="tl-heading">
+   <div class="secthead"><h2 id="tl-heading">01 / 翻翻旧记录</h2><small>点年份看那时留了啥</small></div>
+   <div class="timeline" role="group" aria-label="按资料发布时间查看梗的传播记录">
+    <button type="button" class="year" data-year="2016" aria-pressed="true">2016</button><button type="button" class="year" data-year="2020" aria-pressed="false">2020</button><button type="button" class="year" data-year="2023" aria-pressed="false">2023</button><button type="button" class="year" data-year="2024" aria-pressed="false">2024</button><button type="button" class="year" data-year="2026" aria-pressed="false">2026</button>
+   </div>
+   <div class="file" aria-live="polite"><div id="file-year" class="fileyear">2016</div><div class="filebody"><h3 id="file-title">2016：那会儿还在直播</h3><p id="file-desc">能找到 2016 年提到 6324 和张顺飞的报道。先说清楚：报道是哪年，不代表梗就是哪年出的。</p><div id="file-proof" class="proof">资料：<a href="https://kknews.cc/game/epbzkz.html" target="_blank" rel="noopener noreferrer">2016 年相关报道 ↗</a></div></div></div>
+   <p class="subline">※ 这里按资料发表的年份排。谁要是说自己记得每个梗首发的那一秒，先让他拿链接。</p>
+  </section>
+  <section id="dict" class="sect" aria-labelledby="dict-heading">
+   <div class="secthead"><h2 id="dict-heading">02 / 黑话对照表</h2><small>看不懂先别急</small></div>
+   <div class="dictionary">
+    <article class="term"><label>001</label><h3>哦对了</h3><p>话题眼看要结束了，突然又来一句“哦对了”。行，看来还没完。</p><small>说完这三个字，最好别走神</small></article>
+    <article class="term"><label>002</label><h3>经典不配赢</h3><p>五个字，不交代前因后果，也能把熟人整笑。</p><small>经典：我干啥了？</small></article>
+    <article class="term"><label>003</label><h3>蒸馏啊</h3><p>有些梗是看出来的，这个属于脑子里自带声音。</p><small>建议打开脑内音量</small></article>
+    <article class="term"><label>004</label><h3>飞8分钱</h3><p>是旧弹幕的谐音写法，不是讲钱。原话有攻击性，这里就不复读了。</p><small>后续还变成了 fbfq</small></article>
+    <article class="term"><label>005</label><h3>fbfq</h3><p>“飞八分钱”的拼音首字母。老网友嫌四个汉字都长。</p><small>新来的：这又是啥？</small></article>
+    <article class="term"><label>006</label><h3>顺</h3><p>弹幕里出现一个字，接着可能就是一排。</p><small>顺顺顺顺顺</small></article>
+    <article class="term"><label>007</label><h3>刘顺备 / 关顺羽</h3><p>桃园三结义听完沉默了。</p><small>张顺飞：跟我有什么关系</small></article>
+    <article class="term"><label>008</label><h3>下饭集锦</h3><p>错过直播的人不急，过两年照样能刷到。</p><small>“怎么还有第二十集？”</small></article>
+    <article class="term"><label>009</label><h3>选 D</h3><p>当年那类弹幕选项有冒犯内容。这里保留“选 D”这个玩法，不照搬原题。</p><small>题都没看完：D！</small></article>
+   </div>
+  </section>
+  <section id="eight" class="sect" aria-labelledby="eight-heading">
+   <div class="secthead"><h2 id="eight-heading">03 / 飞8分钱</h2><small>字面别当真，老弹幕谐音来的</small></div>
+   <div class="labrow">
+    <div class="box"><h3 class="boxtitle">八连点 <span class="tag">闲的可以试试</span></h3><p class="subline">就一个按钮。你非要按八遍，下面才有动静。</p><div class="bigmoney" id="balance" aria-live="polite">0 / 8</div><div class="coins" id="coins" aria-label="八次点击进度"></div><div class="btnrow"><button type="button" id="collect" class="btn primary">点一下</button><button type="button" id="clear" class="btn">重来</button></div>
+     <div id="receipt" class="receipt hidden" aria-live="polite"><h4>—— 第八楼 ——</h4><div class="line"></div><p class="center" style="font-size:21px">哦对了，你真点了八次？</p><p style="text-align:center">行，送你一个“顺”。</p><p class="center" style="font-size:37px">顺</p><div class="line"></div><p style="text-align:center">楼主：这帖怎么还在往上顶。</p></div>
+    </div>
+    <div class="box"><h3 class="boxtitle">黑话对照</h3><p class="subline">同一个梗，换个写法就能变成暗号。</p><div class="btnrow"><button type="button" class="btn decode" data-code="飞八分钱">飞八分钱</button><button type="button" class="btn decode" data-code="飞8分钱">飞8分钱</button><button type="button" class="btn decode" data-code="fbfq">fbfq</button><button type="button" class="btn decode" data-code="顺">顺</button></div><div id="decoded" class="decoder" aria-live="polite"><b>点一个看看</b><p>同一个词能写出几个版本？</p></div><p class="hint">注：“顺”是另一个常见的单字玩法，别硬当成 fbfq 的拼写版本。</p></div>
+   </div>
+  </section>
+  <section id="danmu" class="sect" aria-labelledby="danmu-heading">
+   <div class="secthead"><h2 id="danmu-heading">04 / 弹幕区</h2><small>别光看，你也刷两条</small></div>
+   <div class="labrow">
+    <div class="box"><h3 class="boxtitle">这画面怎么全是字</h3><div class="barrage" id="screen" aria-label="模拟弹幕显示区"><div class="screenlabel">● 弹幕回放 / 画面呢？</div><div class="screenhelp">没画面，看弹幕就行</div></div><div class="btnrow"><button type="button" class="btn primary send" data-type="oh">哦对了！</button><button type="button" class="btn send" data-type="shun">顺一个</button><button type="button" class="btn send" data-type="eight">飞8分钱</button><button type="button" class="btn send" data-type="random">随便刷</button></div><ul class="barragelist" id="log" aria-live="polite"><li><strong>系统：</strong>弹幕已经有人开始刷“顺”了。</li></ul></div>
+    <div class="box"><h3 class="boxtitle">随手整一句</h3><p class="subline">看见熟悉的词，随便接两句。</p><div class="machine"><div class="generated" id="generated" aria-live="polite">哦对了，怎么又是你？</div><div class="btnrow"><button type="button" class="btn primary" id="generate">换一句</button><button type="button" class="btn" id="copy">复制</button></div><p id="copy-state" class="hint" role="status">点了就换，别太认真。</p></div><p class="hint">这些是这里编的段子，不是直播原话。</p></div>
+   </div>
+  </section>
+  <section id="exam" class="sect" aria-labelledby="exam-heading"><div class="secthead"><h2 id="exam-heading">05 / 选不选 D</h2><small>先看题。真的。</small></div><div class="quiz"><div class="question">Q：老梗“飞8分钱”是怎么来的？</div><div class="options" id="options"><button type="button" class="option" data-answer="A">A. 直播突然中断了八秒</button><button type="button" class="option" data-answer="B">B. 某段视频刚好只有八帧</button><button type="button" class="option" data-answer="C">C. 主播开播前的专用暗号</button><button type="button" class="option" data-answer="D">D. 对一条旧弹幕的谐音改写</button></div><div id="quiz-feedback" class="answerout" role="status">别急着按，先把题读完。</div><button type="button" class="btn" id="again">再选一次</button></div></section>
+ </main>
+ <footer class="footer"><b>翻旧帖时顺手留下的链接</b><ul class="sources"><li><a href="https://kknews.cc/game/epbzkz.html" target="_blank" rel="noopener noreferrer">2016：6324 相关报道</a></li><li><a href="https://www.bilibili.com/video/BV15E411c7jU/" target="_blank" rel="noopener noreferrer">2020：张顺飞下饭集锦</a></li><li><a href="https://www.ptxz.com/news/31239.htm" target="_blank" rel="noopener noreferrer">2023：相关梗解释</a></li><li><a href="https://www.bilibili.com/video/BV1Ae411U7xW/" target="_blank" rel="noopener noreferrer">2024：飞八分钱是什么梗</a></li><li><a href="https://www.yehuowiki.com/meme/211/" target="_blank" rel="noopener noreferrer">2026：词条存档</a></li></ul><p>年份按资料发布时间排，不等于第一次有人说这句话的日期。原弹幕里有冒犯他人的话，这里不搬。</p><p>右下角有个“顺”，点几下就知道了。</p></footer>
+</div>
+<button type="button" class="corner" id="secret" aria-label="点击顺字查看隐藏彩蛋">顺</button>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+const periods = {
+  '2016': {title:'2016：那会儿还在直播',desc:'能找到 2016 年提到 6324 和张顺飞的报道。报道是哪年，不代表梗就是哪年出的。',link:'https://kknews.cc/game/epbzkz.html',caption:'2016 相关报道'},
+  '2020': {title:'2020：下饭集锦出现了',desc:'2020 年 3 月已有“张顺飞下饭集锦”视频。没赶上直播？剪辑区还能接着看。',link:'https://www.bilibili.com/video/BV15E411c7jU/',caption:'2020 视频'},
+  '2023': {title:'2023：开始有人问“啥意思”',desc:'有人开始专门写文章解释“飞8分钱”。老网友会心一笑，新网友满头问号。',link:'https://www.ptxz.com/news/31239.htm',caption:'2023 梗解释'},
+  '2024': {title:'2024：连烂科普都有了',desc:'2024 年 1 月 8 日，B 站出现《飞八分钱是什么梗？【烂科普】》。梗不一定人人懂，但标题够直白。',link:'https://www.bilibili.com/video/BV1Ae411U7xW/',caption:'2024 视频'},
+  '2026': {title:'2026：还有人在补词条',desc:'2026 年的词条里还能找到“飞八分钱”。老直播间早变成网友反复翻出的旧帖了。',link:'https://www.yehuowiki.com/meme/211/',caption:'2026 词条'}
+};
+document.querySelectorAll('.year').forEach(btn => btn.addEventListener('click', () => {
+  const key=btn.dataset.year, data=periods[key];
+  document.querySelectorAll('.year').forEach(x=>x.setAttribute('aria-pressed',String(x===btn)));
+  document.getElementById('file-year').textContent=key;
+  document.getElementById('file-title').textContent=data.title;
+  document.getElementById('file-desc').textContent=data.desc;
+  const anchor=document.createElement('a');
+  anchor.href=data.link;anchor.target='_blank';anchor.rel='noopener noreferrer';anchor.textContent=data.caption+' ↗';
+  document.getElementById('file-proof').replaceChildren('出处：',anchor);
+}));
+let taps=0;
+const slots=document.getElementById('coins');
+for(let i=0;i<8;i++) {
+  const slot=document.createElement('span');slot.className='coin';slot.textContent='?';
+  slot.setAttribute('aria-label','第 '+(i+1)+' 次');slots.appendChild(slot);
+}
+function updateEight(){
+  document.getElementById('balance').textContent=taps+' / 8';
+  [...slots.children].forEach((x,i)=>{x.classList.toggle('have',i<taps);x.textContent=i<taps?'顺':'?';});
+  document.getElementById('receipt').classList.toggle('hidden',taps!==8);
+  const btn=document.getElementById('collect');btn.disabled=taps===8;btn.textContent=taps===8?'按够了':'点一下';
+}
+document.getElementById('collect').addEventListener('click',()=>{taps=Math.min(8,taps+1);updateEight()});
+document.getElementById('clear').addEventListener('click',()=>{taps=0;updateEight()});updateEight();
+const codes={
+  '飞八分钱':['飞八分钱','最常见的文字版之一。对应旧直播间的谐音梗。'],
+  '飞8分钱':['飞8分钱','把“八”换成数字 8。读法没变，意思也没变。'],
+  'fbfq':['fbfq','四个拼音首字母。没看过梗的人多半猜不出来。'],
+  '顺':['顺','这是围绕张顺飞名字的单字玩法，不是“飞8分钱”的拼写变化。']
+};
+document.querySelectorAll('.decode').forEach(btn=>btn.addEventListener('click',()=>{
+  const [head,desc]=codes[btn.dataset.code],el=document.getElementById('decoded');
+  const b=document.createElement('b');b.textContent=head;
+  const p=document.createElement('p');p.textContent=desc;
+  el.replaceChildren(b,p);
+}));
+const barrages={
+ oh:['哦对了！','哦对了，怎么又刷起来了','哦对了，你先别走'],
+ shun:['顺','顺顺顺顺顺','这都有顺啊？'],
+ eight:['飞8分钱','fbfq','飞八分钱'],
+ random:['经典不配赢','蒸馏啊','刘顺备何在','关顺羽来了','这也能顺？','别刷了，字都看不清了']
+};
+let msgIndex=0;
+function shoot(type){
+  const pool=barrages[type];const msg=pool[Math.floor(Math.random()*pool.length)];
+  const el=document.createElement('span');el.className='danmu';el.textContent=msg;
+  el.style.top=(20+(msgIndex%5)*13)+'%';el.style.animationDuration=(4.4+(msgIndex%3)*.7)+'s';
+  const screen=document.getElementById('screen');screen.appendChild(el);msgIndex++;
+  el.addEventListener('animationend',()=>el.remove());
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)window.setTimeout(()=>el.remove(),1500);
+  const log=document.getElementById('log');const li=document.createElement('li');
+  const label=document.createElement('strong');label.textContent='路过：';li.append(label,document.createTextNode(msg));log.prepend(li);
+  while(log.children.length>4)log.lastChild.remove();
+  while(screen.querySelectorAll('.danmu').length>12)screen.querySelector('.danmu').remove();
+}
+document.querySelectorAll('.send').forEach(btn=>btn.addEventListener('click',()=>shoot(btn.dataset.type)));
+const lines=[
+  '哦对了，怎么又是你？',
+  '“经典不配赢。”\n“经典：我又怎么了？”',
+  '“刘顺备何在？”\n“关顺羽还没起床。”',
+  '“蒸馏啊！”\n“你小点声，隔壁都听到了。”',
+  '前排：顺\n中排：顺顺顺\n后排：你们能不能停一下',
+  '“你刚才说啥？”\n“哦对了。”\n“那你倒是说啊！”',
+  '“怎么老有人挖这个帖？”\n“我不知道啊，我也是刚来的。”',
+  '顺飞老视频第 N 次刷到。\n评论区第一条：还是这个味。'
+];
+let lineIndex=0;
+const generated=document.getElementById('generated');
+function setLine(idx){generated.textContent=lines[idx].replaceAll('\\n','\n');generated.style.whiteSpace='pre-line';document.getElementById('copy-state').textContent='看上哪句就复制。'}
+setLine(0);
+document.getElementById('generate').addEventListener('click',()=>{lineIndex=(lineIndex+1)%lines.length;setLine(lineIndex)});
+document.getElementById('copy').addEventListener('click', async()=>{
+  const msg=generated.textContent, status=document.getElementById('copy-state');
+  try {
+    if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(msg);status.textContent='复制好了。';return;}
+    const t=document.createElement('textarea');t.value=msg;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();status.textContent=ok?'复制好了。':'复制失败，长按文字试试。';
+  } catch(e){status.textContent='复制失败，长按文字试试。';}
+});
+const options=[...document.querySelectorAll('.option')];
+options.forEach(btn=>btn.addEventListener('click',()=>{
+  if(options.some(x=>x.disabled))return;
+  options.forEach(x=>{x.disabled=true;x.classList.toggle('correct',x.dataset.answer==='D');x.classList.toggle('wrong',x===btn && x.dataset.answer!=='D');});
+  document.getElementById('quiz-feedback').textContent=btn.dataset.answer==='D'?'对，选 D。老弹幕的谐音改写。':'不对，这题真选 D。原说法带攻击性，后来才有了这个谐音版本。';
+}));
+document.getElementById('again').addEventListener('click',()=>{
+  options.forEach(x=>{x.disabled=false;x.classList.remove('correct','wrong')});
+  document.getElementById('quiz-feedback').textContent='来，再看一遍。';
+});
+let secretCount=0,toastTimer;
+document.getElementById('secret').addEventListener('click',()=>{
+  secretCount++;
+  const toast=document.getElementById('toast');toast.classList.remove('hidden');
+  toast.textContent=secretCount>=5?'【第 5 楼】这也能让你点五下？':'顺 × '+secretCount+'。还点？';
+  if(secretCount>=5)secretCount=0;
+  window.clearTimeout(toastTimer);toastTimer=window.setTimeout(()=>toast.classList.add('hidden'),3300);
+});
+</script>
+</body>
+</html>

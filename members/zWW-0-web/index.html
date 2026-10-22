@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学习目标清单</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #f5f7fa;
+      color: #2f3542;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 40px 36px 32px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #8a93a5;
+    }
+
+    .progress {
+      margin: 24px 0 28px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #eceff3;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: #4c7cf3;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #8a93a5;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      background: #fafbfc;
+      border: 1px solid #eef1f5;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    li:hover {
+      border-color: #d6deeb;
+      background: #f6f8fb;
+    }
+
+    li.checked {
+      background: #f2f7ff;
+      border-color: #d3e2fd;
+    }
+
+    li.checked .goal-text {
+      color: #a3abba;
+      text-decoration: line-through;
+    }
+
+    input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      margin-top: 2px;
+      accent-color: #4c7cf3;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .goal-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .goal-desc {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #8a93a5;
+      line-height: 1.6;
+    }
+
+    .hint {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #a3abba;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>学习目标清单</h1>
+    <p class="subtitle">勾选已完成的目标，记录每一步的进展</p>
+
+    <div class="progress">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">已完成 0 / 2</div>
+    </div>
+
+    <ul id="goalList">
+      <li>
+        <input type="checkbox" id="goal1">
+        <div>
+          <div class="goal-title">学会 Git 版本管理</div>
+          <div class="goal-desc">掌握 commit、branch、merge 等常用命令，用分支管理开发节奏。</div>
+        </div>
+      </li>
+      <li>
+        <input type="checkbox" id="goal2">
+        <div>
+          <div class="goal-title">练习提交 PR</div>
+          <div class="goal-desc">从 fork 到提交 Pull Request，走通一次完整的协作流程。</div>
+        </div>
+      </li>
+    </ul>
+
+    <p class="hint">点击列表项即可标记完成 / 取消完成</p>
+  </main>
+
+  <script>
+    (function () {
+      var boxes = Array.prototype.slice.call(
+        document.querySelectorAll('#goalList input[type="checkbox"]')
+      );
+      var items = Array.prototype.slice.call(document.querySelectorAll('#goalList li'));
+      var fill = document.getElementById('progressFill');
+      var text = document.getElementById('progressText');
+
+      function update() {
+        var done = boxes.filter(function (b) { return b.checked; }).length;
+        var total = boxes.length;
+        fill.style.width = (total ? (done / total) * 100 : 0) + '%';
+        text.textContent = '已完成 ' + done + ' / ' + total;
+
+        items.forEach(function (li, i) {
+          li.classList.toggle('checked', boxes[i].checked);
+        });
+      }
+
+      items.forEach(function (li) {
+        li.addEventListener('click', function () {
+          var box = li.querySelector('input[type="checkbox"]');
+          box.checked = !box.checked;
+          update();
+        });
+      });
+
+      boxes.forEach(function (b) {
+        b.addEventListener('change', update);
+      });
+
+      update();
+    })();
+  </script>
+</body>
+</html>

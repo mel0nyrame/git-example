@@ -1,5 +1,5 @@
 <!--
-标题和 commit：<类型>: <简短说明>，类型限 feat / fix / docs / chore，说明使用 2–50 个字符。
+标题和 commit：<类型>: <简短说明>，类型限 feat / fix / docs / chore，说明使用 2–50 个字符。冒号可用全角，冒号后空格数量不限。
 分支：<类型>/<内容>，例如 feat/add-profile、docs/update-readme。
 CI 也兼容 add-你的GitHub用户名，例如 add-octocat。
 目标分支：mel0nyrame/git-example 的 main。

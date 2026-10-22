@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chenkaixin565-coder 的个人主页</title>
+    <style>
+        :root {
+            --bg: #ffffff; --text: #333333; --card: #f9f9f9;
+            --btn: #007bff; --shadow: 0 8px 24px rgba(0,0,0,.1);
+        }
+        [data-theme="dark"] {
+            --bg: #1e1e1e; --text: #f0f0f0; --card: #2d2d2d;
+            --btn: #4da3ff; --shadow: 0 8px 24px rgba(0,0,0,.5);
+        }
+        body {
+            font-family: sans-serif; background: var(--bg); color: var(--text);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0;
+            transition: background-color .3s, color .3s;
+        }
+        .card {
+            background: var(--card); padding: 40px; border-radius: 16px;
+            box-shadow: var(--shadow); text-align: center;
+            max-width: 400px; width: 90%;
+            transition: background-color .3s, box-shadow .3s;
+        }
+        .direction { font-weight: bold; color: var(--btn); margin-bottom: 20px; }
+        ul { text-align: left; line-height: 1.8; }
+        .theme-btn {
+            margin-top: 25px; padding: 10px 20px; border: none; border-radius: 8px;
+            background: var(--btn); color: #fff; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>chenkaixin565-coder</h1>
+        <div class="direction">全栈开发方向</div>
+        <ul>
+            <li>掌握基础的 Web 网页开发，知道怎么把后端的数据显示在屏幕上。</li>
+            <li>跟着团队把仿真机器人网页完整做出来，整理好项目文档，能独立完成最终展示汇报。</li>
+        </ul>
+        <button class="theme-btn" id="themeToggle" aria-pressed="false">切换到深色模式</button>
+    </div>
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var btn = document.getElementById('themeToggle');
+            function apply(t) {
+                if (t === 'dark') {
+                    root.setAttribute('data-theme', 'dark');
+                    btn.textContent = '切换到浅色模式';
+                    btn.setAttribute('aria-pressed', 'true');
+                } else {
+                    root.removeAttribute('data-theme');
+                    btn.textContent = '切换到深色模式';
+                    btn.setAttribute('aria-pressed', 'false');
+                }
+            }
+            var saved = localStorage.getItem('theme');
+            if (saved) apply(saved);
+            else if (matchMedia('(prefers-color-scheme: dark)').matches) apply('dark');
+            btn.onclick = function () {
+                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('theme', next);
+                apply(next);
+            };
+        })();
+    </script>
+</body>
+</html>

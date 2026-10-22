@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颜乙宇 - 个人介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        body.light {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark .card {
+            background: rgba(30, 30, 50, 0.95);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        body.dark .subtitle {
+            color: #aaa;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        body.dark .info-item {
+            border-bottom: 1px solid #444;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .info-icon.school {
+            background: #e3f2fd;
+        }
+
+        .info-icon.major {
+            background: #e8f5e9;
+        }
+
+        .info-icon.class {
+            background: #fff3e0;
+        }
+
+        .info-icon.github {
+            background: #fce4ec;
+        }
+
+        .info-content h4 {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 2px;
+        }
+
+        body.dark .info-content h4 {
+            color: #999;
+        }
+
+        .info-content p {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .intro {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        body.dark .intro {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .intro h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .intro p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body class="light">
+    <div class="card">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        
+        <div class="avatar">👤</div>
+        <h1>zjyntx</h1>
+        <p class="subtitle">学生 · 正在学习编程</p>
+
+        <div class="info-section">
+            <div class="info-item">
+                <div class="info-icon study">📚</div>
+                <div class="info-content">
+                    <h4>正在学习</h4>
+                    <p>Git / GitHub</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon interest">🎯</div>
+                <div class="info-content">
+                    <h4>兴趣方向</h4>
+                    <p>人工智能</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon github">💻</div>
+                <div class="info-content">
+                    <h4>GitHub</h4>
+                    <p>@zjyntx</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="intro">
+            <h3>👋 关于我</h3>
+            <p>大家好！我是 zjyntx，一名正在学习编程的学生，希望能和大家一起进步，多多指教！</p>
+        </div>
+
+        <p class="footer">Made with ❤️ by zjyntx</p>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                button.textContent = '☀️';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                button.textContent = '🌙';
+            }
+        }
+    </script>
+</body>
+</html>

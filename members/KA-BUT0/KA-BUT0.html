@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KA-BUT0 · 个人主页</title>
+  <style>
+    :root {
+      --bg: #05070d;
+      --panel: rgba(13, 18, 30, 0.72);
+      --border: rgba(94, 234, 212, 0.18);
+      --text: #e6edf3;
+      --muted: #8b98ad;
+      --accent: #5eead4;
+      --accent-2: #818cf8;
+      --accent-3: #22d3ee;
+      --glow: rgba(94, 234, 212, 0.35);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ---------- 背景层 ---------- */
+    #grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(94, 234, 212, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(94, 234, 212, 0.05) 1px, transparent 1px);
+      background-size: 44px 44px;
+      z-index: 0;
+      animation: gridPan 24s linear infinite;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 75%);
+    }
+    @keyframes gridPan {
+      to { background-position: 44px 44px; }
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.5;
+      z-index: 0;
+      animation: float 12s ease-in-out infinite alternate;
+    }
+    .orb.a { width: 480px; height: 480px; background: #0ea5a4; top: -160px; right: -120px; }
+    .orb.b { width: 420px; height: 420px; background: #4f46e5; bottom: -180px; left: -120px; animation-delay: -6s; }
+    @keyframes float {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, -30px) scale(1.08); }
+    }
+
+    /* 扫描线 */
+    .scan {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0 3px,
+        rgba(94, 234, 212, 0.015) 3px 4px
+      );
+    }
+
+    /* ---------- 主内容 ---------- */
+    .stage {
+      position: relative;
+      z-index: 3;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 4rem;
+    }
+
+    .wrap {
+      width: min(1200px, 100%);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3rem;
+    }
+
+    /* 头部 */
+    header { text-align: center; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      color: var(--accent);
+      text-transform: uppercase;
+      padding: 0.55rem 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(94, 234, 212, 0.06);
+      margin-bottom: 1.6rem;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    .chip .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--glow);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 var(--glow); }
+      50% { box-shadow: 0 0 18px 2px var(--glow); }
+    }
+
+    h1 {
+      font-size: clamp(3.4rem, 10vw, 7rem);
+      font-weight: 800;
+      letter-spacing: 3px;
+      background: linear-gradient(120deg, #fff, var(--accent) 55%, var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(94, 234, 212, 0.15);
+    }
+
+    .subtitle {
+      margin-top: 0.8rem;
+      color: var(--muted);
+      font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+      letter-spacing: 2px;
+      min-height: 1.6em;
+    }
+    .subtitle .caret {
+      display: inline-block;
+      width: 2px; height: 1.1em;
+      background: var(--accent);
+      vertical-align: -0.2em;
+      margin-left: 2px;
+      animation: blink 1s steps(2) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* 学习目标 */
+    section { display: grid; gap: 1.6rem; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .section-label::before,
+    .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .section-label::before { flex: 0 0 40px; }
+
+    .goal {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      padding: 2rem 2.2rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .goal::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(94, 234, 212, 0.08), transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    .goal:hover { transform: translateY(-3px); border-color: rgba(94, 234, 212, 0.5); box-shadow: 0 12px 34px rgba(0,0,0,0.4), 0 0 24px rgba(94,234,212,0.12); }
+    .goal:hover::before { transform: translateX(100%); }
+
+    .idx {
+      flex-shrink: 0;
+      width: 64px; height: 64px;
+      display: grid; place-items: center;
+      font-weight: 700;
+      font-size: 1.3rem;
+      font-family: "Consolas", "SF Mono", monospace;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(94, 234, 212, 0.06);
+    }
+
+    .goal .label {
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .goal .text { font-size: clamp(1.3rem, 2.6vw, 1.9rem); font-weight: 500; }
+
+    .goal .tag {
+      margin-left: auto;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      color: var(--accent-2);
+      border: 1px solid rgba(129, 140, 248, 0.3);
+      background: rgba(129, 140, 248, 0.08);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* 底部 */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      letter-spacing: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+    }
+    footer .line { flex: 1; height: 1px; background: var(--border); }
+
+    /* 角标装饰 */
+    .corner {
+      position: fixed;
+      width: 44px; height: 44px;
+      border: 1px solid var(--border);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .corner.tl { top: 22px; left: 22px; border-right: none; border-bottom: none; }
+    .corner.tr { top: 22px; right: 22px; border-left: none; border-bottom: none; }
+    .corner.bl { bottom: 22px; left: 22px; border-right: none; border-top: none; }
+    .corner.br { bottom: 22px; right: 22px; border-left: none; border-top: none; }
+
+    @media (max-width: 560px) {
+      .goal .tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div id="grid"></div>
+  <canvas id="particles"></canvas>
+  <div class="scan"></div>
+
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <main class="stage">
+    <div class="wrap">
+      <header>
+        <span class="chip"><span class="dot"></span>Embedded · AI Enthusiast</span>
+        <h1>KA-BUT0</h1>
+        <p class="subtitle"><span id="typed"></span><span class="caret"></span></p>
+      </header>
+
+      <section>
+        <div class="section-label">学习目标 · Objectives</div>
+
+        <div class="goal">
+          <div class="idx">01</div>
+          <div>
+            <div class="label">AI 效率</div>
+            <div class="text">学会使用 AI 工具以提高效率</div>
+          </div>
+          <span class="tag">AI TOOLS</span>
+        </div>
+
+        <div class="goal">
+          <div class="idx">02</div>
+          <div>
+            <div class="label">硬件开发</div>
+            <div class="text">学习更多嵌入式技术</div>
+          </div>
+          <span class="tag">EMBEDDED</span>
+        </div>
+      </section>
+
+      <footer>
+        <span class="line"></span>
+        <span>KEEP BUILDING · KEEP LEARNING</span>
+        <span class="line"></span>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    // ---------- 粒子网络背景 ----------
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles = [];
+    const COUNT = 70;
+    const LINK = 130;
+
+    function resize() {
+      w = canvas.width = innerWidth;
+      h = canvas.height = innerHeight;
+    }
+    resize();
+    addEventListener('resize', resize);
+
+    class P {
+      constructor() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.r = Math.random() * 1.6 + 0.6;
+      }
+      step() {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < 0 || this.x > w) this.vx *= -1;
+        if (this.y < 0 || this.y > h) this.vy *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(94,234,212,0.7)';
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < COUNT; i++) particles.push(new P());
+
+    function frame() {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) { p.step(); p.draw(); }
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.hypot(dx, dy);
+          if (d < LINK) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(94,234,212,${0.18 * (1 - d / LINK)})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    frame();
+
+    // ---------- 打字机副标题 ----------
+    const phrases = ['嵌入式开发者', 'AI 工具实践者', '永不止步的学习者'];
+    const el = document.getElementById('typed');
+    let pi = 0, ci = 0, deleting = false;
+
+    function type() {
+      const cur = phrases[pi];
+      el.textContent = cur.slice(0, ci);
+      if (!deleting) {
+        if (ci++ >= cur.length) { deleting = true; setTimeout(type, 1500); return; }
+      } else {
+        if (ci-- <= 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+      }
+      setTimeout(type, deleting ? 45 : 95);
+    }
+    type();
+  </script>
+</body>
+</html>

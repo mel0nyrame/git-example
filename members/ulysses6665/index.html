@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ulysses6665 · 个人主页</title>
+  <meta name="description" content="ulysses6665 的个人主页：正在学习 Git 与 GitHub 的团队协作流程，也在折腾本地部署的 AI agent。">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#07070f">
+  <script>
+    (function () {
+      var theme = 'dark';
+      try {
+        var saved = localStorage.getItem('ulysses-home-theme');
+        if (saved === 'dark' || saved === 'light') theme = saved;
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <style>
+    :root {
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1080px;
+      --ease: cubic-bezier(.22, .61, .36, 1);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+              "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Cascadia Mono", "Liberation Mono", monospace;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #07070f;
+      --bg-2: #0b0b1a;
+      --surface: rgba(19, 19, 40, .62);
+      --surface-2: rgba(26, 26, 52, .72);
+      --text: #ecebf7;
+      --muted: #9b9fc4;
+      --line: rgba(255, 255, 255, .10);
+      --line-strong: rgba(255, 255, 255, .20);
+      --accent: #8b6cff;
+      --accent-2: #2fd8e8;
+      --accent-3: #f472b6;
+      --glow-1: rgba(124, 92, 255, .40);
+      --glow-2: rgba(34, 211, 238, .26);
+      --shadow: 0 24px 70px rgba(0, 0, 0, .55);
+      --header-bg: rgba(7, 7, 15, .72);
+      --grid: rgba(255, 255, 255, .045);
+    }
+
+    html[data-theme="light"] {
+      --bg: #f3f4fc;
+      --bg-2: #e9ebfa;
+      --surface: rgba(255, 255, 255, .78);
+      --surface-2: rgba(255, 255, 255, .92);
+      --text: #15162b;
+      --muted: #5c6180;
+      --line: rgba(21, 22, 43, .12);
+      --line-strong: rgba(21, 22, 43, .24);
+      --accent: #5b3df5;
+      --accent-2: #0891b2;
+      --accent-3: #db2777;
+      --glow-1: rgba(91, 61, 245, .20);
+      --glow-2: rgba(8, 145, 178, .16);
+      --shadow: 0 24px 60px rgba(60, 62, 110, .16);
+      --header-bg: rgba(243, 244, 252, .78);
+      --grid: rgba(21, 22, 43, .05);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--bg);
+      font-family: var(--font);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background-color .5s var(--ease), color .5s var(--ease);
+    }
+
+    /* ---------- 背景层 ---------- */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .backdrop::before {
+      content: "";
+      position: absolute;
+      inset: -10% -10% auto -10%;
+      height: 130vh;
+      background:
+        radial-gradient(60% 55% at 18% 8%, var(--glow-1), transparent 62%),
+        radial-gradient(55% 50% at 82% 18%, var(--glow-2), transparent 60%),
+        radial-gradient(45% 45% at 55% 78%, rgba(244, 114, 182, .16), transparent 65%);
+      filter: blur(10px);
+      animation: drift 22s ease-in-out infinite alternate;
+    }
+
+    .backdrop::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 35%, transparent 78%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 35%, transparent 78%);
+    }
+
+    #stars {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .75;
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to   { transform: translate3d(0, 3%, 0) scale(1.08); }
+    }
+
+    /* ---------- 布局 ---------- */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+    }
+
+    /* ---------- 顶栏 ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: var(--header-bg);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s var(--ease), background-color .5s var(--ease);
+    }
+
+    .site-header.is-scrolled { border-bottom-color: var(--line); }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 64px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-family: var(--mono);
+      font-size: .95rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 4px rgba(139, 108, 255, .16);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(139, 108, 255, .16); }
+      50%      { box-shadow: 0 0 0 8px rgba(139, 108, 255, .04); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: .35rem;
+      margin-left: auto;
+      list-style: none;
+      padding: 0;
+      margin-block: 0;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: .35rem .7rem;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .88rem;
+      text-decoration: none;
+      transition: color .2s, background-color .2s;
+    }
+
+    .nav-links a:hover { color: var(--text); background: var(--surface-2); }
+
+    .theme-toggle {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-left: .35rem;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color .2s, transform .2s var(--ease), background-color .2s;
+    }
+
+    .theme-toggle:hover { border-color: var(--line-strong); transform: rotate(-12deg); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .theme-toggle .icon-sun,
+    html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+    html[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+
+    /* ---------- 首屏 ---------- */
+    .hero {
+      padding: clamp(3.5rem, 11vh, 7rem) 0 clamp(3rem, 9vh, 5rem);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      padding: .32rem .85rem .32rem .6rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: .78rem;
+      letter-spacing: .04em;
+      color: var(--muted);
+    }
+
+    .pill .spark {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 12px var(--accent-2);
+    }
+
+    .hero h1 {
+      margin: 1.1rem 0 .4rem;
+      font-size: clamp(2.5rem, 8.2vw, 5.4rem);
+      line-height: 1.02;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      background: linear-gradient(100deg, var(--text) 8%, var(--accent) 46%, var(--accent-2) 78%, var(--text) 100%);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shine 9s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: 220% center; }
+    }
+
+    .hero-role {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: clamp(.85rem, 2.4vw, 1rem);
+      color: var(--accent-2);
+      letter-spacing: .08em;
+    }
+
+    .hero-desc {
+      max-width: 34rem;
+      margin: 1.35rem 0 0;
+      color: var(--muted);
+      font-size: clamp(.95rem, 2.2vw, 1.06rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .72rem 1.35rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: .93rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .25s var(--ease), box-shadow .25s, border-color .25s, background-color .25s;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      box-shadow: 0 14px 34px -14px var(--accent);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 44px -14px var(--accent); }
+
+    .btn-ghost {
+      color: var(--text);
+      border-color: var(--line-strong);
+      background: var(--surface);
+    }
+
+    .btn-ghost:hover { transform: translateY(-2px); border-color: var(--accent); }
+
+    .btn:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.6rem;
+      margin: clamp(2.6rem, 7vh, 4rem) 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .stats dt {
+      font-family: var(--mono);
+      font-size: .74rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stats dd {
+      margin: .15rem 0 0;
+      font-size: 1.28rem;
+      font-weight: 700;
+    }
+
+    /* ---------- 通用区块 ---------- */
+    .section { padding: clamp(2.6rem, 8vh, 4.6rem) 0; }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: .9rem;
+      margin-bottom: 1.9rem;
+    }
+
+    .section-index {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--accent-2);
+      letter-spacing: .1em;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.35rem, 3.6vw, 1.8rem);
+      letter-spacing: -.02em;
+    }
+
+    .section-head .rule {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--line-strong), transparent);
+    }
+
+    .card {
+      position: relative;
+      padding: 1.55rem 1.6rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      transition: transform .35s var(--ease), border-color .35s, background-color .4s;
+    }
+
+    .card:hover { transform: translateY(-4px); border-color: var(--line-strong); }
+
+    .card h3 {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin: 0 0 .6rem;
+      font-size: 1.02rem;
+    }
+
+    .card p { margin: 0; color: var(--muted); font-size: .93rem; }
+
+    .card-ico {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      flex: none;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      background: linear-gradient(140deg, rgba(139, 108, 255, .22), rgba(47, 216, 232, .14));
+      color: var(--accent-2);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+
+    .about-card { padding: 1.9rem 2rem; }
+    .about-card p { font-size: 1rem; line-height: 1.85; max-width: 46rem; }
+    .about-card p + p { margin-top: .9rem; }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.35rem; }
+
+    .tag {
+      padding: .28rem .72rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: .76rem;
+      color: var(--muted);
+      transition: color .2s, border-color .2s;
+    }
+
+    .tag:hover { color: var(--accent-2); border-color: var(--accent-2); }
+
+    /* ---------- 学习进度 ---------- */
+    .progress-list { display: grid; gap: 1.15rem; margin: 0; padding: 0; list-style: none; }
+
+    .progress-item .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: .45rem;
+      font-size: .9rem;
+    }
+
+    .progress-item .progress-top span:last-child {
+      font-family: var(--mono);
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .bar {
+      height: 7px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .bar > i {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 1.4s var(--ease);
+    }
+
+    .is-in .bar > i { width: var(--target); }
+
+    /* ---------- 文件卡片 ---------- */
+    .file-card { display: flex; flex-direction: column; gap: .5rem; }
+
+    .file-name {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      font-family: var(--mono);
+      font-size: .92rem;
+      word-break: break-all;
+    }
+
+    .file-name svg { flex: none; color: var(--accent); }
+
+    .file-badge {
+      align-self: flex-start;
+      margin-top: .3rem;
+      padding: .12rem .55rem;
+      border-radius: 999px;
+      font-size: .7rem;
+      letter-spacing: .04em;
+      color: var(--accent-2);
+      border: 1px solid var(--line-strong);
+    }
+
+    /* ---------- 页脚 ---------- */
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: clamp(2rem, 6vh, 3.5rem);
+      padding: 1.9rem 0 2.6rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem 1.4rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-inner a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+    .footer-inner a:hover { border-bottom-color: var(--accent); }
+
+    .footer-note { font-family: var(--mono); font-size: .76rem; letter-spacing: .03em; }
+
+    /* ---------- 进场动画 ---------- */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .75s var(--ease), transform .75s var(--ease);
+    }
+
+    .js .reveal.is-in { opacity: 1; transform: none; }
+
+    /* ---------- 响应式 ---------- */
+    @media (max-width: 860px) {
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .nav-links { display: none; }
+      .stats { gap: 1.6rem; }
+      .hero h1 { letter-spacing: -.02em; }
+      .about-card { padding: 1.5rem 1.35rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+      .js .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <canvas id="stars"></canvas>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="wrap">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="#top">
+          <span class="brand-dot" aria-hidden="true"></span>
+          ulysses6665
+        </a>
+        <ul class="nav-links">
+          <li><a href="#about">关于</a></li>
+          <li><a href="#learning">正在学</a></li>
+          <li><a href="#repo">仓库文件</a></li>
+        </ul>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换深色 / 浅色主题">
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+          </svg>
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"></circle>
+            <path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"></path>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap">
+      <!-- 首屏 -->
+      <section class="hero">
+        <p class="pill"><span class="spark" aria-hidden="true"></span>本页面由 AI agent 生成</p>
+        <h1>ulysses6665</h1>
+        <p class="hero-role">git / github / ai-agent</p>
+        <p class="hero-desc">
+          正在学习 Git 与 GitHub 的团队协作流程，也在折腾本地部署的 AI agent。
+          这个页面是一个单文件、无外部依赖的静态网页，通过 Pull Request 加入
+          <code>git-example</code> 仓库。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#about">认识一下
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/ulysses6665" target="_blank" rel="noopener noreferrer">GitHub 主页</a>
+        </div>
+        <dl class="stats">
+          <div>
+            <dt>方向</dt>
+            <dd>Git 协作</dd>
+          </div>
+          <div>
+            <dt>在学</dt>
+            <dd>本地 Agent</dd>
+          </div>
+          <div>
+            <dt>页面</dt>
+            <dd>单文件 · 0 依赖</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- 关于 -->
+      <section class="section" id="about">
+        <div class="section-head reveal">
+          <span class="section-index">01</span>
+          <h2>关于我</h2>
+          <span class="rule" aria-hidden="true"></span>
+        </div>
+        <div class="card about-card reveal">
+          <p>
+            我是 <strong>ulysses6665</strong>，一名在路上的学习者。最开始只是想把文件传上去，
+            后来发现真正有意思的是<b>协作本身</b>：分支怎么切、提交怎么写、别人的仓库怎么在不破坏它的前提下贡献一点点东西。
+          </p>
+          <p>
+            现在我想把这条链路走通——从命令行建仓库，到开出一条干净的分支，
+            再到用 Pull Request 把改动交回去。同时也对本地部署的 AI agent 感兴趣，
+            想搞明白一个能自己动手改文件的 agent，究竟是怎么被搭起来的。
+          </p>
+          <div class="tag-row">
+            <span class="tag">Git</span>
+            <span class="tag">GitHub</span>
+            <span class="tag">Pull Request</span>
+            <span class="tag">命令行</span>
+            <span class="tag">AI Agent</span>
+            <span class="tag">本地部署</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 正在学 -->
+      <section class="section" id="learning">
+        <div class="section-head reveal">
+          <span class="section-index">02</span>
+          <h2>正在学什么</h2>
+          <span class="rule" aria-hidden="true"></span>
+        </div>
+        <div class="grid-3">
+          <article class="card reveal">
+            <h3>
+              <span class="card-ico" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="6" cy="6" r="2.6"></circle>
+                  <circle cx="6" cy="18" r="2.6"></circle>
+                  <circle cx="18" cy="12" r="2.6"></circle>
+                  <path d="M6 8.6v6.8M8.6 6h4.4a2.4 2.4 0 0 1 2.4 2.4v1.2M8.6 18H13a2.4 2.4 0 0 0 2.4-2.4v-1.2"></path>
+                </svg>
+              </span>
+              分支与合并
+            </h3>
+            <p>理解 <code>main</code> 为什么不能被随便弄脏，以及一个分支只服务一个 PR 的纪律。</p>
+          </article>
+          <article class="card reveal">
+            <h3>
+              <span class="card-ico" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l-6-6 6-6"></path>
+                  <path d="M15 6l6 6-6 6"></path>
+                </svg>
+              </span>
+              提交规范
+            </h3>
+            <p>让一条 commit message 自己说清楚做了什么，别人不必翻 diff 就能读懂。</p>
+          </article>
+          <article class="card reveal">
+            <h3>
+              <span class="card-ico" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="14" rx="2.4"></rect>
+                  <path d="M7 9l2.6 2.6L7 14.2M12.4 14.2H17"></path>
+                </svg>
+              </span>
+              本地 Agent
+            </h3>
+            <p>把模型、工具和文件系统接起来，让它真的能在这个仓库里干活而不是只会聊天。</p>
+          </article>
+        </div>
+
+        <div class="card reveal" style="margin-top:1rem;">
+          <ul class="progress-list">
+            <li class="progress-item">
+              <div class="progress-top"><span>Git 基础命令</span><span>已掌握</span></div>
+              <div class="bar"><i style="--target: 82%"></i></div>
+            </li>
+            <li class="progress-item">
+              <div class="progress-top"><span>分支管理与冲突解决</span><span>练习中</span></div>
+              <div class="bar"><i style="--target: 64%"></i></div>
+            </li>
+            <li class="progress-item">
+              <div class="progress-top"><span>PR 协作流程</span><span>本次作业</span></div>
+              <div class="bar"><i style="--target: 58%"></i></div>
+            </li>
+            <li class="progress-item">
+              <div class="progress-top"><span>本地部署 AI agent</span><span>刚起步</span></div>
+              <div class="bar"><i style="--target: 35%"></i></div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 仓库文件 -->
+      <section class="section" id="repo">
+        <div class="section-head reveal">
+          <span class="section-index">03</span>
+          <h2>这个目录里的两个文件</h2>
+          <span class="rule" aria-hidden="true"></span>
+        </div>
+        <div class="grid-2">
+          <article class="card file-card reveal">
+            <div class="file-name">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+                <path d="M14 3v5h5M9 13h6M9 17h4"></path>
+              </svg>
+              ulysses6665.md
+            </div>
+            <p>个人文档：自我介绍、学习目标，以及这个目录的说明。</p>
+            <span class="file-badge">Markdown</span>
+          </article>
+          <article class="card file-card reveal">
+            <div class="file-name">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M8 3h8l4 4v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
+                <path d="M9.5 12.5l-1.5 1.5 1.5 1.5M14.5 12.5l1.5 1.5-1.5 1.5"></path>
+              </svg>
+              index.html
+            </div>
+            <p>本页面：由 AI agent 生成的单文件个人主页，直接用浏览器打开即可。</p>
+            <span class="file-badge">HTML · 0 依赖</span>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>© <span id="year">2026</span> ulysses6665 · 通过 Pull Request 加入 git-example</span>
+      <span class="footer-note">由 AI agent 生成 · 单文件 · 无外部依赖</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var root = document.documentElement;
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* 年份 */
+      var yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+      /* 主题切换 */
+      var toggle = document.getElementById('themeToggle');
+      var THEME_KEY = 'ulysses-home-theme';
+
+      function setTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#07070f' : '#f3f4fc');
+        if (toggle) {
+          toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+          toggle.setAttribute('title', theme === 'light' ? '切换到深色' : '切换到浅色');
+        }
+        try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+      }
+
+      setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        });
+      }
+
+      /* 顶栏描边 */
+      var header = document.getElementById('siteHeader');
+      function onScroll() {
+        if (!header) return;
+        header.classList.toggle('is-scrolled', window.scrollY > 8);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      /* 滚动进场 */
+      var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+      if (!('IntersectionObserver' in window) || reduceMotion) {
+        revealEls.forEach(function (el) { el.classList.add('is-in'); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+        revealEls.forEach(function (el) { io.observe(el); });
+      }
+
+      /* 背景星点 */
+      var canvas = document.getElementById('stars');
+      if (!canvas || reduceMotion) return;
+
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      var stars = [];
+      var dpr = 1;
+      var w = 0;
+      var h = 0;
+      var raf = 0;
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.clientWidth;
+        h = canvas.clientHeight;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        var count = Math.round(Math.min(120, Math.max(36, (w * h) / 16000)));
+        stars = [];
+        for (var i = 0; i < count; i++) {
+          stars.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.5 + 0.4,
+            a: Math.random() * 0.5 + 0.15,
+            vx: (Math.random() - 0.5) * 0.14,
+            vy: (Math.random() - 0.5) * 0.12
+          });
+        }
+      }
+
+      function draw() {
+        var light = root.getAttribute('data-theme') === 'light';
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < stars.length; i++) {
+          var s = stars[i];
+          s.x += s.vx;
+          s.y += s.vy;
+          if (s.x < -4) s.x = w + 4;
+          if (s.x > w + 4) s.x = -4;
+          if (s.y < -4) s.y = h + 4;
+          if (s.y > h + 4) s.y = -4;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = light
+            ? 'rgba(91, 61, 245, ' + s.a * 0.45 + ')'
+            : 'rgba(186, 196, 255, ' + s.a + ')';
+          ctx.fill();
+        }
+        raf = window.requestAnimationFrame(draw);
+      }
+
+      resize();
+      draw();
+
+      var resizeTimer = 0;
+      window.addEventListener('resize', function () {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(resize, 180);
+      });
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          window.cancelAnimationFrame(raf);
+        } else {
+          window.cancelAnimationFrame(raf);
+          draw();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
