@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定位</title>
+    <style>
+        .box1{
+            height: 300px;
+            background-color: aqua;
+        }
+        .box-normal{
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+        .box-relative{
+            width: 100px;
+            height: 100px;
+            background-color: blueviolet;
+            position: relative;
+            left: 120px;
+            top: 40px;
+        }
+        .box2{
+            height: 800px;
+            background-color: aqua;
+            margin-bottom: 300px;
+        }
+        .box-absolute{
+            width: 100px;
+            height: 100px;
+            background-color: aquamarine;
+            position: absolute;
+            left: 120px;
+            bottom: 10px;
+        }
+        .box-fixed{
+            width: 100px;
+            height: 100px;
+            background-color: violet;
+            position: fixed;
+            top: 100px;
+            right: 10px                 ;
+        }
+        .hyw{
+            width: 100px;
+            height: 100px;
+
+        }
+    </style>
+</head>
+<body>
+    <h1>相对定位</h1>
+    <div class="box1">
+        <div class="box-normal"></div>
+        <div class="box-relative"></div>
+        <div class="box-normal"></div>
+    </div>
+    <h1>绝对定位</h1>
+    <div class="box2">
+        <div class="box-normal"></div>
+        <div class="box-absolute"></div>
+        <div class="box-normal"></div>
+    </div>
+    <h1>固定定位</h1>
+    <div class="box-fixed"><img src="Capture001.png" alt="" class="hyw"></div>
+</body>
+</html>
