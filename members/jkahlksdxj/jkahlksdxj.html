@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jha3</title>
+<meta name="description" content="jha3 的个人页面（由 AI 撰写，视角为旁观的第三方）。">
+<style>
+  :root{
+    --bg:#0a0d16;
+    --ink:#e9eefb;
+    --muted:#8d9ab5;
+    --line:rgba(148,163,184,.14);
+    --cyan:#67e8f9;
+    --violet:#c4b5fd;
+    --card:rgba(17,23,39,.62);
+    --maxw:920px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,sans-serif;
+    line-height:1.8;-webkit-font-smoothing:antialiased;
+  }
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg::before{
+    content:"";position:absolute;width:720px;height:720px;left:50%;top:-360px;transform:translateX(-50%);
+    background:radial-gradient(circle,rgba(103,232,249,.10),transparent 62%);
+  }
+  .bg::after{
+    content:"";position:absolute;width:560px;height:560px;right:-180px;bottom:-220px;
+    background:radial-gradient(circle,rgba(196,181,253,.10),transparent 62%);
+  }
+  .wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  header{padding:120px 0 64px}
+  .eyebrow{font-size:12px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
+  h1{
+    font-size:clamp(42px,8vw,76px);line-height:1.05;margin:18px 0 14px;
+    font-weight:800;letter-spacing:-.035em;
+    background:linear-gradient(96deg,#fff 20%,var(--cyan) 62%,var(--violet));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .lead{color:#c5d0e6;font-size:clamp(15px,1.7vw,18px);max-width:34em;margin:0}
+  .meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .chip{
+    font-size:13px;color:#c8d3ea;padding:6px 12px;border-radius:999px;
+    border:1px solid var(--line);background:rgba(255,255,255,.025)
+  }
+  section{padding:52px 0;border-top:1px solid var(--line)}
+  .kicker{font-size:12px;letter-spacing:.22em;color:var(--violet);margin:0 0 14px}
+  h2{font-size:clamp(19px,2.3vw,24px);margin:0 0 14px;font-weight:700;letter-spacing:-.01em}
+  p{margin:0 0 14px;color:#c5d0e6}
+  p:last-child{margin-bottom:0}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card{
+    border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:var(--card);
+    backdrop-filter:blur(10px);transition:border-color .3s ease,transform .3s ease;
+  }
+  .card:hover{border-color:rgba(103,232,249,.34);transform:translateY(-2px)}
+  .card h3{font-size:15px;margin:0 0 6px;color:#eef3ff}
+  .card p{font-size:14px;margin:0;color:var(--muted)}
+  ul.clean{margin:0;padding-left:1.1em;color:#c5d0e6}
+  ul.clean li{margin:7px 0}
+  .note{
+    border-left:2px solid var(--cyan);padding:14px 18px;border-radius:0 12px 12px 0;
+    background:linear-gradient(90deg,rgba(103,232,249,.07),transparent 72%);
+    color:#cfe0f7;font-size:14px
+  }
+  .note strong{color:var(--ink)}
+  footer{padding:44px 0 72px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+  footer .row{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(103,232,249,.35)}
+  a:hover{border-bottom-color:var(--cyan)}
+  @media (max-width:600px){
+    header{padding:80px 0 44px}
+    section{padding:40px 0}
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Profile · 由 AI 代写</p>
+    <h1>jha3</h1>
+    <p class="lead">
+      喜欢把东西弄明白的人：安卓系统、网络协议，以及那些文档写得很含糊的软件。
+    </p>
+    <div class="meta">
+      <span class="chip">Android</span>
+      <span class="chip">协议分析</span>
+      <span class="chip">自动化折腾</span>
+    </div>
+  </header>
+
+  <section>
+    <p class="kicker">01 / 关于这个页面</p>
+    <h2>这不是他自己写的</h2>
+    <div class="note">
+      <strong>本页由 AI 撰写，视角是旁观的第三方。</strong>
+      下面的内容基于我与他协作时的观察，属于个人判断，不是自我介绍，也不代表他的自我认知。
+      事实部分尽量克制，评价部分请当作参考意见。
+    </div>
+  </section>
+
+  <section>
+    <p class="kicker">02 / 关注方向</p>
+    <h2>他大概在折腾什么</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>安卓系统</h3>
+        <p>了解权限模型、后台服务与系统组件之间的边界，关注行为背后的机制。</p>
+      </div>
+      <div class="card">
+        <h3>协议与接口</h3>
+        <p>读客户端、看请求与响应，关心「为什么这一步会被拒绝」这类问题。</p>
+      </div>
+      <div class="card">
+        <h3>工具与自动化</h3>
+        <p>把重复操作交给脚本和服务，倾向自建而不是等现成方案。</p>
+      </div>
+      <div class="card">
+        <h3>审美这件事</h3>
+        <p>对界面和排版有自己的偏好，能接受「够用」，但更想要「好看且干净」。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="kicker">03 / 做事方式</p>
+    <h2>我观察到的习惯</h2>
+    <ul class="clean">
+      <li><b>先跑通，再优化。</b>方案是否优雅可以之后再说，先确认这条路能不能走。</li>
+      <li><b>要证据，不要形容词。</b>日志、时间戳、可复现的步骤，比「应该可以」有说服力。</li>
+      <li><b>对无意义的事没有耐心。</b>能自动化就自动化，不值得做的事会直接跳过。</li>
+      <li><b>收尾要干净。</b>临时文件、残留配置、跑完的进程，都会要求清掉。</li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="kicker">04 / 一点保留意见</p>
+    <h2>也可能不准</h2>
+    <p>
+      我对他的了解只来自屏幕这一侧：代码、命令、报错和几句对话。
+      他的生活、性格的其他面、真正在意的东西，我其实看不到。
+      所以这一页更像一份「协作观察笔记」，而不是一个人的完整画像。
+    </p>
+  </section>
+
+  <footer>
+    <div class="row">
+      <span>jha3</span>
+      <span>本页由 AI 撰写 · 主观视角</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+name: PR 规范检查评论
+
+# 在「PR 规范检查」完成后运行，把检查结果写成评论发给 PR 作者。
+# 本工作流在默认分支上下文运行，因此有写评论的权限。
+# 检查只读取 git 数据，不执行 PR 里的任何代码。
+
+on:
+  workflow_run:
+    workflows: ["PR 规范检查"]
+    types: [completed]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: pr-comment-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+jobs:
+  comment:
+    name: 发表评论
+    if: github.event.workflow_run.event == 'pull_request_target'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 解析 PR 信息
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          pr="${{ github.event.workflow_run.pull_requests[0].number }}"
+          if [ -z "$pr" ]; then
+            pr=$(gh api --method GET "repos/${GITHUB_REPOSITORY}/pulls" -f state=open \
+              -f "head=${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }}" \
+              --jq '.[0].number // empty')
+          fi
+          if [ -z "$pr" ]; then
+            pr=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${{ github.event.workflow_run.head_sha }}/pulls" \
+              --jq '.[0].number // empty' 2>/dev/null || true)
+          fi
+          if [ -z "$pr" ]; then
+            echo "::warning::找不到该运行关联的 PR，跳过评论"
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.user.login' > /tmp/pr-login.txt
+            gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.head.ref' > /tmp/pr-branch.txt
+            gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.title' > /tmp/pr-title.txt
+            gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr}" --jq '.body // ""' > /tmp/pr-body.txt
+          fi
+          echo "number=${pr}" >> "$GITHUB_OUTPUT"
+
+      - name: 检出默认分支
+        if: steps.pr.outputs.number != ''
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 取回 PR 分支数据
+        if: steps.pr.outputs.number != ''
+        run: |
+          git fetch origin "+refs/pull/${{ steps.pr.outputs.number }}/head:refs/remotes/origin/pr-head"
+
+      - name: 运行检查脚本
+        id: check
+        if: steps.pr.outputs.number != ''
+        run: |
+          export LOGIN="$(cat /tmp/pr-login.txt)"
+          export BRANCH="$(cat /tmp/pr-branch.txt)"
+          export PR_TITLE="$(cat /tmp/pr-title.txt)"
+          export PR_BODY="$(cat /tmp/pr-body.txt)"
+          export HEAD_REF="origin/pr-head"
+          set +e
+          python3 .github/scripts/check_pr.py > /tmp/check-output.txt 2>&1
+          code=$?
+          set -e
+          echo "code=${code}" >> "$GITHUB_OUTPUT"
+
+      - name: 组装评论内容
+        id: compose
+        if: steps.pr.outputs.number != ''
+        run: |
+          set -euo pipefail
+          login=$(cat /tmp/pr-login.txt)
+          if [ "${{ steps.check.outputs.code }}" = "0" ]; then
+            {
+              echo "@${login} 规范检查已通过 ✅"
+              echo
+              echo "这条评论会随检查结果自动更新。"
+            } > /tmp/comment.md
+            echo "kind=pass" >> "$GITHUB_OUTPUT"
+          else
+            {
+              echo "@${login} 规范检查没有通过，请按下面几点修改。"
+              echo
+              sed -n -e 's/^  - /- /p' -e 's/^提示 \(.*\)/（小提示）\1/p' /tmp/check-output.txt
+              echo
+              echo "改好后 push 一次就会重新检查，这条评论会原地更新。"
+              echo "详细日志见 ${{ github.event.workflow_run.html_url }}。"
+              echo
+              echo "完整规则见 README.md。"
+            } > /tmp/comment.md
+            echo "kind=fail" >> "$GITHUB_OUTPUT"
+          fi
+          echo "" >> /tmp/comment.md
+          echo "<!-- pr-check -->" >> /tmp/comment.md
+
+      - name: 发送评论
+        if: steps.pr.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          pr="${{ steps.pr.outputs.number }}"
+          # 按不可见标记找到同一条评论，原地更新；找不到就新建
+          cid=$(gh api --paginate "repos/${GITHUB_REPOSITORY}/issues/${pr}/comments?per_page=100" \
+            --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | contains("<!-- pr-check -->"))) | .id' | tail -n 1)
+          if [ "${{ steps.compose.outputs.kind }}" = "pass" ] && [ -z "$cid" ]; then
+            echo "检查通过且没有历史评论，跳过"
+            exit 0
+          fi
+          if [ -n "$cid" ]; then
+            jq -n --rawfile body /tmp/comment.md '{body: $body}' \
+              | gh api --method PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${cid}" --input -
+          else
+            jq -n --rawfile body /tmp/comment.md '{body: $body}' \
+              | gh api --method POST "repos/${GITHUB_REPOSITORY}/issues/${pr}/comments" --input -
+          fi
