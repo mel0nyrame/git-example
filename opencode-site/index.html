@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenCode 中文介绍 · 为终端而生的开源 AI 编码代理</title>
+<meta name="description" content="OpenCode 是一个 MIT 开源、厂商中立的 AI 编码代理，提供终端 TUI、桌面应用、IDE 扩展与 Web 界面。本文介绍它的定位、架构、核心能力与五分钟上手指南。">
+<meta name="color-scheme" content="dark light">
+<meta property="og:title" content="OpenCode 中文介绍 · 为终端而生的开源 AI 编码代理">
+<meta property="og:description" content="开源、模型无关、终端优先。了解 OpenCode 的定位、架构、能力与上手方式。">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230d0d0f'/%3E%3Cpath d='M8 16V8h8' stroke='%23f0b45e' stroke-width='2.4' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+<script>
+  /* 尽早应用主题，避免闪烁 */
+  try {
+    var savedTheme = localStorage.getItem('opencode-intro-theme');
+    if (!savedTheme) {
+      savedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.dataset.theme = savedTheme;
+  } catch (e) {}
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+
+<header class="site-nav" id="siteNav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="OpenCode 中文介绍 · 回到顶部">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M8 16.5V8h8" fill="none" stroke="currentColor" stroke-width="2.2"/>
+      </svg>
+      <span class="brand-name">OpenCode</span>
+      <span class="brand-tag">中文介绍</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="页面导航">
+      <a href="#what">是什么</a>
+      <a href="#features">能力</a>
+      <a href="#arch">架构</a>
+      <a href="#start">上手</a>
+      <a href="#cheatsheet">速查</a>
+      <a href="#faq">问答</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="切换深色 / 浅色主题" title="切换主题">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9L5.3 5.3"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+      <a class="btn btn-ghost" href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" aria-hidden="true" class="gh"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub
+      </a>
+      <button class="icon-btn nav-burger" id="navBurger" type="button" aria-label="展开导航" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse"></span>开源 · MIT 许可 · 约 21.5 万 GitHub Stars</p>
+        <h1>把 AI 放进终端，<br>让它和你<span class="mark">一起写代码</span></h1>
+        <p class="lede">
+          <strong>OpenCode</strong> 是一个开源、厂商中立的 AI 编码代理。它在终端、桌面应用、IDE 和浏览器里，
+          用你指定的任意模型读仓库、改文件、跑命令、查文档——不把你绑在任何一家模型商身上。
+        </p>
+
+        <div class="install" id="install">
+          <div class="install-head">
+            <div class="tabs" role="tablist" aria-label="安装方式">
+              <button class="tab is-active" role="tab" aria-selected="true" data-tab="unix" type="button">macOS / Linux</button>
+              <button class="tab" role="tab" aria-selected="false" data-tab="npm" type="button">npm</button>
+              <button class="tab" role="tab" aria-selected="false" data-tab="docker" type="button">Docker</button>
+              <button class="tab" role="tab" aria-selected="false" data-tab="win" type="button">Windows</button>
+            </div>
+            <button class="copy-btn" id="copyInstall" type="button" aria-label="复制安装命令">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M6 15H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>
+              <span>复制</span>
+            </button>
+          </div>
+          <div class="panes">
+            <pre class="pane is-active" data-pane="unix"><code><span class="c-dim"># 安装 OpenCode 2</span>
+<span class="c-p">$</span> curl -fsSL https://opencode.ai/v2/install | bash</code></pre>
+            <pre class="pane" data-pane="npm"><code><span class="c-dim"># npm 包会按平台挑选原生二进制</span>
+<span class="c-p">$</span> npm install -g opencode-ai
+<span class="c-dim"># 也可以：brew install anomalyco/tap/opencode</span></code></pre>
+            <pre class="pane" data-pane="docker"><code><span class="c-dim"># 镜像使用版本号标签</span>
+<span class="c-p">$</span> docker run -it --rm ghcr.io/anomalyco/opencode:2.0.0</code></pre>
+            <pre class="pane" data-pane="win"><code><span class="c-dim"># 推荐在 WSL 中使用，或下载独立二进制</span>
+<span class="c-p">$</span> wsl --install
+<span class="c-p">$</span> curl -fsSL https://opencode.ai/v2/install | bash</code></pre>
+          </div>
+        </div>
+
+        <ul class="hero-facts">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>免费模型，无需注册即可起步</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>75+ 模型提供商，含本地模型</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Windows / macOS / Linux</li>
+        </ul>
+      </div>
+
+      <div class="hero-art">
+        <div class="term" role="img" aria-label="OpenCode 终端界面示意：在 plan 模式下规划给 settings 路由添加鉴权">
+          <div class="term-bar">
+            <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="term-title">opencode — ~/code/notes</span>
+            <span class="term-ver">v2</span>
+          </div>
+          <div class="term-body">
+            <p class="t-dim">~/code/notes <span class="t-branch">git:(main)</span></p>
+            <p><span class="t-prompt">❯</span> opencode</p>
+            <p class="t-gap"></p>
+            <p class="t-dim t-indent">opencode <span class="t-key">v2</span> &nbsp;·&nbsp; model <span class="t-key">claude-sonnet</span> &nbsp;·&nbsp; <span class="t-mode">plan</span></p>
+            <p class="t-gap"></p>
+            <p><span class="t-prompt">❯</span> 给 /settings 加上鉴权，参考 <span class="t-ref">@packages/functions/src/notes.ts</span></p>
+            <p class="t-gap"></p>
+            <p class="t-accent">● 计划</p>
+            <p class="t-indent t-body">1. 复用 notes.ts 中的 requireUser() 中间件</p>
+            <p class="t-indent t-body">2. 在 settings.ts 的 handler 前挂载</p>
+            <p class="t-indent t-body">3. 补一条 401 的集成测试</p>
+            <p class="t-gap"></p>
+            <p class="t-dim t-indent">按 Tab 切到 build 模式开始实施…</p>
+            <p class="t-foot">
+              <span class="t-key">TAB</span> 模式 · <span class="t-key">/</span> 命令 · <span class="t-key">@</span> 文件<span class="t-caret" aria-hidden="true"></span>
+            </p>
+          </div>
+        </div>
+        <p class="art-note">界面示意，非真实截图</p>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <dl class="stats">
+        <div class="stat"><dt>GitHub Stars</dt><dd>215K<span class="plus">+</span></dd></div>
+        <div class="stat"><dt>贡献者</dt><dd>950<span class="plus">+</span></dd></div>
+        <div class="stat"><dt>提交</dt><dd>20K<span class="plus">+</span></dd></div>
+        <div class="stat"><dt>每月使用开发者</dt><dd>16M</dd></div>
+        <div class="stat stat-license"><dt>许可</dt><dd>MIT</dd></div>
+      </dl>
+      <p class="stats-note">数据来自 opencode.ai 官网，核对于 2026-10-23；数字会随项目增长而变化。</p>
+    </div>
+  </section>
+
+  <!-- ============ WHAT ============ -->
+  <section class="section" id="what">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">01 / 定位</p>
+        <h2>它不是一个补全插件，<br>而是一个能自己动手的代理</h2>
+        <p class="sec-sub">
+          补全工具预测你的下一行；代理则接受一个目标，自己决定读哪些文件、跑哪些命令、改哪几行，
+          过程中把关键动作交给你确认。
+        </p>
+      </header>
+
+      <div class="split">
+        <div class="prose reveal">
+          <p>
+            你在项目目录里敲下 <code>opencode</code>，得到的是一个全屏终端界面：左边是对话，右边是文件与 diff，
+            下方是输入框。它可以按 <code>@</code> 模糊搜索仓库里的文件、自动加载对应的语言服务器、
+            在改动前先给出计划，在改动后展示逐文件的差异。
+          </p>
+          <p>
+            更关键的是它的取舍——<strong>不绑定模型厂商</strong>。通过 Models.dev 接 75+ 提供商，
+            也能复用你已有的 GitHub Copilot 或 ChatGPT Plus/Pro 订阅，甚至接本地 Ollama。
+            如果懒得挑，官方还有经过实测筛选的 <strong>Zen</strong> 模型集与每月 10 美元的 <strong>Go</strong> 订阅。
+          </p>
+          <p>
+            代码层面它完全开源（MIT），仓库公开、可审计、可 fork。官方声明不存储你的代码与上下文数据
+            （使用官方免费模型时除外），因此也被用在隐私敏感的环境里。对合规有要求的团队，还有企业版。
+          </p>
+          <p>
+            值得单独一提的是它的<strong>客户端 / 服务端架构</strong>：TUI 只是一个客户端，
+            背后是一个本地 HTTP 服务，暴露 OpenAPI 3.1 与 SSE 事件流。这件事决定了后面所有的可扩展性。
+          </p>
+        </div>
+
+        <aside class="facts-card reveal">
+          <h3>速览</h3>
+          <dl>
+            <div><dt>项目</dt><dd>anomalyco/opencode（Anomaly 团队维护）</dd></div>
+            <div><dt>许可</dt><dd>MIT，完全开源</dd></div>
+            <div><dt>形态</dt><dd>终端 TUI · 桌面应用 · IDE 扩展 · Web</dd></div>
+            <div><dt>技术栈</dt><dd>TypeScript / Bun 核心 + Go 编写的 TUI</dd></div>
+            <div><dt>模型接入</dt><dd>Models.dev，75+ 提供商，支持本地模型</dd></div>
+            <div><dt>当前版本</dt><dd>OpenCode 2（与 1 共用 <code>opencode</code> 命令）</dd></div>
+            <div><dt>价格</dt><dd>软件免费；模型可用免费额度、自备 Key 或订阅</dd></div>
+          </dl>
+        </aside>
+      </div>
+
+      <p class="callout reveal">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.2"/></svg>
+        <span><strong>版本提醒：</strong>OpenCode 1 与 OpenCode 2 都使用 <code>opencode</code> 命令，默认情况下不能并存。
+        本页以 <strong>v2</strong> 为主；从旧版本升级请先看官方迁移文档，安装脚本地址也不同（v2 是 <code>/v2/install</code>）。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section section-alt" id="features">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">02 / 能力</p>
+        <h2>八件它做得很到位的事</h2>
+        <p class="sec-sub">从模型接入到会话回滚，这些设计共同指向同一个目标：让代理的行为可预期、可控制、可复现。</p>
+      </header>
+
+      <div class="grid grid-4">
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="14" rx="2.5"/><path d="M8 20.5h8M7.5 8.5l2.5 2.5-2.5 2.5M12.5 13.5h3.5"/></svg></span>
+          <h3>终端优先，多端同源</h3>
+          <p>核心体验是终端里的全屏 TUI，同时提供桌面应用、IDE 扩展和 Web 界面。它们连的是同一个本地服务，会话与配置共用。</p>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><path d="M3 7.5h18M3 12h18M3 16.5h12"/><circle cx="18" cy="16.5" r="3"/></svg></span>
+          <h3>任意模型，厂商中立</h3>
+          <p>75+ 提供商、本地模型、Copilot 与 ChatGPT 订阅都能接；官方 Zen 提供实测过的精选模型，Go 订阅按月打包主流编码模型。</p>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 4.5H5.5A1.5 1.5 0 0 0 4 6v12a1.5 1.5 0 0 0 1.5 1.5H9M15 4.5h3.5A1.5 1.5 0 0 1 20 6v12a1.5 1.5 0 0 1-1.5 1.5H15M12 3v18"/></svg></span>
+          <h3>LSP 加持的代码理解</h3>
+          <p>自动加载项目对应的语言服务器：跳转定义、符号搜索、实时诊断都交给真正的语言工具，而不是让模型猜。</p>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><path d="M8 4.5h9.5A2.5 2.5 0 0 1 20 7v9.5M4.5 8A2.5 2.5 0 0 1 7 5.5h7A2.5 2.5 0 0 1 16.5 8v9a2.5 2.5 0 0 1-2.5 2.5H7A2.5 2.5 0 0 1 4.5 17V8Z"/><path d="M8 9.5h5M8 13h5"/></svg></span>
+          <h3>计划先行</h3>
+          <p>按 Tab 在 Plan / Build 之间切换。Plan 模式下它只出方案、不动文件——先对齐思路，再让它动手。</p>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><path d="M9 7 4 12l5 5M15 7l5 5-5 5"/></svg></span>
+          <h3>随时反悔</h3>
+          <p><code>/undo</code> 与 <code>/redo</code> 按消息粒度回滚改动，配合会话级 diff，试错的成本被压得很低。</p>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.4 10.9 15.6 7.1M8.4 13.1l7.2 3.8"/></svg></span>
+          <h3>会话可分享</h3>
+          <p>把一次排障过程分享成链接，队友能直接看到完整的上下文与工具调用，复现问题不用靠转述。</p>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3.5" width="18" height="7" rx="2"/><rect x="3" y="13.5" width="18" height="7" rx="2"/><path d="M6.5 7h.01M6.5 17h.01"/></svg></span>
+          <h3>客户端 / 服务端架构</h3>
+          <p><code>opencode serve</code> 暴露 OpenAPI 3.1 与 SSE；SDK 可把代理嵌进 CI、脚本或你自己的产品里。</p>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 3.5 20 7v5c0 5-3.4 8.3-8 9.5-4.6-1.2-8-4.5-8-9.5V7l8-3.5Z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
+          <h3>隐私与可控</h3>
+          <p>开源可审计，官方称不存储代码与上下文；权限确认、Policies、企业版让团队能收紧边界。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARCH ============ -->
+  <section class="section" id="arch">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">03 / 架构</p>
+        <h2>界面只是客户端，<br>会话活在一个本地服务里</h2>
+        <p class="sec-sub">
+          运行 <code>opencode</code> 时，它同时启动 TUI 和一个本地 HTTP 服务；同一个服务可以被 IDE 插件、桌面端、
+          浏览器甚至你的脚本连接。
+        </p>
+      </header>
+
+      <div class="split split-wide">
+        <div class="arch reveal" role="img" aria-label="架构示意：TUI、桌面端、IDE 插件、Web 客户端通过 HTTP 与 OpenAPI 连接本地 opencode server，再由 server 调用模型提供商、LSP、MCP 与 Git、Shell 等工具">
+          <div class="arch-row">
+            <span class="chip">TUI</span>
+            <span class="chip">桌面端</span>
+            <span class="chip">IDE 插件</span>
+            <span class="chip">Web / 脚本</span>
+          </div>
+          <div class="arch-link"><span>HTTP · OpenAPI 3.1 · SSE 事件流</span></div>
+          <div class="arch-row">
+            <div class="node">
+              <strong>opencode server</strong>
+              <small>会话 · 权限 · 工具执行 · 配置</small>
+            </div>
+          </div>
+          <div class="arch-link"><span>模型调用 / LSP / MCP / 文件系统</span></div>
+          <div class="arch-row arch-row-sm">
+            <span class="chip chip-sm">75+ 模型提供商</span>
+            <span class="chip chip-sm">LSP 语言服务</span>
+            <span class="chip chip-sm">MCP 服务器</span>
+            <span class="chip chip-sm">Git · Shell · 测试</span>
+          </div>
+        </div>
+
+        <div class="prose reveal">
+          <h3>为什么这个架构重要</h3>
+          <p>
+            多数同类工具把界面和逻辑焊死在一起，你只能在它规定的那个窗口里用它。
+            OpenCode 把「代理运行时」抽成一个可寻址的服务之后，很多事情就自然成立了：
+          </p>
+          <ul class="ticks">
+            <li>在终端里开一个会话，用 IDE 插件接着看同一份上下文；</li>
+            <li>服务器上 <code>opencode serve</code> 跑无头实例，用 SDK 批量跑任务；</li>
+            <li>用 <code>/tui</code> 系列端点从外部驱动界面，IDE 插件就是这么做的；</li>
+            <li>把 <code>service</code> 关掉、用 <code>--standalone</code> 起私有实例，或 <code>--server</code> 连到指定地址。</li>
+          </ul>
+          <p>
+            默认情况下，OpenCode 会为你的账户发现或启动<strong>一个共享后台服务</strong>，
+            所有本地客户端都连它，会话、集成、权限与工具执行都归属于它。
+          </p>
+          <pre class="code-block"><code><span class="c-dim"># 无头服务（默认 4096 端口）</span>
+opencode serve --port 4096
+
+<span class="c-dim"># 生成 OpenAPI 3.1 规范 / Swagger 页面</span>
+open http://localhost:4096/doc
+
+<span class="c-dim"># 私有实例，不加入共享服务</span>
+opencode --standalone</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ START ============ -->
+  <section class="section section-alt" id="start">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">04 / 上手</p>
+        <h2>五分钟，从安装到第一次改动</h2>
+        <p class="sec-sub">你只需要一个现代终端，和一个模型提供商的 API Key（或直接用内置免费模型）。</p>
+      </header>
+
+      <ol class="steps">
+        <li class="step reveal">
+          <div class="step-no">1</div>
+          <div class="step-body">
+            <h3>安装</h3>
+            <p>macOS / Linux 用安装脚本最快；macOS 也可以用 Homebrew 的官方 tap 拿到最新版本。</p>
+            <pre class="code-block"><code><span class="c-p">$</span> curl -fsSL https://opencode.ai/v2/install | bash
+<span class="c-dim"># 或</span>
+<span class="c-p">$</span> brew install anomalyco/tap/opencode</code></pre>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-no">2</div>
+          <div class="step-body">
+            <h3>连接模型</h3>
+            <p>进入项目目录，运行 <code>opencode</code>，然后在输入框里输入 <code>/connect</code>，选择提供商并粘贴 Key。想省事就选 opencode（Zen），它是团队实测过的模型集合。</p>
+            <pre class="code-block"><code><span class="c-p">$</span> cd ~/code/my-project
+<span class="c-p">$</span> opencode
+<span class="c-dim"># TUI 内：</span>
+/connect</code></pre>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-no">3</div>
+          <div class="step-body">
+            <h3>让它认识你的项目</h3>
+            <p><code>/init</code> 会扫描仓库并在根目录生成 <code>AGENTS.md</code>，把结构、规范、常用命令记下来。建议把它提交进 Git。</p>
+            <pre class="code-block"><code>/init
+<span class="c-dim"># → 生成 AGENTS.md，随项目一起版本管理</span></code></pre>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-no">4</div>
+          <div class="step-body">
+            <h3>先计划，再动手</h3>
+            <p>按 <strong>Tab</strong> 切到 Plan 模式，把需求和约束讲清楚（像对新同事交代任务）；满意后按 Tab 切回 Build 模式，让它实施。</p>
+            <pre class="code-block"><code><span class="c-dim"># Plan 模式</span>
+给 /settings 路由加上鉴权，参考 @packages/functions/src/notes.ts 的做法
+
+<span class="c-dim"># 确认计划后切到 Build</span>
+按这个计划实施，并补上 401 的集成测试</code></pre>
+          </div>
+        </li>
+
+        <li class="step reveal">
+          <div class="step-no">5</div>
+          <div class="step-body">
+            <h3>不满意就回滚</h3>
+            <p>改动不对味，<code>/undo</code> 回到上一步并保留你的原始输入，改改提示词再来一次；<code>/redo</code> 可以重做。</p>
+            <pre class="code-block"><code>/undo
+/redo</code></pre>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ CHEATSHEET ============ -->
+  <section class="section" id="cheatsheet">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">05 / 速查</p>
+        <h2>常用命令与快捷键</h2>
+        <p class="sec-sub">记住这几条，日常使用基本够用。</p>
+      </header>
+
+      <div class="table-wrap reveal">
+        <table class="cheat">
+          <caption class="sr-only">OpenCode 常用命令与快捷键</caption>
+          <thead>
+            <tr><th scope="col">命令 / 快捷键</th><th scope="col">作用</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>opencode</code></td><td>在当前目录打开全屏终端界面（同时启动本地服务）</td></tr>
+            <tr><td><code>opencode run "…"</code></td><td>非交互执行一次提问，适合脚本与 CI</td></tr>
+            <tr><td><code>opencode mini</code></td><td>最小化交互界面，替代全屏 TUI</td></tr>
+            <tr><td><code>opencode serve</code></td><td>启动无头 HTTP 服务，默认 4096 端口</td></tr>
+            <tr><td><code>opencode pair</code></td><td>打开浏览器 Web 界面（链接一次性、5 分钟内有效）</td></tr>
+            <tr><td><code>opencode --standalone</code></td><td>使用私有服务实例，不加入账户共享服务</td></tr>
+            <tr><td><code>/connect</code></td><td>连接模型提供商（OAuth 或 API Key）</td></tr>
+            <tr><td><code>/init</code></td><td>分析项目并生成 <code>AGENTS.md</code></td></tr>
+            <tr><td><code>/undo</code> · <code>/redo</code></td><td>按消息回滚或重做改动</td></tr>
+            <tr><td><kbd>Tab</kbd></td><td>在 Plan 与 Build 模式之间切换</td></tr>
+            <tr><td><kbd>@</kbd></td><td>模糊搜索项目文件并加入提示词</td></tr>
+            <tr><td><kbd>拖拽图片</kbd></td><td>把设计稿或报错截图放进终端作为参考</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIT ============ -->
+  <section class="section section-alt" id="fit">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">06 / 适合谁</p>
+        <h2>它更像给这几类人准备的</h2>
+      </header>
+
+      <div class="grid grid-4">
+        <article class="who reveal">
+          <h3>终端原住民</h3>
+          <p>你的工作流本来就在 shell 里：git、测试、日志、ssh。你不想为了用 AI 再开一个 IDE 或网页。</p>
+        </article>
+        <article class="who reveal">
+          <h3>模型尝鲜者</h3>
+          <p>你想随时换模型、跑对比、试本地模型，而不希望工具把你的选择锁死。</p>
+        </article>
+        <article class="who reveal">
+          <h3>隐私敏感团队</h3>
+          <p>需要可审计的开源实现、明确的权限边界，甚至自托管与无头部署。</p>
+        </article>
+        <article class="who reveal">
+          <h3>做集成的人</h3>
+          <p>想把编码代理嵌进 CI、内部平台或自研客户端——OpenAPI 与 SDK 就是入口。</p>
+        </article>
+      </div>
+
+      <p class="callout reveal">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.2"/></svg>
+        <span>如果完全不想碰命令行，也不需要自定义模型，那么成熟的商业 IDE 方案可能更省心——OpenCode 的收益主要来自「终端 + 自选模型 + 可扩展」这三件事。</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ ECOSYSTEM ============ -->
+  <section class="section" id="ecosystem">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">07 / 生态</p>
+        <h2>不只是一个命令行工具</h2>
+      </header>
+
+      <div class="grid grid-2">
+        <article class="eco reveal">
+          <div class="eco-top"><h3>Zen</h3><span class="tag">模型</span></div>
+          <p>经过 OpenCode 团队实测与基准筛选的编码模型集合，省去「哪个提供商效果稳定」的试错；也提供内置免费模型。</p>
+        </article>
+        <article class="eco reveal">
+          <div class="eco-top"><h3>Go</h3><span class="tag">订阅</span></div>
+          <p>每月 10 美元的订阅方案，打包主流编码模型的使用额度，适合不想分别管理多家 API Key 的个人开发者。</p>
+        </article>
+        <article class="eco reveal">
+          <div class="eco-top"><h3>扩展体系</h3><span class="tag">可编程</span></div>
+          <p>MCP 服务器、插件、自定义命令、Agent 技能、权限策略、自定义工具与 SDK——团队可以把它捏成自己的形状。</p>
+        </article>
+        <article class="eco reveal">
+          <div class="eco-top"><h3>企业版</h3><span class="tag">合规</span></div>
+          <p>面向需要审计、访问控制与私有部署的组织，配合 <code>OPENCODE_SERVER_PASSWORD</code> 等机制保护服务端。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section section-alt" id="faq">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="sec-kicker">08 / 问答</p>
+        <h2>几个常见问题</h2>
+      </header>
+
+      <div class="faq-list">
+        <details class="reveal">
+          <summary>OpenCode 收费吗？</summary>
+          <p>软件本身免费且开源（MIT）。模型部分：内置一组免费模型，无需账号即可使用；也可以自备各家 API Key，或订阅 Zen / Go。费用来自模型推理，而不是工具本身。</p>
+        </details>
+        <details class="reveal">
+          <summary>必须使用某一家的模型吗？</summary>
+          <p>不需要。它通过 Models.dev 支持 75+ 提供商，包括 Claude、GPT、Gemini 以及本地模型；也能直接登录 GitHub Copilot 或 ChatGPT Plus/Pro 复用已有订阅。</p>
+        </details>
+        <details class="reveal">
+          <summary>我的代码会被上传吗？</summary>
+          <p>代码只会发送给你选择的模型提供商。官方声明 OpenCode 本身不存储代码与上下文数据，但使用官方免费模型时会遵循对应的数据政策。隐私要求高的场景建议自备 Key 或使用企业版。</p>
+        </details>
+        <details class="reveal">
+          <summary>Windows 能用吗？</summary>
+          <p>可以。v2 提供 Windows 独立二进制（x64 / ARM64），但暂不通过 Windows 包管理器分发；官方推荐在 WSL 里使用以获得完整体验。v1 时代还支持 Chocolatey / Scoop。</p>
+        </details>
+        <details class="reveal">
+          <summary>和 Claude Code、Cursor 是什么关系？</summary>
+          <p>它们是各自独立的商业产品，定位也不同：Cursor 是编辑器，Claude Code 绑定 Anthropic 模型。OpenCode 的差异在于开源、模型中立、以及面向终端的客户端/服务端架构。三者可以并存，甚至可以同时用。</p>
+        </details>
+        <details class="reveal">
+          <summary>v1 和 v2 该装哪个？</summary>
+          <p>新项目直接用 v2。两者共用 <code>opencode</code> 命令、默认不能并存，安装脚本地址也不一样（v2 为 <code>https://opencode.ai/v2/install</code>）。从 v1 迁移前请先读官方迁移指南。</p>
+        </details>
+        <details class="reveal">
+          <summary>需要什么基础？</summary>
+          <p>会用终端（cd、git 基本操作）就够了。真正的门槛不在工具，而在于能否把需求讲清楚——它更像个执行力很强但需要上下文的同事。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta">
+    <div class="wrap cta-inner reveal">
+      <h2>现在就在终端里敲下 opencode</h2>
+      <p>免费模型已经内置，先跑起来，再决定要不要接自己的模型。</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://opencode.ai/docs/zh-cn/" target="_blank" rel="noopener noreferrer">阅读官方中文文档 ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener noreferrer">查看源码 ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-about">
+      <a class="brand" href="#top">
+        <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M8 16.5V8h8" fill="none" stroke="currentColor" stroke-width="2.2"/>
+        </svg>
+        <span class="brand-name">OpenCode</span>
+      </a>
+      <p>一份第三方整理的中文介绍页，不是官方站点。事实与数据核对于 2026-10-23，命令与功能可能随版本变化，请以官方文档为准。</p>
+    </div>
+    <nav class="footer-links" aria-label="参考链接">
+      <div>
+        <h4>官方</h4>
+        <a href="https://opencode.ai" target="_blank" rel="noopener noreferrer">官网</a>
+        <a href="https://opencode.ai/docs/zh-cn/" target="_blank" rel="noopener noreferrer">中文文档</a>
+        <a href="https://opencode.ai/v2/docs" target="_blank" rel="noopener noreferrer">V2 文档</a>
+        <a href="https://opencode.ai/docs/server" target="_blank" rel="noopener noreferrer">Server API</a>
+      </div>
+      <div>
+        <h4>社区</h4>
+        <a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://opencode.ai/discord" target="_blank" rel="noopener noreferrer">Discord</a>
+        <a href="https://x.com/opencode" target="_blank" rel="noopener noreferrer">X / Twitter</a>
+        <a href="https://opencode.ai/changelog" target="_blank" rel="noopener noreferrer">更新日志</a>
+      </div>
+    </nav>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 本页作者 · 内容以 MIT 开源的 OpenCode 为介绍对象</span>
+    <a href="#top">回到顶部 ↑</a>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>
