@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js DOM</title>
+</head>
+<body>
+    <div id="box1">这是一个ID</div>
+    <div class="box2">这是一个类选择器标签</div>
+    <div>平平无奇的标签</div>
+    <button>点击送福利</button>
+    <script>
+        var z =document.getElementById('box1');
+        console.log(z);
+        var x =document.getElementsByClassName('box2')[0];
+        console.log(x);
+        var y =document.getElementsByTagName('div')[2];
+        console.log(y);
+        z.innerHTML = '<a href="#">时空隧道</a>';
+        x.innerText = '<a href="#">时空隧道</a>';
+        y.style.color = 'red'
+        y.style.fontSize = '50px'
+        //dom
+        var b = document.getElementsByTagName('button')[0];
+         console.log(b);
+        b.onclick = function(){
+            alert('nb666');
+        };
+        b.addEventListener('click',sb)
+        function sb(){
+            alert('nb666 2');
+        }
+
+
+    </script>
+</body>
+</html>

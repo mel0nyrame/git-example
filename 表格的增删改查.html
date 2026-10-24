@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表格的增删改查</title>
+    <style>
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1px;
+        }
+        th,td{
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; font-family: 'kaiti'" >表格的增删改查</h1>
+    <h2>表格如下</h2>
+    <button onclick='addshuju()'>增加行数</button>
+    <table id="table">
+        <tr>
+            <th>姓名</th>
+            <th>班级</th>
+            <th>报销资金</th>
+            <th>用途</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <td>银桑</td>
+            <td>三年八班</td>
+            <td>114514w</td>
+            <td>买jump</td>
+            <td>
+                <button onclick="editshuju(this)">wok!jump必须给</button>
+                <button onclick='deleteshuju(this)'>不买草莓牛奶不批</button>
+                
+            </td>
+        </tr>
+    </table>
+    <script src="./js/表格js.js"></script>
+</body>
+</html> 
