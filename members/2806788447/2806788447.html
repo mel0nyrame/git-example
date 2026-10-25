@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>学习目标 · 2806788447</title>
+    <script>
+        /* 最先执行：在首屏绘制前确定主题，避免闪屏。
+           localStorage 在 file:// 下可能被浏览器禁用，故全部用 try/catch 包裹。 */
+        (function () {
+            var prefersDark = false;
+            try {
+                prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            } catch (e) { prefersDark = false; }
+
+            var theme = prefersDark ? 'dark' : 'light';
+            try {
+                var saved = window.localStorage.getItem('hello-theme');
+                if (saved === 'light' || saved === 'dark') { theme = saved; }
+            } catch (e) { /* 存储不可用时忽略，仅影响“记住上次选择” */ }
+
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <style>
+        /* ===== 主题变量：浅色（默认） ===== */
+        :root {
+            color-scheme: light;
+            --bg: #f4f6fb;
+            --surface: #ffffff;
+            --surface-2: #eef2f8;
+            --text: #1f2937;
+            --text-muted: #4a5568;
+            --border: #d6dee9;
+            --accent: #0b5cab;
+            --pill-bg: #dbeafe;
+            --pill-text: #0b3d75;
+            --badge-bg: #0b5cab;
+            --badge-text: #ffffff;
+            --btn-bg: #e7edf6;
+            --btn-bg-hover: #d8e3f2;
+            --btn-text: #1f2937;
+            --focus: #0b5cab;
+            --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 10px 26px rgba(16, 24, 40, .07);
+            --radius: 14px;
+        }
+
+        /* ===== 主题变量：深色 ===== */
+        html[data-theme="dark"] {
+            color-scheme: dark;
+            --bg: #0f172a;
+            --surface: #1b2536;
+            --surface-2: #22304a;
+            --text: #e9eff8;
+            --text-muted: #adbacd;
+            --border: #34415c;
+            --accent: #7cc4ff;
+            --pill-bg: #14324f;
+            --pill-text: #d3e9ff;
+            --badge-bg: #7cc4ff;
+            --badge-text: #0b2545;
+            --btn-bg: #27344b;
+            --btn-bg-hover: #33425f;
+            --btn-text: #e9eff8;
+            --focus: #7cc4ff;
+            --shadow: 0 1px 2px rgba(0, 0, 0, .45), 0 10px 26px rgba(0, 0, 0, .40);
+        }
+
+        /* ===== 基础样式 ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: clamp(0.75rem, 4vw, 2rem);
+            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+            font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+            line-height: 1.7;
+            overflow-x: hidden;
+            overflow-wrap: anywhere;
+            transition: background-color .25s ease, color .25s ease;
+        }
+
+        .wrap {
+            max-width: 40rem;
+            margin: 0 auto;
+        }
+
+        /* ===== 顶部：昵称 + 主题切换按钮 ===== */
+        .page-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            padding: clamp(.9rem, 3vw, 1.4rem);
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: background-color .25s ease, border-color .25s ease;
+        }
+
+        .who {
+            flex: 1 1 11rem;
+            min-width: 0;
+        }
+
+        .who .label {
+            margin: 0;
+            font-size: .8rem;
+            letter-spacing: .1em;
+            color: var(--text-muted);
+        }
+
+        .who .name {
+            margin: .2rem 0 0;
+            font-size: clamp(1.25rem, 5.5vw, 1.6rem);
+            line-height: 1.25;
+        }
+
+        .theme-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+            flex: 0 0 auto;
+            min-height: 44px;
+            padding: .55rem .9rem;
+            font-family: inherit;
+            font-size: .95rem;
+            line-height: 1;
+            color: var(--btn-text);
+            background-color: var(--btn-bg);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+        }
+
+        .theme-btn:hover {
+            background-color: var(--btn-bg-hover);
+        }
+
+        .theme-btn:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 2px;
+        }
+
+        .theme-btn .icon {
+            display: block;
+            width: 1.15em;
+            height: 1.15em;
+        }
+
+        .theme-btn .label-sun {
+            display: none;
+        }
+
+        html[data-theme="dark"] .theme-btn .icon-sun {
+            display: block;
+        }
+
+        html[data-theme="dark"] .theme-btn .icon-moon {
+            display: none;
+        }
+
+        html[data-theme="dark"] .theme-btn .label-sun {
+            display: inline;
+        }
+
+        html[data-theme="dark"] .theme-btn .label-moon {
+            display: none;
+        }
+
+        /* ===== 内容卡片 ===== */
+        main {
+            display: grid;
+            gap: clamp(.9rem, 3.5vw, 1.4rem);
+            margin-top: clamp(.9rem, 3.5vw, 1.4rem);
+        }
+
+        .card {
+            padding: clamp(.9rem, 3vw, 1.4rem);
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: background-color .25s ease, border-color .25s ease;
+        }
+
+        .card h2 {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin: 0 0 .8rem;
+            font-size: clamp(1.05rem, 3.8vw, 1.2rem);
+        }
+
+        .card h2::before {
+            content: "";
+            flex: 0 0 auto;
+            width: .3rem;
+            height: 1.05em;
+            border-radius: 999px;
+            background-color: var(--accent);
+        }
+
+        .pill {
+            display: inline-block;
+            margin: 0;
+            padding: .32rem .85rem;
+            font-weight: 600;
+            color: var(--pill-text);
+            background-color: var(--pill-bg);
+            border-radius: 999px;
+        }
+
+        /* ===== 学习目标列表 ===== */
+        .goals {
+            counter-reset: goal;
+            display: grid;
+            gap: .6rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .goals li {
+            display: flex;
+            align-items: flex-start;
+            gap: .7rem;
+            min-width: 0;
+            padding: .75rem .85rem;
+            background-color: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: background-color .25s ease, border-color .25s ease;
+        }
+
+        .goals li::before {
+            counter-increment: goal;
+            content: counter(goal);
+            flex: 0 0 auto;
+            display: grid;
+            place-items: center;
+            width: 1.7rem;
+            height: 1.7rem;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--badge-text);
+            background-color: var(--badge-bg);
+            border-radius: 50%;
+        }
+
+        .goal-text {
+            min-width: 0;
+        }
+
+        /* ===== 底部提示 ===== */
+        .hint {
+            margin: clamp(1rem, 4vw, 1.4rem) 0 0;
+            font-size: .85rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="page-header">
+            <div class="who">
+                <p class="label">昵称</p>
+                <h1 class="name">2806788447</h1>
+            </div>
+            <button id="themeBtn" class="theme-btn" type="button" aria-pressed="false" aria-label="切换到深色模式">
+                <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d="M12.5 2.5A9.5 9.5 0 1 0 21.5 12a7.5 7.5 0 0 1-9-9.5z" />
+                </svg>
+                <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="12" r="4.2" fill="currentColor" />
+                    <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                        <path
+                            d="M12 2.2v2.6M12 19.2v2.6M2.2 12h2.6M19.2 12h2.6M5.1 5.1l1.9 1.9M17 17l1.9 1.9M18.9 5.1L17 7M7 17l-1.9 1.9" />
+                    </g>
+                </svg>
+                <span class="label-moon">深色模式</span>
+                <span class="label-sun">浅色模式</span>
+            </button>
+        </header>
+
+        <main>
+            <section class="card">
+                <h2>学习方向</h2>
+                <p class="pill">正在探索</p>
+            </section>
+
+            <section class="card">
+                <h2>学习目标</h2>
+                <ol class="goals">
+                    <li><span class="goal-text">学会使用 Git 管理改动</span></li>
+                    <li><span class="goal-text">学会通过 PR 参与协作</span></li>
+                </ol>
+            </section>
+        </main>
+
+        <p class="hint">提示：点击右上角按钮可在“深色模式”与“浅色模式”之间来回切换。</p>
+    </div>
+
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var btn = document.getElementById('themeBtn');
+            if (!root || !btn) { return; }
+
+            function current() {
+                return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            }
+
+            function paint() {
+                var t = current();
+                btn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+                btn.title = t === 'dark' ? '切换到浅色模式' : '切换到深色模式';
+                btn.setAttribute('aria-label', t === 'dark'
+                    ? '切换到浅色模式（当前：深色模式）'
+                    : '切换到深色模式（当前：浅色模式）');
+            }
+
+            btn.addEventListener('click', function () {
+                var next = current() === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                try { window.localStorage.setItem('hello-theme', next); } catch (e) { /* 忽略 */ }
+                paint();
+            });
+
+            paint();
+        })();
+    </script>
+</body>
+
+</html>

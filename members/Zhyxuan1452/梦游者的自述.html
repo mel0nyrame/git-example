@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#221a63">
+<title>这是一个梦游者的自述</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='82' font-size='82'>🌙</text></svg>">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    color: rgba(255, 255, 255, 0.88);
+    background: linear-gradient(165deg, #0e1747 0%, #221a63 38%, #452583 70%, #6a37a6 100%) fixed;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── 梦幻背景层：极光 / 星空 / 光晕 / 月亮 ─────────────── */
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(58% 46% at 18% 14%, rgba(94, 110, 245, .38), transparent 68%),
+      radial-gradient(52% 44% at 86% 22%, rgba(178, 102, 255, .34), transparent 68%),
+      radial-gradient(72% 58% at 50% 112%, rgba(76, 201, 255, .20), transparent 70%);
+    animation: aurora 20s ease-in-out infinite alternate;
+  }
+  @keyframes aurora {
+    from { filter: hue-rotate(0deg) brightness(1); }
+    to   { filter: hue-rotate(22deg) brightness(1.08); }
+  }
+
+  #sky { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(70px); opacity: .45; pointer-events: none; z-index: 1;
+  }
+  .orb-a {
+    width: 46vmin; height: 46vmin; left: -10vmin; top: 6vh;
+    background: radial-gradient(circle, rgba(105, 90, 255, .75), transparent 70%);
+    animation: driftA 26s ease-in-out infinite alternate;
+  }
+  .orb-b {
+    width: 40vmin; height: 40vmin; right: -12vmin; top: 32vh;
+    background: radial-gradient(circle, rgba(190, 110, 255, .6), transparent 70%);
+    animation: driftB 32s ease-in-out infinite alternate;
+  }
+  .orb-c {
+    width: 52vmin; height: 52vmin; left: 28vw; bottom: -20vmin;
+    background: radial-gradient(circle, rgba(90, 200, 255, .42), transparent 70%);
+    animation: driftC 38s ease-in-out infinite alternate;
+  }
+  @keyframes driftA { to { transform: translate(7vmin, 5vh) scale(1.12); } }
+  @keyframes driftB { to { transform: translate(-6vmin, -6vh) scale(1.15); } }
+  @keyframes driftC { to { transform: translate(5vmin, -4vh) scale(1.08); } }
+
+  .moon {
+    position: fixed; top: 9vh; right: 10vw; z-index: 1;
+    width: 9vmin; height: 9vmin; border-radius: 50%;
+    background: radial-gradient(circle at 38% 36%, #ffffff, #ded7ff 58%, rgba(205, 195, 255, 0) 100%);
+    box-shadow: 0 0 60px 18px rgba(222, 212, 255, .28);
+    opacity: .9; pointer-events: none;
+    animation: moonFloat 14s ease-in-out infinite alternate;
+  }
+  @keyframes moonFloat { to { transform: translateY(2.4vh); } }
+
+  /* ── 前头（信封封面）────────────────────────────────── */
+  #hero {
+    position: fixed; inset: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    will-change: transform;
+    transition: transform 1.05s cubic-bezier(.58, .01, .96, .44); /* 先慢后快：向上加速 */
+  }
+  #hero.leave { transform: translateY(-130vh); }
+
+  .hero-frame {
+    position: absolute; inset: 4.5vmin; pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, .14); border-radius: 20px;
+  }
+  .hero-frame::after {
+    content: ""; position: absolute; inset: 6px;
+    border-radius: 14px; border: 1px solid rgba(255, 255, 255, .06);
+  }
+
+  .hero-inner {
+    display: flex; flex-direction: column; align-items: center;
+    gap: clamp(34px, 8.5vh, 96px);   /* 标题与按钮之间留空 */
+    padding: 0 6vw; text-align: center;
+  }
+  h1 {
+    font-family: "KaiTi", "楷体", "STKaiti", "Microsoft YaHei", serif;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 8vh, 4.4rem);
+    letter-spacing: .26em; padding-left: .26em; /* 修正字距导致的视觉偏移 */
+    color: rgba(255, 255, 255, .94);
+    text-shadow: 0 0 18px rgba(160, 130, 255, .55),
+                 0 0 55px rgba(120, 90, 255, .35),
+                 0 2px 12px rgba(20, 10, 60, .5);
+  }
+
+  #startBtn {
+    display: inline-flex; align-items: center; gap: .9em;
+    font-family: inherit; font-size: clamp(1rem, 2.5vh, 1.25rem);
+    letter-spacing: .28em; padding: 1.6vh 2.5em 1.6vh 2.78em;
+    color: rgba(255, 255, 255, .92);
+    background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .34);
+    border-radius: 999px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    box-shadow: 0 0 24px rgba(140, 105, 255, .30), inset 0 0 16px rgba(255, 255, 255, .05);
+    transition: transform .35s ease, box-shadow .35s ease, background .35s ease;
+    animation: breathe 3.6s ease-in-out infinite;
+  }
+  #startBtn .spark {
+    font-size: .85em; color: rgba(255, 255, 255, .7); letter-spacing: 0;
+    animation: sparkle 2.8s linear infinite;
+  }
+  #startBtn:hover {
+    background: rgba(255, 255, 255, .15);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 0 42px rgba(160, 120, 255, .55), inset 0 0 20px rgba(255, 255, 255, .10);
+  }
+  #startBtn:active { transform: scale(.97); }
+  @keyframes breathe {
+    0%, 100% { box-shadow: 0 0 20px rgba(140, 105, 255, .25), inset 0 0 14px rgba(255, 255, 255, .05); }
+    50%      { box-shadow: 0 0 38px rgba(150, 115, 255, .50), inset 0 0 18px rgba(255, 255, 255, .09); }
+  }
+  @keyframes sparkle {
+    0%, 100% { opacity: .4; transform: scale(.85) rotate(0deg); }
+    50%      { opacity: 1;  transform: scale(1.15) rotate(45deg); }
+  }
+
+  /* ── 内容（信纸）───────────────────────────────────── */
+  #content {
+    position: relative; z-index: 5;
+    height: 100vh; min-height: 560px;
+    display: grid;
+    grid-template-columns: 3fr 2fr;      /* 自我介绍约占 3/5，偏左上 */
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 2.4vh 2vw;
+    padding: 7vh 4.5vw 6vh;
+    opacity: 0; pointer-events: none;
+  }
+  #content.show { opacity: 1; pointer-events: auto; }
+
+  .card {
+    background: rgba(255, 255, 255, .075);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 20px;
+    padding: clamp(18px, 3.2vh, 34px) clamp(20px, 2.4vw, 40px);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 14px 40px rgba(10, 8, 46, .38);
+    opacity: 0; transform: translateY(48px) scale(.985);
+    transition: opacity .85s ease, transform .85s cubic-bezier(.18, .75, .28, 1);
+  }
+  #content.show .card { opacity: 1; transform: none; }
+  #content.show .intro { transition-delay: .12s; }
+  #content.show .goals { transition-delay: .28s; }
+  #content.show .quote { transition-delay: .44s; }
+
+  .card h2 {
+    font-family: "KaiTi", "楷体", "STKaiti", "Microsoft YaHei", serif;
+    font-weight: 400;
+    font-size: clamp(1.15rem, 3vh, 1.6rem);
+    letter-spacing: .3em;
+    color: rgba(255, 255, 255, .92);
+    margin-bottom: 2.2vh;
+  }
+  .card h2 .deco { margin-right: .5em; color: rgba(190, 160, 255, .8); font-size: .8em; }
+  .card h2::after {
+    content: ""; display: block; width: 3.5em; height: 1px; margin-top: 1.1vh;
+    background: linear-gradient(90deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, 0));
+  }
+
+  .card ul { list-style: none; }
+  .card li {
+    font-size: clamp(.95rem, 2.25vh, 1.2rem);
+    line-height: 2.05;
+    color: rgba(255, 255, 255, .85);
+    opacity: 0; transform: translateY(14px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .card li::before {
+    content: "✦"; font-size: .68em; margin-right: .8em;
+    color: rgba(190, 160, 255, .75);
+  }
+  #content.show li { opacity: 1; transform: none; }
+  #content.show li:nth-child(1) { transition-delay: .55s; }
+  #content.show li:nth-child(2) { transition-delay: .65s; }
+  #content.show li:nth-child(3) { transition-delay: .75s; }
+  #content.show li:nth-child(4) { transition-delay: .85s; }
+  #content.show li:nth-child(5) { transition-delay: .95s; }
+
+  .quote {
+    grid-column: 1 / -1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .quote h2::after {
+    margin: 1.1vh auto 0; width: 8em;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
+  }
+  .quote-text {
+    font-family: "KaiTi", "楷体", "STKaiti", "Microsoft YaHei", serif;
+    font-size: clamp(1.25rem, 3.6vh, 2rem);
+    letter-spacing: .14em; line-height: 1.8;
+    color: rgba(255, 255, 255, .93);
+    text-shadow: 0 0 22px rgba(170, 140, 255, .5);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  #content.show .quote-text { opacity: 1; transform: none; transition-delay: 1s; }
+  .quote-text::before { content: "「"; margin-right: .4em; color: rgba(255, 255, 255, .5); }
+  .quote-text::after  { content: "」"; margin-left:  .4em; color: rgba(255, 255, 255, .5); }
+
+  /* ── 细节 ──────────────────────────────────────────── */
+  ::selection { background: rgba(255, 255, 255, .25); }
+  :focus-visible { outline: 2px solid rgba(255, 255, 255, .6); outline-offset: 3px; border-radius: 6px; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .18); border-radius: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  @media (max-width: 880px) {
+    body { overflow-y: auto; }
+    #content {
+      height: auto; grid-template-columns: 1fr; grid-template-rows: none;
+      padding: 5vh 6vw 8vh;
+    }
+    .quote { grid-column: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .15s !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+<div class="orb orb-c"></div>
+<div class="moon"></div>
+<canvas id="sky"></canvas>
+
+<!-- 前头：信封封面 -->
+<section id="hero" aria-label="封面">
+  <div class="hero-frame"></div>
+  <div class="hero-inner">
+    <h1>这是一个梦游者的自述</h1>
+    <button id="startBtn" type="button"><span class="spark">✦</span>开始探索</button>
+  </div>
+</section>
+
+<!-- 内容：信纸 -->
+<main id="content" aria-label="内容">
+  <section class="card intro">
+    <h2><span class="deco">❋</span>自我介绍</h2>
+    <ul>
+      <li>大一新生，好奇心旺盛；</li>
+      <li>喜欢电子竞技，有强烈的好胜心；</li>
+      <li>常用ai，享受时代便利的同时也有对探索ai工具的未来可能的向往；</li>
+      <li>是一个音乐小子，对生活抱有期望</li>
+    </ul>
+  </section>
+
+  <section class="card goals">
+    <h2><span class="deco">✧</span>未来目标</h2>
+    <ul>
+      <li>在大学期间积累运维知识，奠定基础；</li>
+      <li>最好能跟随团队竞赛，积累经验；</li>
+      <li>以后做出一款自己喜欢的游戏或与志同道合者共同研发；</li>
+      <li>收获百万地球online货币，富甲一方；</li>
+      <li>最后称霸全世界</li>
+    </ul>
+  </section>
+
+  <section class="card quote">
+    <h2><span class="deco">✦</span>给自己的一句话</h2>
+    <p class="quote-text">生活百味，道路千条，追寻自己，就是你的成功。</p>
+  </section>
+</main>
+
+<noscript>
+  <style>#content { opacity: 1; pointer-events: auto; } #hero { display: none; }</style>
+</noscript>
+
+<script>
+(function () {
+  /* ── 拆信转场 ── */
+  var hero = document.getElementById('hero');
+  var btn = document.getElementById('startBtn');
+  var content = document.getElementById('content');
+
+  btn.addEventListener('click', function () {
+    if (hero.classList.contains('leave')) return;
+    hero.classList.add('leave');                       // 封面向上加速飞出
+    setTimeout(function () { content.classList.add('show'); }, 550); // 信纸渐显
+    setTimeout(function () { hero.style.visibility = 'hidden'; }, 1200);
+  });
+
+  /* ── 星空 · 流星 ── */
+  var canvas = document.getElementById('sky');
+  var ctx = canvas.getContext('2d');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var stars = [], meteors = [], w = 0, h = 0;
+  var lastMeteor = performance.now() + 2500;
+  var meteorGap = 5000;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    stars = [];
+    var count = Math.round((w * h) / 9000);
+    for (var i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * w, y: Math.random() * h,
+        r: Math.random() * 1.4 + 0.3,
+        p: Math.random() * Math.PI * 2,
+        s: 0.008 + Math.random() * 0.02,
+        vy: 0.02 + Math.random() * 0.06
+      });
+    }
+  }
+
+  function drawStar(st, alpha) {
+    ctx.beginPath();
+    ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,' + alpha.toFixed(3) + ')';
+    ctx.fill();
+  }
+
+  function spawnMeteor() {
+    meteors.push({
+      x: Math.random() * w * 0.8 + w * 0.1, y: -20,
+      vx: -(1.8 + Math.random() * 1.6),
+      vy: 2.6 + Math.random() * 1.8,
+      life: 1
+    });
+  }
+
+  function tick(t) {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < stars.length; i++) {
+      var st = stars[i];
+      st.p += st.s; st.y += st.vy;
+      if (st.y > h + 4) { st.y = -4; st.x = Math.random() * w; }
+      drawStar(st, 0.35 + 0.45 * (0.5 + 0.5 * Math.sin(st.p)));
+    }
+    if (t - lastMeteor > meteorGap) {
+      spawnMeteor();
+      lastMeteor = t;
+      meteorGap = 4500 + Math.random() * 6000;
+    }
+    ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+    for (var j = meteors.length - 1; j >= 0; j--) {
+      var m = meteors[j];
+      m.x += m.vx; m.y += m.vy; m.life -= 0.008;
+      if (m.life <= 0 || m.y > h + 40 || m.x < -80) { meteors.splice(j, 1); continue; }
+      var tx = m.x - m.vx * 26, ty = m.y - m.vy * 26;
+      var grad = ctx.createLinearGradient(m.x, m.y, tx, ty);
+      grad.addColorStop(0, 'rgba(255,255,255,' + (0.85 * m.life).toFixed(3) + ')');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = grad;
+      ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(tx, ty); ctx.stroke();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  if (reduced) {
+    for (var k = 0; k < stars.length; k++) drawStar(stars[k], 0.55);
+  } else {
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>

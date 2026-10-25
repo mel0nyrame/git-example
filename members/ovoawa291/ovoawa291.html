@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>区楚轩 · 个人简介</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-hover: #16203a;
+    --neon: #00e5ff;
+    --neon-2: #7c4dff;
+    --text: #e5e9f0;
+    --text-dim: #8b96ad;
+    --border: rgba(0, 229, 255, 0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  /* ---------- 背景网格与光晕 ---------- */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-1 { width: 480px; height: 480px; background: var(--neon); top: -140px; right: -100px; }
+  .glow-2 { width: 420px; height: 420px; background: var(--neon-2); bottom: -120px; left: -100px; }
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  /* ---------- 顶部 Hero ---------- */
+  header {
+    text-align: center;
+    padding: 90px 0 60px;
+  }
+  .avatar {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+    border: 3px solid rgba(0, 229, 255, 0.8);
+    box-shadow: 0 0 40px rgba(0, 229, 255, 0.45);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(0, 229, 255, 0.35); }
+    50%      { box-shadow: 0 0 55px rgba(124, 77, 255, 0.55); }
+  }
+  h1 {
+    font-size: 42px;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, var(--neon), var(--neon-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .tagline {
+    margin-top: 10px;
+    color: var(--text-dim);
+    font-size: 17px;
+  }
+  .tagline .cursor {
+    display: inline-block;
+    width: 9px;
+    color: var(--neon);
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .badges {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--neon);
+    background: rgba(0, 229, 255, 0.06);
+  }
+  /* ---------- 通用 Section ---------- */
+  section { margin-top: 64px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 24px;
+    margin-bottom: 26px;
+  }
+  .section-title::before {
+    content: "";
+    width: 6px;
+    height: 26px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, var(--neon), var(--neon-2));
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+  }
+  .section-title .en {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    background: var(--bg-card-hover);
+    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.12);
+  }
+  /* ---------- 关于我 ---------- */
+  .about p { color: var(--text); margin-bottom: 12px; }
+  .about p:last-child { margin-bottom: 0; }
+  .highlight { color: var(--neon); font-weight: 600; }
+  /* ---------- 技能 ---------- */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+  }
+  .skill-card h3 {
+    font-size: 17px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .skill-card h3 .icon { font-size: 20px; }
+  .skill-card p { font-size: 14px; color: var(--text-dim); }
+  .bar {
+    margin-top: 14px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+  }
+  .bar > i {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--neon), var(--neon-2));
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+    width: 0;
+    animation: fill 1.4s ease forwards 0.3s;
+  }
+  @keyframes fill { to { width: var(--w); } }
+  /* ---------- 兴趣爱好 ---------- */
+  .hobby-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+  }
+  .hobby-card {
+    text-align: center;
+    padding: 36px 24px;
+  }
+  .hobby-card .icon {
+    font-size: 46px;
+    display: block;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.4));
+  }
+  .hobby-card h3 { font-size: 18px; margin-bottom: 8px; }
+  .hobby-card p { font-size: 14px; color: var(--text-dim); }
+  /* ---------- 页脚 ---------- */
+  footer {
+    margin-top: 80px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  footer .line {
+    width: 60%;
+    max-width: 420px;
+    height: 1px;
+    margin: 0 auto 18px;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    opacity: 0.4;
+  }
+  @media (max-width: 600px) {
+    h1 { font-size: 32px; }
+    header { padding: 60px 0 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="container">
+  <!-- ===== 顶部 ===== -->
+  <header>
+    <img class="avatar" src="avatar.jpg" alt="区楚轩的头像"
+         onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='file:///C:/Users/Administrator/AppData/Roaming/dsh-desktop/harness/attachments/v1/objects/7b/7bc0146b2bd32641cd6903d8fed07e04e88e127e671bb1fc981a384dce97971d';}else if(this.dataset.fb==='1'){this.dataset.fb='2';this.src='file:///C:/Users/Administrator/.local/state/billion-context/retrieve/img/session-ccc99947-199e-4e16-acfe-c22a8b7f294b/m00017-7bc0146b.jpg';}">
+    <h1>区楚轩</h1>
+    <p class="tagline">
+      <span id="typed"></span><span class="cursor">▌</span>
+    </p>
+    <div class="badges">
+      <span class="badge">🎓 广东海洋大学</span>
+      <span class="badge">💻 计算机科学与技术 · 计科4263</span>
+      <span class="badge">🚀 Git / GitHub 学习中</span>
+    </div>
+  </header>
+  <!-- ===== 关于我 ===== -->
+  <section>
+    <h2 class="section-title">关于我 <span class="en">About Me</span></h2>
+    <div class="card about">
+      <p>大家好，我是<span class="highlight">区楚轩</span>，来自<span class="highlight">广东海洋大学</span>计科4263班，一名热爱技术的计算机专业学生。</p>
+      <p>目前我正在系统学习 <span class="highlight">Git 版本控制</span>与 <span class="highlight">GitHub 多人协同开发</span>，希望掌握团队协作开发的核心工作流，为将来参与开源项目和团队工程打下基础。</p>
+      <p>同时对 <span class="highlight">人工智能的应用</span>充满兴趣，喜欢探索 AI 技术在实际场景中的落地方式。课余时间，我是一名<span class="highlight">排球爱好者</span>——代码与球场，都是我的主场。</p>
+    </div>
+  </section>
+  <!-- ===== 技能特长 ===== -->
+  <section>
+    <h2 class="section-title">技能特长 <span class="en">Skills</span></h2>
+    <div class="skills-grid">
+      <div class="card skill-card">
+        <h3><span class="icon">🌿</span>Git 版本控制</h3>
+        <p>正在学习分支管理、提交规范与合并冲突处理，逐步掌握版本控制的完整工作流。</p>
+        <div class="bar"><i style="--w: 60%"></i></div>
+      </div>
+      <div class="card skill-card">
+        <h3><span class="icon">🤝</span>GitHub 协同开发</h3>
+        <p>学习多人协作模式：Fork、Pull Request、Issue 跟踪与团队代码评审流程。</p>
+        <div class="bar"><i style="--w: 50%"></i></div>
+      </div>
+      <div class="card skill-card">
+        <h3><span class="icon">🤖</span>AI 应用探索</h3>
+        <p>关注人工智能前沿动态，研究 AI 工具与模型在学习、开发和生活中的实际应用。</p>
+        <div class="bar"><i style="--w: 55%"></i></div>
+      </div>
+      <div class="card skill-card">
+        <h3><span class="icon">📚</span>计算机专业基础</h3>
+        <p>就读计算机科学与技术专业，持续夯实编程、数据结构与计算机系统基础。</p>
+        <div class="bar"><i style="--w: 65%"></i></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== 兴趣爱好 ===== -->
+  <section>
+    <h2 class="section-title">兴趣爱好 <span class="en">Hobbies</span></h2>
+    <div class="hobby-grid">
+      <div class="card hobby-card">
+        <span class="icon">🏐</span>
+        <h3>排球</h3>
+        <p>喜欢打排球，享受团队配合与每一次扣球的瞬间，运动让我保持专注与活力。</p>
+      </div>
+      <div class="card hobby-card">
+        <span class="icon">🧠</span>
+        <h3>研究 AI 应用</h3>
+        <p>热衷于尝试各类 AI 工具，思考人工智能如何提升效率、改变学习与工作方式。</p>
+      </div>
+      <div class="card hobby-card">
+        <span class="icon">⌨️</span>
+        <h3>折腾新技术</h3>
+        <p>乐于动手实践，从 Git 到协同开发，边学边做，把新知识变成真技能。</p>
+      </div>
+    </div>
+  </section>
+  <!-- ===== 页脚 ===== -->
+  <footer>
+    <div class="line"></div>
+    <p>© 2026 区楚轩 · 广东海洋大学 计科4263</p>
+    <p style="margin-top:6px; opacity:.7;">Keep Coding, Keep Spiking. 🏐</p>
+  </footer>
+</div>
+<script>
+  // 打字机效果
+  const texts = [
+    "广东海洋大学 · 计科4263",
+    "正在学习 Git & GitHub 协同开发",
+    "排球爱好者 | AI 应用探索者"
+  ];
+  const el = document.getElementById("typed");
+  let ti = 0, ci = 0, deleting = false;
+  function tick() {
+    const full = texts[ti];
+    if (!deleting) {
+      ci++;
+      el.textContent = full.slice(0, ci);
+      if (ci === full.length) {
+        deleting = true;
+        return setTimeout(tick, 2000);
+      }
+      setTimeout(tick, 90);
+    } else {
+      ci--;
+      el.textContent = full.slice(0, ci);
+      if (ci === 0) {
+        deleting = false;
+        ti = (ti + 1) % texts.length;
+        return setTimeout(tick, 400);
+      }
+      setTimeout(tick, 40);
+    }
+  }
+  tick();
+</script>
+</body>
+</html>
