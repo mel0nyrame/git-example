@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)file:///D:/Desktop/agent-%E7%BB%83%E4%B9%A0/members/Starrism-8148/Starrism-8148.html -->
+<html lang="zh-CN" data-theme="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starrism-8148 · 个人介绍</title>
+<meta name="description" content="Starrism-8148（昵称 star）的个人介绍：学习方向嵌入式开发，学习目标为掌握 Git 基本操作并成功完成一次 PR。">
+<style>
+/* ==========================================================
+   基础重置
+   ========================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: clamp(0.9375rem, 0.9rem + 0.18vw, 1.0625rem);
+  line-height: 1.75;
+  color: var(--text);
+  background-color: var(--page-bg);
+  background-image: var(--page-grad);
+  background-attachment: fixed;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  transition: background-color .25s ease, color .25s ease;
+}
+
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+/* ==========================================================
+   主题变量：浅色（默认）
+   ========================================================== */
+/* ==========================================================
+   配色：冷调夜空三色（靛蓝 / 紫罗兰 / 青），不使用暖色，避免高饱和
+   ========================================================== */
+:root {
+  color-scheme: light;
+
+  --page-bg:     #eceff7;
+  --page-grad:   radial-gradient(1100px 620px at 12% -8%, #dfe3fb 0%, rgba(223,227,251,0) 62%),
+                 radial-gradient(900px 560px at 100% 0%, #dcf0f4 0%, rgba(220,240,244,0) 60%);
+  --surface:     #ffffff;
+  --surface-alt: #f3f5fb;
+  --text:        #1a2030;
+  --muted:       #545c73;
+  --accent:      #4a5bd6;   /* 主色：靛蓝 */
+  --accent-2:    #6d4fc4;   /* 辅色：紫罗兰 */
+  --accent-3:    #1f7a80;   /* 点缀：青 */
+  --accent-soft:   #e9ebfb;
+  --accent-soft-2: #f0e9fb;
+  --accent-soft-3: #e2f1f3;
+  --accent-text:   #3a49bd;
+  --accent-2-text: #5a3fae;
+  --accent-3-text: #1f6f74;
+  --on-accent:     #ffffff;
+  --border:      #dde1ee;
+  --border-str:  #c7cde3;
+  --shadow:      0 10px 28px rgba(30, 36, 78, .12);
+  --focus:       #4a5bd6;
+}
+
+/* 跟随系统（未显式选择时） */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page-bg:     #0c1020;
+    --page-grad:   radial-gradient(1100px 620px at 12% -8%, #1a2044 0%, rgba(26,32,68,0) 62%),
+                   radial-gradient(900px 560px at 100% 0%, #123041 0%, rgba(18,48,65,0) 60%),
+                   radial-gradient(1.2px 1.2px at 28px 36px, rgba(255,255,255,.16) 50%, rgba(255,255,255,0) 51%),
+                   radial-gradient(1px 1px at 96px 124px, rgba(255,255,255,.10) 50%, rgba(255,255,255,0) 51%),
+                   radial-gradient(1.4px 1.4px at 160px 72px, rgba(210,225,255,.12) 50%, rgba(210,225,255,0) 51%);
+    --surface:     #161c33;
+    --surface-alt: #1d2440;
+    --text:        #eef1fb;
+    --muted:       #a9b2cd;
+    --accent:      #8b9cff;
+    --accent-2:    #b79cff;
+    --accent-3:    #5ecfc8;
+    --accent-soft:   #232a4d;
+    --accent-soft-2: #2b2450;
+    --accent-soft-3: #17363c;
+    --accent-text:   #a8b6ff;
+    --accent-2-text: #c9b6ff;
+    --accent-3-text: #6fd8d1;
+    --on-accent:     #141834;
+    --border:      #2a3252;
+    --border-str:  #3a4468;
+    --shadow:      0 10px 28px rgba(0, 0, 0, .45);
+    --focus:       #8b9cff;
+  }
+}
+
+/* 显式深色主题 */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg:     #0c1020;
+  --page-grad:   radial-gradient(1100px 620px at 12% -8%, #1a2044 0%, rgba(26,32,68,0) 62%),
+                 radial-gradient(900px 560px at 100% 0%, #123041 0%, rgba(18,48,65,0) 60%),
+                 radial-gradient(1.2px 1.2px at 28px 36px, rgba(255,255,255,.16) 50%, rgba(255,255,255,0) 51%),
+                 radial-gradient(1px 1px at 96px 124px, rgba(255,255,255,.10) 50%, rgba(255,255,255,0) 51%),
+                 radial-gradient(1.4px 1.4px at 160px 72px, rgba(210,225,255,.12) 50%, rgba(210,225,255,0) 51%);
+  --surface:     #161c33;
+  --surface-alt: #1d2440;
+  --text:        #eef1fb;
+  --muted:       #a9b2cd;
+  --accent:      #8b9cff;
+  --accent-2:    #b79cff;
+  --accent-3:    #5ecfc8;
+  --accent-soft:   #232a4d;
+  --accent-soft-2: #2b2450;
+  --accent-soft-3: #17363c;
+  --accent-text:   #a8b6ff;
+  --accent-2-text: #c9b6ff;
+  --accent-3-text: #6fd8d1;
+  --on-accent:     #141834;
+  --border:      #2a3252;
+  --border-str:  #3a4468;
+  --shadow:      0 10px 28px rgba(0, 0, 0, .45);
+  --focus:       #8b9cff;
+}
+
+/* ==========================================================
+   通用组件
+   ========================================================== */
+.wrap {
+  width: 100%;
+  max-width: 56rem;
+  margin-inline: auto;
+  padding-inline: clamp(0.875rem, 4vw, 1.75rem);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(1.1rem, 3.4vw, 1.9rem);
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
+  font-size: clamp(1.05rem, 1rem + .3vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--text);
+  margin-bottom: .9rem;
+}
+
+.card-title::before {
+  content: "";
+  flex: 0 0 auto;
+  width: .34rem;
+  height: 1.05em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  transform: translateY(.12em);
+}
+
+.lead {
+  color: var(--muted);
+  margin-top: .75rem;
+}
+
+a { color: var(--accent-text); }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ==========================================================
+   顶部：头像 / 名字 / 主题按钮
+   ========================================================== */
+.site-header {
+  padding-block: clamp(1.5rem, 5vw, 2.75rem) clamp(1rem, 3vw, 1.5rem);
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .9rem 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  min-width: 0;
+  flex: 1 1 14rem;
+}
+
+/* 随机星空头像：内容由脚本随机生成，样式只负责外框 */
+.starfield {
+  flex: 0 0 auto;
+  display: block;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid var(--border-str);
+  background: linear-gradient(160deg, #1b2144 0%, #251d4b 55%, #12333d 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07);
+}
+
+.brand-text { min-width: 0; }
+
+.brand-text h1 {
+  font-size: clamp(1.35rem, 1.15rem + .9vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: .01em;
+}
+
+.handle {
+  display: inline-block;
+  margin-top: .2rem;
+  font-size: .875rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin-top: .55rem;
+  padding: .18rem .6rem;
+  font-size: .8125rem;
+  border-radius: 999px;
+  color: var(--accent-2-text);
+  background: var(--accent-soft-2);
+  border: 1px solid var(--border-str);
+}
+
+.theme-toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .55rem .85rem;
+  font: inherit;
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-str);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .12s ease;
+}
+
+.theme-toggle:hover { background: var(--surface-alt); }
+.theme-toggle:active { transform: translateY(1px); }
+.theme-toggle .icon { width: 1.05rem; height: 1.05rem; flex: 0 0 auto; }
+.theme-toggle .label { white-space: nowrap; }
+
+/* 图标随主题切换 */
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+
+:root[data-theme="dark"] .icon-sun  { display: block; }
+:root[data-theme="dark"] .icon-moon { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-sun  { display: block; }
+  :root:not([data-theme="light"]) .icon-moon { display: none; }
+}
+
+/* ==========================================================
+   主体网格
+   ========================================================== */
+main { padding-bottom: clamp(1.5rem, 5vw, 2.5rem); }
+
+.grid {
+  display: grid;
+  gap: clamp(1rem, 2.6vw, 1.5rem);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 56rem) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .span-all { grid-column: 1 / -1; }
+}
+
+/* ==========================================================
+   学习方向
+   ========================================================== */
+.direction-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem .9rem;
+}
+
+.direction-name {
+  font-size: clamp(1.5rem, 1.25rem + 1.1vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: .01em;
+  color: var(--accent-text);
+  line-height: 1.25;
+}
+
+/* 支持渐变文字时用靛蓝→紫罗兰过渡，否则回退到纯色 */
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .direction-name {
+    background-image: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.direction-sub {
+  font-size: .9375rem;
+  color: var(--muted);
+}
+
+.reason {
+  margin-top: 1rem;
+  display: grid;
+  gap: .75rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 46rem) {
+  .reason { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.reason-item {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .9rem 1rem;
+}
+
+.reason-item h3 {
+  font-size: .9375rem;
+  font-weight: 700;
+  margin-bottom: .3rem;
+  color: var(--text);
+}
+
+.reason-item p {
+  font-size: .9375rem;
+  color: var(--muted);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 1.1rem;
+}
+
+/* 标签：靛蓝 / 紫罗兰 / 青 三色循环 */
+.tag {
+  font-size: .8125rem;
+  padding: .28rem .68rem;
+  border-radius: 999px;
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-str);
+}
+
+.tag:nth-child(3n+2) {
+  color: var(--accent-2-text);
+  background: var(--accent-soft-2);
+}
+
+.tag:nth-child(3n+3) {
+  color: var(--accent-3-text);
+  background: var(--accent-soft-3);
+}
+
+/* ==========================================================
+   学习目标
+   ========================================================== */
+.goals {
+  display: grid;
+  gap: .85rem;
+  counter-reset: goal;
+}
+
+.goal {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: .8rem;
+  padding: .95rem 1rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.goal-num {
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--on-accent);
+  background: linear-gradient(140deg, var(--accent), var(--accent-2));
+  border: none;
+}
+
+.goal-body { min-width: 0; }
+.goal-body p { font-size: 1rem; font-weight: 600; color: var(--text); }
+.goal-body span { display: block; margin-top: .25rem; font-size: .875rem; color: var(--muted); }
+
+.source-note {
+  margin-top: .9rem;
+  font-size: .8125rem;
+  color: var(--muted);
+}
+
+/* ==========================================================
+   关于我
+   ========================================================== */
+.about-list {
+  display: grid;
+  gap: .7rem;
+}
+
+.about-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+}
+
+.dot {
+  flex: 0 0 auto;
+  width: .5rem;
+  height: .5rem;
+  margin-top: .72rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.about-item:nth-child(3n+2) .dot { background: var(--accent-2); }
+.about-item:nth-child(3n+3) .dot { background: var(--accent-3); }
+
+.about-item p { min-width: 0; }
+.about-item strong { color: var(--text); }
+.about-item .muted { color: var(--muted); }
+
+/* ==========================================================
+   页脚
+   ========================================================== */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 1.25rem 2rem;
+  color: var(--muted);
+  font-size: .8125rem;
+}
+
+.site-footer p + p { margin-top: .35rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+<script>
+  /* 首屏前置设置主题，避免刷新时闪白/闪黑 */
+  (function () {
+    try {
+      var saved = localStorage.getItem('starrism-8148-theme');
+      if (saved !== 'light' && saved !== 'dark') {
+        saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+</head>
+
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <svg id="starfield" class="starfield" viewBox="0 0 100 100" role="img" aria-label="随机生成的星空图案" focusable="false"><defs><radialgradient id="neb-a"><stop offset="0%" stop-color="#6d4fc4" stop-opacity=".55"></stop><stop offset="100%" stop-color="#6d4fc4" stop-opacity="0"></stop></radialgradient><radialgradient id="neb-b"><stop offset="0%" stop-color="#1f7a80" stop-opacity=".45"></stop><stop offset="100%" stop-color="#1f7a80" stop-opacity="0"></stop></radialgradient></defs><ellipse cx="41.8" cy="31.3" rx="28.5" ry="27.1" fill="url(#neb-a)"></ellipse><ellipse cx="66.0" cy="71.4" rx="26.6" ry="22.4" fill="url(#neb-b)"></ellipse><circle cx="29.3" cy="3.4" r="0.60" fill="#d6f1f6" opacity="0.52"></circle><circle cx="24.7" cy="56.2" r="0.71" fill="#d6f1f6" opacity="0.32"></circle><circle cx="4.8" cy="50.5" r="0.98" fill="#d7e4ff" opacity="0.85"></circle><circle cx="71.0" cy="15.2" r="1.00" fill="#e9edff" opacity="0.74"></circle><circle cx="37.2" cy="44.9" r="0.50" fill="#e9edff" opacity="0.78"></circle><circle cx="93.4" cy="75.8" r="0.41" fill="#d6f1f6" opacity="0.78"></circle><circle cx="75.0" cy="10.5" r="0.25" fill="#d6f1f6" opacity="0.47"></circle><circle cx="85.4" cy="72.0" r="0.85" fill="#ffffff" opacity="0.52"></circle><circle cx="76.7" cy="45.5" r="0.63" fill="#f0eaff" opacity="0.70"></circle><circle cx="28.8" cy="54.9" r="0.28" fill="#ffffff" opacity="0.58"></circle><circle cx="79.0" cy="58.9" r="0.47" fill="#d7e4ff" opacity="0.66"></circle><circle cx="41.3" cy="99.6" r="0.47" fill="#f0eaff" opacity="0.95"></circle><circle cx="21.5" cy="49.3" r="0.66" fill="#f0eaff" opacity="0.63"></circle><circle cx="59.9" cy="28.0" r="0.89" fill="#d6f1f6" opacity="0.72"></circle><circle cx="16.7" cy="53.8" r="0.67" fill="#e9edff" opacity="0.88"></circle><circle cx="61.8" cy="38.6" r="0.35" fill="#d6f1f6" opacity="0.89"></circle><circle cx="77.9" cy="62.1" r="0.34" fill="#d7e4ff" opacity="0.33"></circle><circle cx="42.4" cy="81.6" r="0.60" fill="#ffffff" opacity="0.37"></circle><circle cx="3.6" cy="38.3" r="0.22" fill="#e9edff" opacity="0.46"></circle><circle cx="42.7" cy="95.3" r="0.48" fill="#d6f1f6" opacity="0.82"></circle><circle cx="95.5" cy="39.8" r="0.96" fill="#ffffff" opacity="0.42"></circle><circle cx="98.4" cy="23.8" r="0.74" fill="#f0eaff" opacity="0.42"></circle><circle cx="64.1" cy="61.9" r="0.67" fill="#e9edff" opacity="0.43"></circle><circle cx="69.8" cy="59.0" r="0.87" fill="#d6f1f6" opacity="0.44"></circle><circle cx="74.3" cy="62.7" r="0.40" fill="#ffffff" opacity="0.64"></circle><circle cx="83.3" cy="96.6" r="0.90" fill="#e9edff" opacity="0.47"></circle><circle cx="46.0" cy="16.4" r="0.83" fill="#d6f1f6" opacity="0.85"></circle><circle cx="66.3" cy="94.5" r="0.53" fill="#d7e4ff" opacity="0.46"></circle><circle cx="76.1" cy="18.1" r="0.38" fill="#d6f1f6" opacity="0.73"></circle><circle cx="19.6" cy="89.0" r="0.58" fill="#f0eaff" opacity="0.81"></circle><circle cx="28.6" cy="49.4" r="0.61" fill="#f0eaff" opacity="0.84"></circle><circle cx="3.2" cy="21.0" r="0.79" fill="#d6f1f6" opacity="0.62"></circle><circle cx="47.2" cy="73.7" r="0.56" fill="#f0eaff" opacity="0.52"></circle><circle cx="27.0" cy="50.8" r="0.84" fill="#f0eaff" opacity="0.65"></circle><circle cx="77.3" cy="62.7" r="0.72" fill="#e9edff" opacity="0.58"></circle><circle cx="34.6" cy="5.0" r="0.78" fill="#e9edff" opacity="0.51"></circle><circle cx="25.4" cy="97.5" r="0.99" fill="#e9edff" opacity="0.58"></circle><circle cx="8.2" cy="9.8" r="0.93" fill="#d6f1f6" opacity="0.33"></circle><circle cx="70.1" cy="86.7" r="0.95" fill="#ffffff" opacity="0.48"></circle><circle cx="90.5" cy="87.4" r="0.50" fill="#e9edff" opacity="0.80"></circle><circle cx="69.5" cy="46.8" r="0.84" fill="#f0eaff" opacity="0.40"></circle><circle cx="59.2" cy="8.5" r="0.95" fill="#e9edff" opacity="0.30"></circle><circle cx="33.6" cy="73.9" r="0.52" fill="#d6f1f6" opacity="0.78"></circle><circle cx="41.6" cy="36.7" r="0.58" fill="#d7e4ff" opacity="0.88"></circle><circle cx="78.2" cy="42.3" r="0.31" fill="#ffffff" opacity="0.32"></circle><circle cx="24.7" cy="92.6" r="0.36" fill="#d7e4ff" opacity="0.84"></circle><circle cx="42.9" cy="57.1" r="0.31" fill="#f0eaff" opacity="0.38"></circle><circle cx="66.7" cy="59.5" r="0.72" fill="#d7e4ff" opacity="0.68"></circle><circle cx="16.2" cy="76.2" r="0.84" fill="#d7e4ff" opacity="0.44"></circle><circle cx="43.6" cy="34.1" r="0.86" fill="#ffffff" opacity="0.71"></circle><circle cx="62.7" cy="1.3" r="0.31" fill="#d6f1f6" opacity="0.79"></circle><circle cx="89.9" cy="5.0" r="0.32" fill="#e9edff" opacity="0.31"></circle><circle cx="79.4" cy="67.1" r="0.68" fill="#d7e4ff" opacity="0.48"></circle><circle cx="52.5" cy="65.5" r="0.31" fill="#e9edff" opacity="0.57"></circle><circle cx="89.4" cy="27.0" r="0.50" fill="#d6f1f6" opacity="0.60"></circle><circle cx="57.0" cy="59.7" r="1.02" fill="#ffffff" opacity="0.40"></circle><circle cx="90.2" cy="86.7" r="0.41" fill="#e9edff" opacity="0.44"></circle><circle cx="60.2" cy="15.9" r="0.47" fill="#d6f1f6" opacity="0.44"></circle><circle cx="32.7" cy="62.6" r="0.95" fill="#e9edff" opacity="0.66"></circle><circle cx="8.1" cy="34.2" r="0.44" fill="#d7e4ff" opacity="0.86"></circle><circle cx="65.8" cy="97.1" r="0.77" fill="#d7e4ff" opacity="0.63"></circle><circle cx="53.7" cy="63.6" r="0.41" fill="#d6f1f6" opacity="0.89"></circle><circle cx="62.9" cy="44.8" r="0.94" fill="#d6f1f6" opacity="0.87"></circle><circle cx="51.0" cy="3.2" r="0.28" fill="#d6f1f6" opacity="0.36"></circle><circle cx="99.0" cy="24.8" r="0.91" fill="#ffffff" opacity="0.52"></circle><circle cx="13.0" cy="69.9" r="0.75" fill="#e9edff" opacity="0.63"></circle><circle cx="12.3" cy="92.8" r="0.78" fill="#e9edff" opacity="0.38"></circle><circle cx="80.8" cy="56.1" r="0.23" fill="#d6f1f6" opacity="0.54"></circle><circle cx="20.5" cy="85.1" r="0.56" fill="#d6f1f6" opacity="0.79"></circle><circle cx="76.5" cy="61.4" r="0.22" fill="#d7e4ff" opacity="0.51"></circle><circle cx="29.2" cy="32.8" r="0.22" fill="#d6f1f6" opacity="0.79"></circle><circle cx="14.4" cy="85.0" r="0.74" fill="#f0eaff" opacity="0.45"></circle><circle cx="39.2" cy="17.2" r="0.59" fill="#e9edff" opacity="0.57"></circle><circle cx="64.1" cy="35.9" r="0.39" fill="#d7e4ff" opacity="0.39"></circle><circle cx="0.3" cy="63.4" r="0.50" fill="#f0eaff" opacity="0.85"></circle><circle cx="15.0" cy="96.8" r="0.42" fill="#d7e4ff" opacity="0.52"></circle><circle cx="4.0" cy="3.5" r="0.72" fill="#e9edff" opacity="0.31"></circle><circle cx="2.5" cy="31.0" r="0.43" fill="#f0eaff" opacity="0.57"></circle><g opacity="0.98"><circle cx="25.4" cy="66.5" r="1.16" fill="#ffffff"></circle><path d="M25.4 63.7V69.4M22.5 66.5H28.2" stroke="#ffffff" stroke-width=".45" stroke-linecap="round" opacity=".75"></path></g><g opacity="0.98"><circle cx="24.8" cy="30.3" r="1.52" fill="#ffffff"></circle><path d="M24.8 27.7V32.9M22.1 30.3H27.4" stroke="#ffffff" stroke-width=".45" stroke-linecap="round" opacity=".75"></path></g><g opacity="0.92"><circle cx="20.3" cy="51.1" r="1.21" fill="#ffffff"></circle><path d="M20.3 48.7V53.5M17.9 51.1H22.8" stroke="#ffffff" stroke-width=".45" stroke-linecap="round" opacity=".75"></path></g></svg>
+      <div class="brand-text">
+        <h1>star</h1>
+        <p class="handle">@Starrism-8148</p>
+        <p class="role-chip">物联网工程 · 在起步阶段</p>
+      </div>
+    </div>
+
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="当前为浅色主题，切换到深色主题" aria-pressed="false">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.5 14.6A8.6 8.6 0 1 1 9.4 3.5a7 7 0 0 0 11.1 11.1z"></path>
+      </svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <path d="M12 2.4v2.2M12 19.4v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.4 12h2.2M19.4 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"></path>
+      </svg>
+      <span class="label">切换到深色主题</span>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+
+    <!-- 学习方向 -->
+    <section class="card span-all" aria-labelledby="direction-title">
+      <h2 class="card-title" id="direction-title">学习方向</h2>
+
+      <div class="direction-main">
+        <span class="direction-name">嵌入式开发</span>
+        <span class="direction-sub">兴趣牵引 · 课程支撑 · 面向真实项目</span>
+      </div>
+
+      <div class="reason">
+        <div class="reason-item">
+          <h3>兴趣牵引：脑机接口的落地离不开嵌入式</h3>
+          <p>信号采集、MCU 端预处理、无线传输与低功耗设计都建立在嵌入式之上，我感兴趣的方向恰好落在这条链路上。</p>
+        </div>
+        <div class="reason-item">
+          <h3>课程支撑：专业课与目标方向同频</h3>
+          <p>物联网工程课程中的嵌入式系统、单片机与传感器与我的方向一致，学习可以贴着课程推进，不必另起炉灶。</p>
+        </div>
+      </div>
+
+      <ul class="tags">
+        <li class="tag">C 语言</li>
+        <li class="tag">嵌入式系统</li>
+        <li class="tag">脑机接口</li>
+        <li class="tag">单片机 / MCU</li>
+        <li class="tag">传感器</li>
+        <li class="tag">蓝牙 / WiFi 传输</li>
+        <li class="tag">低功耗设计</li>
+      </ul>
+    </section>
+
+    <!-- 学习目标 -->
+    <section class="card" aria-labelledby="goals-title">
+      <h2 class="card-title" id="goals-title">学习目标</h2>
+
+      <ol class="goals">
+        <li class="goal">
+          <span class="goal-num" aria-hidden="true">1</span>
+          <div class="goal-body">
+            <p>掌握 Git 基本操作</p>
+            <span>当前正在学习，打好协作与版本管理的基本功。</span>
+          </div>
+        </li>
+        <li class="goal">
+          <span class="goal-num" aria-hidden="true">2</span>
+          <div class="goal-body">
+            <p>成功完成一次 PR</p>
+            <span>把 Git 的练习落到一次真实的 Pull Request 上。</span>
+          </div>
+        </li>
+      </ol>
+
+      <p class="source-note">以上两条目标摘自本人成员文件 members/Starrism-8148/Starrism-8148.md。</p>
+    </section>
+
+    <!-- 关于我 -->
+    <section class="card" aria-labelledby="about-title">
+      <h2 class="card-title" id="about-title">关于我</h2>
+
+      <ul class="about-list">
+        <li class="about-item">
+          <span class="dot" aria-hidden="true"></span>
+          <p><strong>基础阶段，方向清晰</strong>：重心放在 C 语言，同时补嵌入式与脑机接口相关知识。</p>
+        </li>
+        <li class="about-item">
+          <span class="dot" aria-hidden="true"></span>
+          <p><strong>做事稳，交付有复盘</strong>：坐得住，交办的事保质完成，并回头复盘一次。</p>
+        </li>
+        <li class="about-item">
+          <span class="dot" aria-hidden="true"></span>
+          <p><strong>目标明确，不回避短板</strong>：清楚基础薄弱，但愿意持续投入，把它补扎实。</p>
+        </li>
+        <li class="about-item">
+          <span class="dot" aria-hidden="true"></span>
+          <p><strong>路径务实</strong>：以嵌入式相关比赛和团队真实项目为抓手，跟着师兄师姐从 0 到 1 推进。</p>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Starrism-8148（昵称 star）· 个人介绍</p>
+    <p>内容整理自《自我介绍.docx》与 members/Starrism-8148/Starrism-8148.md，未使用外部图片、字体或脚本；头像的星空由浏览器本地随机生成。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  var label = btn.querySelector('.label');
+  var KEY = 'starrism-8148-theme';
+
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+    var dark = theme === 'dark';
+    label.textContent = dark ? '切换到浅色主题' : '切换到深色主题';
+    btn.setAttribute('aria-label', dark ? '当前为深色主题，切换到浅色主题' : '当前为浅色主题，切换到深色主题');
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  }
+
+  var current = root.getAttribute('data-theme');
+  if (current !== 'light' && current !== 'dark') {
+    current = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  apply(current);
+
+  btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    apply(next);
+    try { localStorage.setItem(KEY, next); } catch (e) { /* file:// 下可能不可用，忽略 */ }
+  });
+})();
+</script>
+<script>
+/* 随机星空：每次打开随机生成星点与星云，纯本地绘制，不加载任何外部图片 */
+(function () {
+  var svg = document.getElementById('starfield');
+  if (!svg) return;
+  var NS = 'http://www.w3.org/2000/svg';
+
+  function make(tag, attrs) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function rnd(min, max) { return min + Math.random() * (max - min); }
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+  /* 星云渐变：紫罗兰 + 青，与页面主色同一色系 */
+  var defs = make('defs', {});
+  [['neb-a', '#6d4fc4', '.55'], ['neb-b', '#1f7a80', '.45']].forEach(function (g) {
+    var grad = make('radialGradient', { id: g[0] });
+    grad.appendChild(make('stop', { offset: '0%', 'stop-color': g[1], 'stop-opacity': g[2] }));
+    grad.appendChild(make('stop', { offset: '100%', 'stop-color': g[1], 'stop-opacity': '0' }));
+    defs.appendChild(grad);
+  });
+  svg.appendChild(defs);
+
+  /* 两团星云 */
+  [
+    { fill: 'url(#neb-a)', cx: rnd(16, 44), cy: rnd(16, 44), rx: rnd(26, 42), ry: rnd(20, 34) },
+    { fill: 'url(#neb-b)', cx: rnd(56, 86), cy: rnd(54, 86), rx: rnd(24, 38), ry: rnd(18, 30) }
+  ].forEach(function (n) {
+    svg.appendChild(make('ellipse', {
+      cx: n.cx.toFixed(1), cy: n.cy.toFixed(1),
+      rx: n.rx.toFixed(1), ry: n.ry.toFixed(1), fill: n.fill
+    }));
+  });
+
+  /* 普通星点 */
+  var colors = ['#ffffff', '#e9edff', '#d7e4ff', '#d6f1f6', '#f0eaff'];
+  for (var i = 0; i < 78; i++) {
+    svg.appendChild(make('circle', {
+      cx: rnd(0, 100).toFixed(1),
+      cy: rnd(0, 100).toFixed(1),
+      r: rnd(0.22, 1.05).toFixed(2),
+      fill: pick(colors),
+      opacity: rnd(0.28, 0.95).toFixed(2)
+    }));
+  }
+
+  /* 亮星：带十字光芒 */
+  for (var j = 0; j < 3; j++) {
+    var x = rnd(12, 88), y = rnd(12, 88), arm = rnd(2.4, 4.2);
+    var star = make('g', { opacity: rnd(0.7, 1).toFixed(2) });
+    star.appendChild(make('circle', {
+      cx: x.toFixed(1), cy: y.toFixed(1), r: rnd(1.1, 1.7).toFixed(2), fill: '#ffffff'
+    }));
+    star.appendChild(make('path', {
+      d: 'M' + x.toFixed(1) + ' ' + (y - arm).toFixed(1) + 'V' + (y + arm).toFixed(1) +
+         'M' + (x - arm).toFixed(1) + ' ' + y.toFixed(1) + 'H' + (x + arm).toFixed(1),
+      stroke: '#ffffff', 'stroke-width': '.45', 'stroke-linecap': 'round', opacity: '.75'
+    }));
+    svg.appendChild(star);
+  }
+})();
+</script>
+
+
+</body></html>

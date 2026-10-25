@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="shixu- 的个人介绍。">
+  <title>shixu- · 个人介绍</title>
+  <style>
+    :root {
+      --bg: #f6f5f1;
+      --surface: #ffffff;
+      --ink: #1b1f23;
+      --muted: #5f6b76;
+      --line: #e4e6e9;
+      --accent: #2f6fed;
+      --accent-soft: rgba(47, 111, 237, 0.10);
+      --glow-a: rgba(47, 111, 237, 0.16);
+      --glow-b: rgba(122, 90, 248, 0.14);
+      --shadow: 0 24px 60px rgba(22, 34, 51, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1216;
+        --surface: #161b22;
+        --ink: #eef1f5;
+        --muted: #98a3b0;
+        --line: #262d37;
+        --accent: #7ea6ff;
+        --accent-soft: rgba(126, 166, 255, 0.12);
+        --glow-a: rgba(47, 111, 237, 0.22);
+        --glow-b: rgba(122, 90, 248, 0.18);
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+      background:
+        radial-gradient(560px 420px at 12% 8%, var(--glow-a), transparent 65%),
+        radial-gradient(620px 460px at 92% 92%, var(--glow-b), transparent 65%),
+        var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 48px 44px;
+      animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1 {
+      margin: 20px 0 8px;
+      font-size: clamp(36px, 7vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .tagline {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    h2 {
+      margin: 32px 0 12px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .goals {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .goals li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(180deg, transparent, var(--accent-soft));
+      font-size: 15px;
+    }
+
+    .goals li::before {
+      content: "✓";
+      flex: none;
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--surface);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tags span {
+      padding: 5px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 560px) {
+      .card {
+        padding: 36px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <span class="eyebrow">Git 练习仓库 · 成员页</span>
+    <h1>shixu-</h1>
+    <p class="tagline">正在学习 Git 与协作开发，用 Pull Request 把自己的痕迹留在这里。</p>
+
+    <h2>关于我</h2>
+    <p>你好，我是 shixu-。目前正在学习使用 Git 管理代码改动，并尝试通过 Pull Request 参与多人协作。</p>
+
+    <h2>学习目标</h2>
+    <ul class="goals">
+      <li>学会使用 Git 管理改动</li>
+      <li>学会通过 Pull Request 参与协作</li>
+      <li>养成规范提交的习惯</li>
+    </ul>
+
+    <h2>正在接触</h2>
+    <div class="tags">
+      <span>Git</span>
+      <span>GitHub</span>
+      <span>Markdown</span>
+      <span>HTML / CSS</span>
+    </div>
+
+    <footer>
+      <span>zwlsleep · git-example 练习</span>
+      <a href="zwlsleep.md">查看 Markdown 版本 →</a>
+    </footer>
+  </main>
+</body>
+</html>

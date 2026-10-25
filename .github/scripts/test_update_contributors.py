@@ -1,4 +1,6 @@
 """头像名单与生成物回归测试，不访问网络。"""
+import contextlib
+import io
 import json
 import os
 from pathlib import Path
@@ -65,11 +67,40 @@ class ContributorsTests(unittest.TestCase):
     def test_api_requests_follow_pagination(self):
         with patch.object(updater.subprocess, "run") as run:
             run.return_value.stdout = '[[{"id": 1, "login": "user"}], []]'
+            run.return_value.stderr = ""
+            run.return_value.returncode = 0
             self.assertEqual(len(updater.api("repos/owner/repo/contributors", paginate=True)), 2)
         self.assertEqual(run.call_args.args[0], [
             "gh", "api", "--hostname", "github.com", "repos/owner/repo/contributors",
             "--paginate", "--slurp",
         ])
+
+    def test_api_reports_missing_account_as_not_found(self):
+        with patch.object(updater.subprocess, "run") as run:
+            run.return_value = subprocess.CompletedProcess([], 1, "", "gh: Not Found (HTTP 404)")
+            with self.assertRaises(updater.NotFound):
+                updater.api("users/missing")
+
+    def test_api_keeps_stderr_for_other_errors(self):
+        with patch.object(updater.subprocess, "run") as run:
+            run.return_value = subprocess.CompletedProcess([], 1, "", "gh: Server Error (HTTP 500)")
+            with self.assertRaises(subprocess.CalledProcessError) as raised:
+                updater.api("users/user")
+        self.assertEqual(raised.exception.stderr, "gh: Server Error (HTTP 500)")
+
+    def test_unknown_member_directory_is_skipped_with_warning(self):
+        self.seed({"id": 1, "login": "previous"})
+        (self.root / "members/stale-login").mkdir()
+        errors = io.StringIO()
+        with patch.object(updater, "api", side_effect=[
+            [[{"id": 1, "login": "previous"}]],
+            updater.NotFound("GitHub 接口返回 404: users/stale-login"),
+            [[]],
+        ]):
+            with contextlib.redirect_stderr(errors):
+                self.assertEqual(updater.update(self.root), 1)
+        self.assertIn("stale-login", errors.getvalue())
+        self.assertEqual(self.users(), [{"id": 1, "login": "previous"}])
 
     def test_case_insensitive_member_lookup(self):
         (self.root / "members/USER").mkdir()

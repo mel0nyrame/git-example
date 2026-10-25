@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
 
 
 REPOSITORY = "mel0nyrame/git-example"
@@ -14,11 +15,20 @@ END = "<!-- contributors:end -->"
 LOGIN = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\[bot\])?")
 
 
+class NotFound(ValueError):
+    """接口返回 404，表示账号或资源不存在。"""
+
+
 def api(endpoint, paginate=False):
     command = ["gh", "api", "--hostname", "github.com", endpoint]
     if paginate:
         command += ["--paginate", "--slurp"]
-    result = subprocess.run(command, capture_output=True, text=True, check=True)
+    result = subprocess.run(command, capture_output=True, text=True)
+    if result.returncode != 0:
+        stderr = result.stderr or ""
+        if "HTTP 404" in stderr:
+            raise NotFound(f"GitHub 接口返回 404: {endpoint}")
+        raise subprocess.CalledProcessError(result.returncode, command, result.stdout, stderr)
     return json.loads(result.stdout)
 
 
@@ -66,7 +76,11 @@ def collect(root, roster):
             raise ValueError(f"成员目录不是有效用户名: {member.name!r}")
         if member.name.lower() in known:
             continue
-        user = account(api(f"users/{member.name}"))
+        try:
+            user = account(api(f"users/{member.name}"))
+        except NotFound:
+            print(f"警告：找不到 GitHub 账号 {member.name}，跳过目录 {member.name}", file=sys.stderr)
+            continue
         roster[user["id"]] = user
         known.add(user["login"].lower())
     return roster
@@ -169,5 +183,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     try:
         print(f"贡献者名单共 {update(check=args.check)} 个账号")
-    except (ValueError, OSError, subprocess.CalledProcessError) as error:
+    except subprocess.CalledProcessError as error:
+        detail = (error.stderr or "").strip()
+        parser.exit(1, f"贡献者更新失败: {error}\n{detail}\n" if detail else f"贡献者更新失败: {error}\n")
+    except (ValueError, OSError) as error:
         parser.exit(1, f"贡献者更新失败: {error}\n")

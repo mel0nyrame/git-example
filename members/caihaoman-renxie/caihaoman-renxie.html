@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>victora-CAI · 个人介绍</title>
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                theme = localStorage.getItem('theme');
+            } catch (e) {
+                theme = null;
+            }
+            if (theme !== 'dark' && theme !== 'light') {
+                theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? 'dark'
+                    : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f2f5fa;
+            --bg-glow-a: rgba(37, 99, 235, 0.10);
+            --bg-glow-b: rgba(34, 160, 107, 0.10);
+            --surface: #ffffff;
+            --surface-soft: #f4f7fd;
+            --text: #16202e;
+            --text-muted: #4e5f76;
+            --border: #dbe3ef;
+            --accent: #1d4ed8;
+            --accent-soft: #e6eeff;
+            --accent-contrast: #ffffff;
+            --shadow: 0 18px 40px -24px rgba(22, 32, 46, 0.35);
+            --focus: #1d4ed8;
+            --trunk: #8a5a35;
+            --trunk-dark: #66401f;
+            --trunk-light: #b07b4c;
+            --leaf-1: #2f7a4c;
+            --leaf-2: #4f9d67;
+            --leaf-3: #7cc48c;
+            --leaf-vein: rgba(20, 46, 28, 0.28);
+            --star-opacity: 0;
+            --star-color: rgba(255, 255, 255, 0);
+        }
+
+        [data-theme="dark"] {
+            color-scheme: dark;
+            --bg: #0b1220;
+            --bg-glow-a: rgba(96, 165, 250, 0.16);
+            --bg-glow-b: rgba(45, 212, 191, 0.12);
+            --surface: #141e30;
+            --surface-soft: #1b273c;
+            --text: #eef3fb;
+            --text-muted: #b3c2d6;
+            --border: #2c3c55;
+            --accent: #8ab6ff;
+            --accent-soft: #1d2f4d;
+            --accent-contrast: #0b1220;
+            --shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+            --focus: #8ab6ff;
+            --trunk: #a9784d;
+            --trunk-dark: #7c5634;
+            --trunk-light: #c99a6a;
+            --leaf-1: #3f9a64;
+            --leaf-2: #5fbb7c;
+            --leaf-3: #93dca4;
+            --leaf-vein: rgba(214, 245, 225, 0.22);
+            --star-opacity: 0.9;
+            --star-color: rgba(238, 243, 251, 0.95);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            position: relative;
+            margin: 0;
+            min-height: 100vh;
+            padding: clamp(1rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                         "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.75;
+            color: var(--text);
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(48rem 32rem at 12% -8%, var(--bg-glow-a), transparent 65%),
+                radial-gradient(42rem 30rem at 100% 0%, var(--bg-glow-b), transparent 60%);
+            background-repeat: no-repeat;
+            transition: background-color 0.25s ease, color 0.25s ease;
+            overflow-x: hidden;
+        }
+
+        /* 深色主题下的星空背景 */
+        .starfield {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            opacity: var(--star-opacity);
+            transition: opacity 0.25s ease;
+        }
+
+        .starfield-layer {
+            position: absolute;
+            inset: 0;
+        }
+
+        .starfield-layer--small {
+            background-image:
+                radial-gradient(1px 1px at 12% 18%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 28% 8%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 46% 14%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 62% 6%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 78% 16%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 8% 32%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 18% 26%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 34% 34%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 52% 28%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 70% 36%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 86% 30%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 14% 48%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 26% 42%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 40% 52%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 58% 46%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 76% 54%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 10% 66%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 24% 62%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 44% 70%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 64% 64%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 82% 72%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 16% 82%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 36% 78%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 56% 86%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 74% 80%, var(--star-color) 0, transparent 70%),
+                radial-gradient(1px 1px at 90% 88%, var(--star-color) 0, transparent 70%);
+            background-repeat: repeat;
+            background-size: 220px 220px;
+            opacity: 0.8;
+        }
+
+        .starfield-layer--medium {
+            background-image:
+                radial-gradient(1.6px 1.6px at 16% 12%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 38% 22%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 54% 10%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 72% 24%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 90% 14%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 22% 38%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 44% 44%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 66% 36%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 84% 48%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 12% 58%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 30% 64%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 48% 56%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 68% 66%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 86% 60%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 20% 76%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 42% 82%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 64% 76%, var(--star-color) 0, transparent 72%),
+                radial-gradient(1.6px 1.6px at 88% 84%, var(--star-color) 0, transparent 72%);
+            background-repeat: repeat;
+            background-size: 280px 280px;
+            opacity: 0.7;
+        }
+
+        .starfield-layer--bright {
+            background-image:
+                radial-gradient(2px 2px at 26% 16%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 58% 26%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 82% 18%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 14% 40%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 36% 50%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 70% 44%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 92% 54%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 24% 70%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 48% 78%, var(--star-color) 0, transparent 75%),
+                radial-gradient(2px 2px at 78% 72%, var(--star-color) 0, transparent 75%);
+            background-repeat: repeat;
+            background-size: 320px 320px;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 6px rgba(238, 243, 251, 0.18));
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .topbar {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.9rem 1.25rem;
+            margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+        }
+
+        .brand {
+            min-width: 0;
+        }
+
+        .eyebrow {
+            margin: 0 0 0.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(1.5rem, 4.6vw, 2rem);
+            line-height: 1.3;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            overflow-wrap: anywhere;
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex: 0 0 auto;
+            min-height: 2.75rem;
+            padding: 0.55rem 1rem;
+            font: inherit;
+            font-size: 0.92rem;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--text);
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.2s ease, border-color 0.2s ease,
+                        color 0.2s ease, transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--surface-soft);
+            border-color: var(--accent);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(1px);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px;
+        }
+
+        .theme-toggle svg {
+            width: 1.1em;
+            height: 1.1em;
+            flex: 0 0 auto;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .icon-moon {
+            display: none;
+        }
+
+        [data-theme="dark"] .icon-sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .icon-moon {
+            display: inline-block;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+            min-width: 0;
+        }
+
+        .card {
+            min-width: 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: clamp(1.15rem, 2.8vw, 1.55rem);
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .profile {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), #38bdf8);
+        }
+
+        .identity {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 0;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--accent-soft);
+            color: var(--accent);
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1;
+            user-select: none;
+        }
+
+        .identity-text {
+            min-width: 0;
+        }
+
+        .name {
+            margin: 0;
+            font-size: clamp(1.25rem, 3.4vw, 1.5rem);
+            font-weight: 700;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .tag {
+            display: inline-block;
+            max-width: 100%;
+            margin-top: 0.35rem;
+            padding: 0.15rem 0.6rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent);
+            background-color: var(--accent-soft);
+            border-radius: 999px;
+            overflow-wrap: anywhere;
+        }
+
+        .section-title {
+            margin: 0 0 0.7rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+        }
+
+        .facts {
+            margin: 0;
+            display: grid;
+            gap: 0.15rem;
+        }
+
+        .fact {
+            display: grid;
+            grid-template-columns: 5.2em minmax(0, 1fr);
+            gap: 0.75rem;
+            padding: 0.55rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .fact:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .fact dt {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .fact dd {
+            margin: 0;
+            min-width: 0;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .goals {
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .goal {
+            display: flex;
+            gap: 0.9rem;
+            align-items: flex-start;
+            min-width: 0;
+            padding: 0.85rem 1rem;
+            background-color: var(--surface-soft);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .goal:hover {
+            border-color: var(--accent);
+        }
+
+        .goal-number {
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: var(--accent-contrast);
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1;
+            user-select: none;
+        }
+
+        .goal-text {
+            min-width: 0;
+            margin: 0;
+            font-size: 1rem;
+            overflow-wrap: anywhere;
+        }
+
+        .note {
+            margin: 0.9rem 0 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* 大树插画：窄窗口时作为页面下方插图，宽屏时固定在右侧背景。 */
+        .tree {
+            position: static;
+            margin-top: 1.6rem;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .tree-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 2;
+        }
+
+        .tree .trunk {
+            fill: url(#trunkGradient);
+        }
+
+        .tree .branch {
+            fill: none;
+            stroke: var(--trunk);
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .tree .branch-back {
+            stroke: var(--trunk-dark);
+            opacity: 0.92;
+        }
+
+        .tree .bark {
+            fill: none;
+            stroke: var(--trunk-dark);
+            stroke-linecap: round;
+            opacity: 0.32;
+        }
+
+        .tree .highlight {
+            fill: none;
+            stroke: var(--trunk-light);
+            stroke-linecap: round;
+            opacity: 0.38;
+        }
+
+        .tree .leaf-group-a,
+        .tree .leaf-group-b,
+        .tree .leaf-group-c {
+            opacity: 0.98;
+        }
+
+        .tree .leaf-group-a { fill: var(--leaf-1); }
+        .tree .leaf-group-b { fill: var(--leaf-2); }
+        .tree .leaf-group-c { fill: var(--leaf-3); }
+
+        .tree .leaf {
+            vector-effect: non-scaling-stroke;
+        }
+
+        .tree .leaf-vein {
+            fill: none;
+            stroke: var(--leaf-vein);
+            stroke-width: 0.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.9;
+            vector-effect: non-scaling-stroke;
+        }
+
+        @media (min-width: 1024px) and (min-aspect-ratio: 4/3) {
+            .tree {
+                position: fixed;
+                inset: 0;
+                z-index: 0;
+                margin: 0;
+                overflow: hidden;
+            }
+
+            .tree-svg {
+                width: 100%;
+                height: 100%;
+                aspect-ratio: auto;
+            }
+
+            .content {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .fact {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 0.1rem;
+            }
+
+            .theme-toggle {
+                width: 100%;
+            }
+        }
+
+        @media (hover: none) {
+            .goal:hover {
+                border-color: var(--border);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="starfield" aria-hidden="true">
+        <div class="starfield-layer starfield-layer--small"></div>
+        <div class="starfield-layer starfield-layer--medium"></div>
+        <div class="starfield-layer starfield-layer--bright"></div>
+    </div>
+
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <p class="eyebrow">个人介绍</p>
+                <h1>victora-CAI</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+                <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path>
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+                </svg>
+                <span id="themeLabel">深色主题</span>
+            </button>
+        </header>
+
+        <main class="content">
+            <section class="card profile" aria-labelledby="basicTitle">
+                <div class="identity">
+                    <div class="avatar" aria-hidden="true">V</div>
+                    <div class="identity-text">
+                        <h2 class="name" id="basicTitle">victora-CAI</h2>
+                        <span class="tag">算法设计</span>
+                    </div>
+                </div>
+                <h3 class="section-title">基本信息</h3>
+                <dl class="facts">
+                    <div class="fact">
+                        <dt>用户名或昵称</dt>
+                        <dd>victora-CAI</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>学习方向</dt>
+                        <dd>算法设计</dd>
+                    </div>
+                    <div class="fact">
+                        <dt>其他</dt>
+                        <dd>来自人工智能专业</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="card" aria-labelledby="goalsTitle">
+                <h3 class="section-title" id="goalsTitle">学习目标</h3>
+                <div class="goals">
+                    <article class="goal">
+                        <span class="goal-number" aria-hidden="true">1</span>
+                        <p class="goal-text">从萌新晋级，早点打怪升级</p>
+                    </article>
+                    <article class="goal">
+                        <span class="goal-number" aria-hidden="true">2</span>
+                        <p class="goal-text">将每一个念头写成代码，亲眼看着代码 running</p>
+                    </article>
+                </div>
+                <p class="note">页面内容仅来自本人提供的个人介绍信息。</p>
+            </section>
+        </main>
+
+        <aside class="tree" aria-hidden="true">
+            <svg class="tree-svg" viewBox="0 0 1440 960" preserveAspectRatio="xMinYMax slice"
+                 role="presentation" focusable="false">
+                <defs>
+                    <linearGradient id="trunkGradient" x1="0" y1="1" x2="1" y2="0">
+                        <stop offset="0" style="stop-color: var(--trunk-dark)"></stop>
+                        <stop offset="0.55" style="stop-color: var(--trunk)"></stop>
+                        <stop offset="1" style="stop-color: var(--trunk-light)"></stop>
+                    </linearGradient>
+                    <g id="leafShape">
+                        <path class="leaf" d="M -15 0
+                            C -12 -7 -7 -14 0 -16
+                            C 7 -14 12 -7 15 0
+                            C 12 5 6 10 0 12
+                            C -6 10 -12 5 -15 0 Z"></path>
+                    </g>
+                    <g id="leafVeins">
+                        <path class="leaf-vein" d="M -11 -2 L 11 -2"></path>
+                        <path class="leaf-vein" d="M -9 -6 L 9 -6"></path>
+                        <path class="leaf-vein" d="M -6 -9 L 6 -9"></path>
+                        <path class="leaf-vein" d="M -3 -11 L 3 -11"></path>
+                        <path class="leaf-vein" d="M -9 2 L 9 2"></path>
+                        <path class="leaf-vein" d="M -6 6 L 6 6"></path>
+                        <path class="leaf-vein" d="M -3 9 L 3 9"></path>
+                        <path class="leaf-vein" d="M 0 -12 L 0 10"></path>
+                    </g>
+                </defs>
+
+                <!-- 主干：左下角起，向右上方延伸至页面右侧中部 -->
+                <path class="trunk" d="M 12 986
+                    C 86 842 296 732 580 648
+                    C 848 568 1060 486 1224 414
+                    C 1272 392 1306 378 1332 374
+                    C 1320 396 1284 418 1238 438
+                    C 1074 508 878 592 624 680
+                    C 360 776 142 892 94 986 Z"></path>
+
+                <!-- 树皮纹理与高光 -->
+                <path class="bark" stroke-width="3"
+                    d="M 58 944 C 122 862 204 800 306 758"></path>
+                <path class="bark" stroke-width="2.4"
+                    d="M 44 906 C 162 822 306 770 440 732"></path>
+                <path class="highlight" stroke-width="10"
+                    d="M 36 962 C 98 848 292 756 580 676
+                       C 844 596 1058 514 1216 438"></path>
+
+                <!-- 后层枝干 -->
+                <g class="branch branch-back">
+                    <path d="M 336 742 C 396 654 490 592 606 544" stroke-width="18"></path>
+                    <path d="M 876 600 C 816 512 776 444 734 382" stroke-width="11"></path>
+                    <path d="M 600 660 C 622 582 664 510 716 448" stroke-width="12"></path>
+                    <path d="M 1176 462 C 1218 390 1270 338 1342 302" stroke-width="13"></path>
+                    <path d="M 448 706 C 482 634 532 580 598 538" stroke-width="9"></path>
+                    <path d="M 984 540 C 1018 468 1062 408 1126 366" stroke-width="8"></path>
+                </g>
+
+                <!-- 前层枝干 -->
+                <g class="branch">
+                    <path d="M 476 696 C 528 592 602 504 706 432" stroke-width="26"></path>
+                    <path d="M 706 432 C 664 374 622 332 560 296" stroke-width="13"></path>
+                    <path d="M 706 432 C 758 380 800 354 852 338" stroke-width="14"></path>
+                    <path d="M 706 432 C 692 366 698 314 726 268" stroke-width="9"></path>
+
+                    <path d="M 774 634 C 816 530 880 442 964 366" stroke-width="22"></path>
+                    <path d="M 964 366 C 1016 314 1068 282 1130 262" stroke-width="12"></path>
+                    <path d="M 964 366 C 924 304 914 272 924 222" stroke-width="10"></path>
+                    <path d="M 964 366 C 956 292 966 238 994 190" stroke-width="8"></path>
+
+                    <path d="M 1026 540 C 1064 438 1118 356 1200 294" stroke-width="17"></path>
+                    <path d="M 1200 294 C 1242 258 1274 240 1326 226" stroke-width="9"></path>
+                    <path d="M 1200 294 C 1180 232 1160 190 1118 148" stroke-width="8"></path>
+                    <path d="M 1200 294 C 1216 238 1242 198 1288 172" stroke-width="7"></path>
+
+                    <path d="M 1338 300 C 1370 274 1402 264 1434 258" stroke-width="7"></path>
+                    <path d="M 916 594 C 980 536 1054 500 1140 478" stroke-width="13"></path>
+                    <path d="M 1140 478 C 1192 468 1234 456 1276 436" stroke-width="8"></path>
+                    <path d="M 1140 478 C 1108 428 1100 386 1114 342" stroke-width="7"></path>
+
+                    <path d="M 532 676 C 564 620 612 580 678 552" stroke-width="12"></path>
+                    <path d="M 678 552 C 646 510 628 476 628 436" stroke-width="7"></path>
+                    <path d="M 678 552 C 706 518 738 496 780 486" stroke-width="7"></path>
+                </g>
+
+                <!-- 密集的树叶群，带纹路 -->
+                <g class="leaf-group-a">
+                    <use href="#leafShape" transform="translate(620 454) rotate(-28) scale(1.12)"></use><use href="#leafVeins" transform="translate(620 454) rotate(-28) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(670 418) rotate(18) scale(1.08)"></use><use href="#leafVeins" transform="translate(670 418) rotate(18) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(714 472) rotate(-14) scale(0.98)"></use><use href="#leafVeins" transform="translate(714 472) rotate(-14) scale(0.98)"></use>
+                    <use href="#leafShape" transform="translate(642 484) rotate(56) scale(0.94)"></use><use href="#leafVeins" transform="translate(642 484) rotate(56) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(702 410) rotate(72) scale(1.1)"></use><use href="#leafVeins" transform="translate(702 410) rotate(72) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(662 458) rotate(6) scale(1.06)"></use><use href="#leafVeins" transform="translate(662 458) rotate(6) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(588 492) rotate(-46) scale(0.92)"></use><use href="#leafVeins" transform="translate(588 492) rotate(-46) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(640 440) rotate(38) scale(0.9)"></use><use href="#leafVeins" transform="translate(640 440) rotate(38) scale(0.9)"></use>
+                    <use href="#leafShape" transform="translate(694 494) rotate(26) scale(0.9)"></use><use href="#leafVeins" transform="translate(694 494) rotate(26) scale(0.9)"></use>
+
+                    <use href="#leafShape" transform="translate(782 358) rotate(-24) scale(1.12)"></use><use href="#leafVeins" transform="translate(782 358) rotate(-24) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(822 322) rotate(16) scale(1.1)"></use><use href="#leafVeins" transform="translate(822 322) rotate(16) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(862 378) rotate(46) scale(1.06)"></use><use href="#leafVeins" transform="translate(862 378) rotate(46) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(802 302) rotate(72) scale(0.98)"></use><use href="#leafVeins" transform="translate(802 302) rotate(72) scale(0.98)"></use>
+                    <use href="#leafShape" transform="translate(877 342) rotate(-8) scale(1.08)"></use><use href="#leafVeins" transform="translate(877 342) rotate(-8) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(922 394) rotate(-28) scale(1.04)"></use><use href="#leafVeins" transform="translate(922 394) rotate(-28) scale(1.04)"></use>
+                    <use href="#leafShape" transform="translate(762 322) rotate(-56) scale(0.94)"></use><use href="#leafVeins" transform="translate(762 322) rotate(-56) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(836 298) rotate(34) scale(0.92)"></use><use href="#leafVeins" transform="translate(836 298) rotate(34) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(894 316) rotate(64) scale(0.9)"></use><use href="#leafVeins" transform="translate(894 316) rotate(64) scale(0.9)"></use>
+
+                    <use href="#leafShape" transform="translate(962 358) rotate(-18) scale(1.12)"></use><use href="#leafVeins" transform="translate(962 358) rotate(-18) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(902 352) rotate(62) scale(1.0)"></use><use href="#leafVeins" transform="translate(902 352) rotate(62) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(982 402) rotate(-8) scale(0.96)"></use><use href="#leafVeins" transform="translate(982 402) rotate(-8) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(938 324) rotate(-42) scale(0.94)"></use><use href="#leafVeins" transform="translate(938 324) rotate(-42) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(984 332) rotate(22) scale(0.92)"></use><use href="#leafVeins" transform="translate(984 332) rotate(22) scale(0.92)"></use>
+                </g>
+
+                <g class="leaf-group-b">
+                    <use href="#leafShape" transform="translate(632 412) rotate(-50) scale(1.16)"></use><use href="#leafVeins" transform="translate(632 412) rotate(-50) scale(1.16)"></use>
+                    <use href="#leafShape" transform="translate(682 482) rotate(36) scale(1.02)"></use><use href="#leafVeins" transform="translate(682 482) rotate(36) scale(1.02)"></use>
+                    <use href="#leafShape" transform="translate(716 432) rotate(0) scale(1.12)"></use><use href="#leafVeins" transform="translate(716 432) rotate(0) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(602 468) rotate(22) scale(0.96)"></use><use href="#leafVeins" transform="translate(602 468) rotate(22) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(656 396) rotate(46) scale(1.08)"></use><use href="#leafVeins" transform="translate(656 396) rotate(46) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(630 494) rotate(14) scale(0.9)"></use><use href="#leafVeins" transform="translate(630 494) rotate(14) scale(0.9)"></use>
+                    <use href="#leafShape" transform="translate(676 394) rotate(-68) scale(0.92)"></use><use href="#leafVeins" transform="translate(676 394) rotate(-68) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(730 496) rotate(52) scale(0.88)"></use><use href="#leafVeins" transform="translate(730 496) rotate(52) scale(0.88)"></use>
+
+                    <use href="#leafShape" transform="translate(812 388) rotate(22) scale(1.16)"></use><use href="#leafVeins" transform="translate(812 388) rotate(22) scale(1.16)"></use>
+                    <use href="#leafShape" transform="translate(852 318) rotate(-38) scale(1.02)"></use><use href="#leafVeins" transform="translate(852 318) rotate(-38) scale(1.02)"></use>
+                    <use href="#leafShape" transform="translate(792 332) rotate(56) scale(1.0)"></use><use href="#leafVeins" transform="translate(792 332) rotate(56) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(886 308) rotate(12) scale(1.08)"></use><use href="#leafVeins" transform="translate(886 308) rotate(12) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(942 412) rotate(36) scale(1.06)"></use><use href="#leafVeins" transform="translate(942 412) rotate(36) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(916 332) rotate(-44) scale(1.0)"></use><use href="#leafVeins" transform="translate(916 332) rotate(-44) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(836 292) rotate(-16) scale(0.94)"></use><use href="#leafVeins" transform="translate(836 292) rotate(-16) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(872 288) rotate(74) scale(0.92)"></use><use href="#leafVeins" transform="translate(872 288) rotate(74) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(960 334) rotate(-26) scale(0.9)"></use><use href="#leafVeins" transform="translate(960 334) rotate(-26) scale(0.9)"></use>
+                    <use href="#leafShape" transform="translate(988 386) rotate(8) scale(0.88)"></use><use href="#leafVeins" transform="translate(988 386) rotate(8) scale(0.88)"></use>
+                </g>
+
+                <g class="leaf-group-c">
+                    <use href="#leafShape" transform="translate(646 436) rotate(80) scale(1.02)"></use><use href="#leafVeins" transform="translate(646 436) rotate(80) scale(1.02)"></use>
+                    <use href="#leafShape" transform="translate(692 472) rotate(-38) scale(1.12)"></use><use href="#leafVeins" transform="translate(692 472) rotate(-38) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(706 402) rotate(-8) scale(0.96)"></use><use href="#leafVeins" transform="translate(706 402) rotate(-8) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(616 432) rotate(32) scale(1.08)"></use><use href="#leafVeins" transform="translate(616 432) rotate(32) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(668 500) rotate(46) scale(0.9)"></use><use href="#leafVeins" transform="translate(668 500) rotate(46) scale(0.9)"></use>
+                    <use href="#leafShape" transform="translate(734 454) rotate(-26) scale(0.88)"></use><use href="#leafVeins" transform="translate(734 454) rotate(-26) scale(0.88)"></use>
+
+                    <use href="#leafShape" transform="translate(832 372) rotate(82) scale(1.02)"></use><use href="#leafVeins" transform="translate(832 372) rotate(82) scale(1.02)"></use>
+                    <use href="#leafShape" transform="translate(802 346) rotate(-14) scale(1.0)"></use><use href="#leafVeins" transform="translate(802 346) rotate(-14) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(866 352) rotate(32) scale(1.08)"></use><use href="#leafVeins" transform="translate(866 352) rotate(32) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(776 316) rotate(6) scale(0.96)"></use><use href="#leafVeins" transform="translate(776 316) rotate(6) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(846 292) rotate(-52) scale(0.9)"></use><use href="#leafVeins" transform="translate(846 292) rotate(-52) scale(0.9)"></use>
+                    <use href="#leafShape" transform="translate(884 292) rotate(24) scale(0.88)"></use><use href="#leafVeins" transform="translate(884 292) rotate(24) scale(0.88)"></use>
+                </g>
+
+                <!-- 扩大树冠：更多枝头 -->
+                <g class="leaf-group-a">
+                    <use href="#leafShape" transform="translate(1052 288) rotate(-18) scale(1.14)"></use><use href="#leafVeins" transform="translate(1052 288) rotate(-18) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(1098 254) rotate(16) scale(1.1)"></use><use href="#leafVeins" transform="translate(1098 254) rotate(16) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1144 298) rotate(46) scale(1.06)"></use><use href="#leafVeins" transform="translate(1144 298) rotate(46) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(1074 234) rotate(72) scale(0.98)"></use><use href="#leafVeins" transform="translate(1074 234) rotate(72) scale(0.98)"></use>
+                    <use href="#leafShape" transform="translate(1164 264) rotate(-14) scale(1.08)"></use><use href="#leafVeins" transform="translate(1164 264) rotate(-14) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(1034 252) rotate(-50) scale(0.94)"></use><use href="#leafVeins" transform="translate(1034 252) rotate(-50) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1108 226) rotate(38) scale(0.92)"></use><use href="#leafVeins" transform="translate(1108 226) rotate(38) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(1146 238) rotate(66) scale(0.9)"></use><use href="#leafVeins" transform="translate(1146 238) rotate(66) scale(0.9)"></use>
+
+                    <use href="#leafShape" transform="translate(1248 254) rotate(-28) scale(1.14)"></use><use href="#leafVeins" transform="translate(1248 254) rotate(-28) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(1294 224) rotate(16) scale(1.1)"></use><use href="#leafVeins" transform="translate(1294 224) rotate(16) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1334 268) rotate(46) scale(1.06)"></use><use href="#leafVeins" transform="translate(1334 268) rotate(46) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(1268 208) rotate(68) scale(0.98)"></use><use href="#leafVeins" transform="translate(1268 208) rotate(68) scale(0.98)"></use>
+                    <use href="#leafShape" transform="translate(1316 196) rotate(-22) scale(1.08)"></use><use href="#leafVeins" transform="translate(1316 196) rotate(-22) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(1226 218) rotate(-50) scale(0.94)"></use><use href="#leafVeins" transform="translate(1226 218) rotate(-50) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1290 194) rotate(40) scale(0.92)"></use><use href="#leafVeins" transform="translate(1290 194) rotate(40) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(1350 226) rotate(64) scale(0.9)"></use><use href="#leafVeins" transform="translate(1350 226) rotate(64) scale(0.9)"></use>
+
+                    <use href="#leafShape" transform="translate(872 258) rotate(-18) scale(1.14)"></use><use href="#leafVeins" transform="translate(872 258) rotate(-18) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(908 228) rotate(16) scale(1.1)"></use><use href="#leafVeins" transform="translate(908 228) rotate(16) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(938 254) rotate(48) scale(1.06)"></use><use href="#leafVeins" transform="translate(938 254) rotate(48) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(882 208) rotate(72) scale(0.98)"></use><use href="#leafVeins" transform="translate(882 208) rotate(72) scale(0.98)"></use>
+                    <use href="#leafShape" transform="translate(952 218) rotate(-12) scale(1.08)"></use><use href="#leafVeins" transform="translate(952 218) rotate(-12) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(844 224) rotate(-50) scale(0.94)"></use><use href="#leafVeins" transform="translate(844 224) rotate(-50) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(908 198) rotate(40) scale(0.92)"></use><use href="#leafVeins" transform="translate(908 198) rotate(40) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(968 238) rotate(66) scale(0.9)"></use><use href="#leafVeins" transform="translate(968 238) rotate(66) scale(0.9)"></use>
+
+                    <use href="#leafShape" transform="translate(1062 184) rotate(-18) scale(1.14)"></use><use href="#leafVeins" transform="translate(1062 184) rotate(-18) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(1098 158) rotate(16) scale(1.1)"></use><use href="#leafVeins" transform="translate(1098 158) rotate(16) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1124 188) rotate(48) scale(1.06)"></use><use href="#leafVeins" transform="translate(1124 188) rotate(48) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(1078 138) rotate(72) scale(0.98)"></use><use href="#leafVeins" transform="translate(1078 138) rotate(72) scale(0.98)"></use>
+                    <use href="#leafShape" transform="translate(1140 148) rotate(-10) scale(1.08)"></use><use href="#leafVeins" transform="translate(1140 148) rotate(-10) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(1036 152) rotate(-50) scale(0.94)"></use><use href="#leafVeins" transform="translate(1036 152) rotate(-50) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1100 130) rotate(42) scale(0.92)"></use><use href="#leafVeins" transform="translate(1100 130) rotate(42) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(1156 168) rotate(66) scale(0.9)"></use><use href="#leafVeins" transform="translate(1156 168) rotate(66) scale(0.9)"></use>
+                </g>
+
+                <g class="leaf-group-b">
+                    <use href="#leafShape" transform="translate(1082 312) rotate(26) scale(1.18)"></use><use href="#leafVeins" transform="translate(1082 312) rotate(26) scale(1.18)"></use>
+                    <use href="#leafShape" transform="translate(1124 238) rotate(-38) scale(1.04)"></use><use href="#leafVeins" transform="translate(1124 238) rotate(-38) scale(1.04)"></use>
+                    <use href="#leafShape" transform="translate(1044 258) rotate(58) scale(1.0)"></use><use href="#leafVeins" transform="translate(1044 258) rotate(58) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(1174 292) rotate(12) scale(1.1)"></use><use href="#leafVeins" transform="translate(1174 292) rotate(12) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1152 322) rotate(36) scale(0.96)"></use><use href="#leafVeins" transform="translate(1152 322) rotate(36) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(1014 286) rotate(-16) scale(0.94)"></use><use href="#leafVeins" transform="translate(1014 286) rotate(-16) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1110 214) rotate(76) scale(0.92)"></use><use href="#leafVeins" transform="translate(1110 214) rotate(76) scale(0.92)"></use>
+                    <use href="#leafShape" transform="translate(1160 232) rotate(-28) scale(0.9)"></use><use href="#leafVeins" transform="translate(1160 232) rotate(-28) scale(0.9)"></use>
+                    <use href="#leafShape" transform="translate(1188 336) rotate(44) scale(0.88)"></use><use href="#leafVeins" transform="translate(1188 336) rotate(44) scale(0.88)"></use>
+
+                    <use href="#leafShape" transform="translate(1274 284) rotate(22) scale(1.18)"></use><use href="#leafVeins" transform="translate(1274 284) rotate(22) scale(1.18)"></use>
+                    <use href="#leafShape" transform="translate(1318 228) rotate(-38) scale(1.04)"></use><use href="#leafVeins" transform="translate(1318 228) rotate(-38) scale(1.04)"></use>
+                    <use href="#leafShape" transform="translate(1234 234) rotate(52) scale(1.0)"></use><use href="#leafVeins" transform="translate(1234 234) rotate(52) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(1350 248) rotate(0) scale(1.1)"></use><use href="#leafVeins" transform="translate(1350 248) rotate(0) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1220 212) rotate(74) scale(0.96)"></use><use href="#leafVeins" transform="translate(1220 212) rotate(74) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(1304 204) rotate(-16) scale(0.94)"></use><use href="#leafVeins" transform="translate(1304 204) rotate(-16) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1260 194) rotate(38) scale(0.9)"></use><use href="#leafVeins" transform="translate(1260 194) rotate(38) scale(0.9)"></use>
+                    <use href="#leafShape" transform="translate(1358 228) rotate(-26) scale(0.88)"></use><use href="#leafVeins" transform="translate(1358 228) rotate(-26) scale(0.88)"></use>
+                </g>
+
+                <g class="leaf-group-c">
+                    <use href="#leafShape" transform="translate(1100 274) rotate(82) scale(1.06)"></use><use href="#leafVeins" transform="translate(1100 274) rotate(82) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(1066 304) rotate(-14) scale(1.14)"></use><use href="#leafVeins" transform="translate(1066 304) rotate(-14) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(1134 284) rotate(32) scale(1.1)"></use><use href="#leafVeins" transform="translate(1134 284) rotate(32) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1086 218) rotate(0) scale(1.0)"></use><use href="#leafVeins" transform="translate(1086 218) rotate(0) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(1166 238) rotate(52) scale(0.94)"></use><use href="#leafVeins" transform="translate(1166 238) rotate(52) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1038 276) rotate(-34) scale(0.92)"></use><use href="#leafVeins" transform="translate(1038 276) rotate(-34) scale(0.92)"></use>
+
+                    <use href="#leafShape" transform="translate(1298 248) rotate(76) scale(1.06)"></use><use href="#leafVeins" transform="translate(1298 248) rotate(76) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(1254 274) rotate(-8) scale(1.14)"></use><use href="#leafVeins" transform="translate(1254 274) rotate(-8) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(1338 224) rotate(32) scale(1.1)"></use><use href="#leafVeins" transform="translate(1338 224) rotate(32) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1302 204) rotate(-24) scale(0.96)"></use><use href="#leafVeins" transform="translate(1302 204) rotate(-24) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(1356 244) rotate(56) scale(0.94)"></use><use href="#leafVeins" transform="translate(1356 244) rotate(56) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1226 246) rotate(-36) scale(0.92)"></use><use href="#leafVeins" transform="translate(1226 246) rotate(-36) scale(0.92)"></use>
+
+                    <use href="#leafShape" transform="translate(912 252) rotate(82) scale(1.06)"></use><use href="#leafVeins" transform="translate(912 252) rotate(82) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(876 232) rotate(-14) scale(1.14)"></use><use href="#leafVeins" transform="translate(876 232) rotate(-14) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(942 228) rotate(26) scale(1.1)"></use><use href="#leafVeins" transform="translate(942 228) rotate(26) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(940 202) rotate(-38) scale(0.96)"></use><use href="#leafVeins" transform="translate(940 202) rotate(-38) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(870 208) rotate(60) scale(0.94)"></use><use href="#leafVeins" transform="translate(870 208) rotate(60) scale(0.94)"></use>
+
+                    <use href="#leafShape" transform="translate(1102 178) rotate(78) scale(1.06)"></use><use href="#leafVeins" transform="translate(1102 178) rotate(78) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(1072 162) rotate(-8) scale(1.14)"></use><use href="#leafVeins" transform="translate(1072 162) rotate(-8) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(1128 164) rotate(32) scale(1.1)"></use><use href="#leafVeins" transform="translate(1128 164) rotate(32) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(1146 140) rotate(-26) scale(0.96)"></use><use href="#leafVeins" transform="translate(1146 140) rotate(-26) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(1046 146) rotate(54) scale(0.94)"></use><use href="#leafVeins" transform="translate(1046 146) rotate(54) scale(0.94)"></use>
+                </g>
+
+                <!-- 侧枝叶片更密 -->
+                <g class="leaf-group-b">
+                    <use href="#leafShape" transform="translate(560 298) rotate(-40) scale(1.14)"></use><use href="#leafVeins" transform="translate(560 298) rotate(-40) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(598 284) rotate(-4) scale(1.1)"></use><use href="#leafVeins" transform="translate(598 284) rotate(-4) scale(1.1)"></use>
+                    <use href="#leafShape" transform="translate(628 316) rotate(36) scale(1.06)"></use><use href="#leafVeins" transform="translate(628 316) rotate(36) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(580 272) rotate(70) scale(0.98)"></use><use href="#leafVeins" transform="translate(580 272) rotate(70) scale(0.98)"></use>
+                    <use href="#leafShape" transform="translate(644 290) rotate(-12) scale(1.04)"></use><use href="#leafVeins" transform="translate(644 290) rotate(-12) scale(1.04)"></use>
+                    <use href="#leafShape" transform="translate(540 278) rotate(-58) scale(0.94)"></use><use href="#leafVeins" transform="translate(540 278) rotate(-58) scale(0.94)"></use>
+
+                    <use href="#leafShape" transform="translate(726 270) rotate(-14) scale(1.16)"></use><use href="#leafVeins" transform="translate(726 270) rotate(-14) scale(1.16)"></use>
+                    <use href="#leafShape" transform="translate(758 246) rotate(18) scale(1.12)"></use><use href="#leafVeins" transform="translate(758 246) rotate(18) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(794 274) rotate(48) scale(1.08)"></use><use href="#leafVeins" transform="translate(794 274) rotate(48) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(740 226) rotate(74) scale(1.0)"></use><use href="#leafVeins" transform="translate(740 226) rotate(74) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(812 244) rotate(-10) scale(1.06)"></use><use href="#leafVeins" transform="translate(812 244) rotate(-10) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(698 242) rotate(-52) scale(0.96)"></use><use href="#leafVeins" transform="translate(698 242) rotate(-52) scale(0.96)"></use>
+
+                    <use href="#leafShape" transform="translate(924 224) rotate(-20) scale(1.16)"></use><use href="#leafVeins" transform="translate(924 224) rotate(-20) scale(1.16)"></use>
+                    <use href="#leafShape" transform="translate(960 200) rotate(16) scale(1.12)"></use><use href="#leafVeins" transform="translate(960 200) rotate(16) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(994 226) rotate(50) scale(1.08)"></use><use href="#leafVeins" transform="translate(994 226) rotate(50) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(938 180) rotate(76) scale(1.0)"></use><use href="#leafVeins" transform="translate(938 180) rotate(76) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(1014 196) rotate(-8) scale(1.06)"></use><use href="#leafVeins" transform="translate(1014 196) rotate(-8) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(894 192) rotate(-54) scale(0.96)"></use><use href="#leafVeins" transform="translate(894 192) rotate(-54) scale(0.96)"></use>
+                </g>
+
+                <g class="leaf-group-c">
+                    <use href="#leafShape" transform="translate(1224 456) rotate(-24) scale(1.16)"></use><use href="#leafVeins" transform="translate(1224 456) rotate(-24) scale(1.16)"></use>
+                    <use href="#leafShape" transform="translate(1268 432) rotate(16) scale(1.12)"></use><use href="#leafVeins" transform="translate(1268 432) rotate(16) scale(1.12)"></use>
+                    <use href="#leafShape" transform="translate(1302 472) rotate(48) scale(1.08)"></use><use href="#leafVeins" transform="translate(1302 472) rotate(48) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(1244 412) rotate(74) scale(1.0)"></use><use href="#leafVeins" transform="translate(1244 412) rotate(74) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(1324 442) rotate(-10) scale(1.06)"></use><use href="#leafVeins" transform="translate(1324 442) rotate(-10) scale(1.06)"></use>
+                    <use href="#leafShape" transform="translate(1188 424) rotate(-52) scale(0.96)"></use><use href="#leafVeins" transform="translate(1188 424) rotate(-52) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(1276 404) rotate(38) scale(0.94)"></use><use href="#leafVeins" transform="translate(1276 404) rotate(38) scale(0.94)"></use>
+                    <use href="#leafShape" transform="translate(1340 412) rotate(66) scale(0.92)"></use><use href="#leafVeins" transform="translate(1340 412) rotate(66) scale(0.92)"></use>
+
+                    <use href="#leafShape" transform="translate(1112 508) rotate(16) scale(1.18)"></use><use href="#leafVeins" transform="translate(1112 508) rotate(16) scale(1.18)"></use>
+                    <use href="#leafShape" transform="translate(1162 498) rotate(48) scale(1.14)"></use><use href="#leafVeins" transform="translate(1162 498) rotate(48) scale(1.14)"></use>
+                    <use href="#leafShape" transform="translate(1202 534) rotate(74) scale(1.08)"></use><use href="#leafVeins" transform="translate(1202 534) rotate(74) scale(1.08)"></use>
+                    <use href="#leafShape" transform="translate(1126 472) rotate(4) scale(1.0)"></use><use href="#leafVeins" transform="translate(1126 472) rotate(4) scale(1.0)"></use>
+                    <use href="#leafShape" transform="translate(1230 504) rotate(36) scale(0.96)"></use><use href="#leafVeins" transform="translate(1230 504) rotate(36) scale(0.96)"></use>
+                    <use href="#leafShape" transform="translate(1084 486) rotate(-30) scale(0.94)"></use><use href="#leafVeins" transform="translate(1084 486) rotate(-30) scale(0.94)"></use>
+                </g>
+            </svg>
+        </aside>
+    </div>
+
+    <script>
+        (function () {
+            var root = document.documentElement;
+            var toggle = document.getElementById('themeToggle');
+            var label = document.getElementById('themeLabel');
+            var THEME_KEY = 'theme';
+
+            function currentTheme() {
+                return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            }
+
+            function applyTheme(theme) {
+                root.setAttribute('data-theme', theme);
+                var isDark = theme === 'dark';
+                label.textContent = isDark ? '浅色主题' : '深色主题';
+                toggle.setAttribute('aria-pressed', String(isDark));
+                toggle.setAttribute(
+                    'aria-label',
+                    isDark ? '当前为深色主题，切换为浅色主题' : '当前为浅色主题，切换为深色主题'
+                );
+            }
+
+            function saveTheme(theme) {
+                try {
+                    localStorage.setItem(THEME_KEY, theme);
+                } catch (e) {
+                    /* 隐私模式或本地存储不可用时，仅本次会话内生效 */
+                }
+            }
+
+            applyTheme(currentTheme());
+
+            toggle.addEventListener('click', function () {
+                var next = currentTheme() === 'dark' ? 'light' : 'dark';
+                applyTheme(next);
+                saveTheme(next);
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,5 +1,10 @@
 # AGENTS.md
 
+## 开工前
+
+- 对照记忆索引。中文输出、隐私判断、仓库流程三类任务，先 read 对应条目。
+- 中文输出前读《中文写作必须遵循 ASD-STE100 改编规则》。
+
 ## 按任务导航
 
 - 修改成员文件或审查学生 PR 时，读 [members/README.md](members/README.md)。

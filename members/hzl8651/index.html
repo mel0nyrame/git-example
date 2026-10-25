@@ -1,0 +1,2733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="路明非的个人主页 —— 常驻广州的代码爱好者、GitHub 新手，把好奇心写进代码里。">
+  <meta name="theme-color" content="#f3efe6">
+  <title>路明非 · 代码爱好者 &amp; GitHub 新手</title>
+  <style>
+    /* ============================================================
+       01. 基础变量与重置
+       想换主题色，只需修改这里的 --accent / --paper / --ink
+       ============================================================ */
+    :root {
+      --paper: #f3efe6;
+      --paper-deep: #e9e2d5;
+      --ink: #181712;
+      --ink-soft: #4f4b42;
+      --muted: #7d776b;
+      --accent: #e95833;
+      --accent-deep: #c9401d;
+      --sage: #c7d1b6;
+      --sky: #b9c9d6;
+      --line: rgba(24, 23, 18, 0.14);
+      --line-light: rgba(243, 239, 230, 0.2);
+      --card: rgba(255, 255, 255, 0.42);
+      --font-sans: "Avenir Next", Avenir, "Helvetica Neue", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-serif: "Iowan Old Style", "Baskerville", "Songti SC", "STSong",
+        "Noto Serif SC", "SimSun", serif;
+      --font-mono: "SFMono-Regular", "Cascadia Mono", Consolas,
+        "Liberation Mono", monospace;
+      --radius-lg: 32px;
+      --radius-md: 22px;
+      --container: min(1180px, calc(100% - 64px));
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 96px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #fffaf1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    ul,
+    ol,
+    dl,
+    dd,
+    p,
+    h1,
+    h2,
+    h3,
+    figure {
+      margin: 0;
+    }
+
+    ul,
+    ol {
+      padding: 0;
+      list-style: none;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 5px;
+      border-radius: 4px;
+    }
+
+    .no-break {
+      white-space: nowrap;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: -100px;
+      left: 20px;
+      z-index: 200;
+      padding: 12px 18px;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 999px;
+      transition: top 0.25s ease;
+    }
+
+    .skip-link:focus {
+      top: 18px;
+    }
+
+    .container {
+      width: var(--container);
+      margin-inline: auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.71rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.7;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      flex: 0 0 auto;
+      background: #58a35e;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(88, 163, 94, 0.14);
+      animation: breathe 2.8s ease-in-out infinite;
+    }
+
+    /* ============================================================
+       02. 滚动进度与页头
+       ============================================================ */
+    .scroll-progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 120;
+      height: 2px;
+      pointer-events: none;
+    }
+
+    .scroll-progress span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left center;
+      will-change: transform;
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      padding: 22px 0;
+      transition:
+        padding 0.35s var(--ease),
+        background-color 0.35s ease,
+        border-color 0.35s ease,
+        backdrop-filter 0.35s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    .site-header.is-scrolled {
+      padding: 12px 0;
+      background: rgba(243, 239, 230, 0.82);
+      border-bottom-color: var(--line);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      width: var(--container);
+      margin-inline: auto;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 50%;
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      line-height: 1;
+      transition: transform 0.5s var(--ease), background-color 0.3s ease;
+    }
+
+    .brand:hover .brand-mark {
+      background: var(--accent);
+      transform: rotate(-10deg);
+    }
+
+    .brand-name {
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      line-height: 1.35;
+    }
+
+    .brand-name small {
+      color: var(--muted);
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(22px, 3vw, 38px);
+    }
+
+    .nav-link {
+      position: relative;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      transition: color 0.25s ease;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -7px;
+      left: 0;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform 0.35s var(--ease);
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 18px;
+      color: var(--paper);
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s var(--ease);
+    }
+
+    .nav-cta span {
+      font-size: 0.95rem;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .nav-cta:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .nav-cta:hover span {
+      transform: translate(2px, -2px);
+    }
+
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 14px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.42);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.75);
+      border-color: rgba(24, 23, 18, 0.25);
+    }
+
+    .menu-toggle-icon {
+      position: relative;
+      display: block;
+      width: 14px;
+      height: 10px;
+    }
+
+    .menu-toggle-icon span {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      transition: transform 0.3s var(--ease), top 0.3s var(--ease);
+    }
+
+    .menu-toggle-icon span:first-child {
+      top: 2px;
+    }
+
+    .menu-toggle-icon span:last-child {
+      top: 7px;
+    }
+
+    .menu-toggle.is-active .menu-toggle-icon span:first-child {
+      top: 5px;
+      transform: rotate(45deg);
+    }
+
+    .menu-toggle.is-active .menu-toggle-icon span:last-child {
+      top: 5px;
+      transform: rotate(-45deg);
+    }
+
+    .site-header.is-menu-open {
+      padding: 12px 0;
+      background: rgba(243, 239, 230, 0.96);
+      border-bottom-color: var(--line);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    /* ============================================================
+       03. 首屏
+       ============================================================ */
+    .hero {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 100svh;
+      padding: 142px 0 64px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 83% 26%, rgba(233, 88, 51, 0.16), transparent 32%),
+        radial-gradient(circle at 9% 88%, rgba(199, 209, 182, 0.56), transparent 36%),
+        radial-gradient(circle at 58% 102%, rgba(185, 201, 214, 0.3), transparent 40%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 17%;
+      right: -130px;
+      z-index: -1;
+      width: 430px;
+      height: 430px;
+      border: 1px solid rgba(24, 23, 18, 0.11);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1000px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .hello {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      padding: 8px 15px 8px 12px;
+      color: var(--ink-soft);
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      letter-spacing: 0.03em;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    .hello .divider {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+
+    .hero-title {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin-inline: auto;
+      font-family: var(--font-serif);
+      font-size: clamp(3.6rem, 7.4vw, 6.8rem);
+      font-weight: 600;
+      letter-spacing: -0.055em;
+      line-height: 1.06;
+    }
+
+    .hero-title .line {
+      display: block;
+    }
+
+    .accent-word {
+      position: relative;
+      display: inline-block;
+      color: var(--accent);
+      font-style: italic;
+      padding-right: 0.04em;
+    }
+
+    .accent-word::after {
+      content: "";
+      position: absolute;
+      right: 0.02em;
+      bottom: 0.08em;
+      left: 0.03em;
+      height: 0.055em;
+      background: currentColor;
+      border-radius: 50%;
+      transform: rotate(-1.6deg);
+      opacity: 0.55;
+    }
+
+    .hero-star {
+      position: absolute;
+      top: -0.42em;
+      right: 2%;
+      color: var(--accent);
+      font-family: var(--font-serif);
+      font-size: 0.3em;
+      font-weight: 400;
+      line-height: 1;
+      animation: spin 18s linear infinite;
+    }
+
+    .hero-desc {
+      max-width: 600px;
+      margin: 32px auto 0;
+      color: var(--ink-soft);
+      font-size: clamp(0.95rem, 1.15vw, 1.06rem);
+      line-height: 1.9;
+    }
+
+    .hero-desc strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 50px;
+      padding: 0 22px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.35s var(--ease),
+        box-shadow 0.35s ease;
+    }
+
+    .button svg {
+      width: 17px;
+      height: 17px;
+      transition: transform 0.35s var(--ease);
+    }
+
+    .button-primary {
+      color: var(--paper);
+      background: var(--ink);
+    }
+
+    .button-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(233, 88, 51, 0.2);
+    }
+
+    .button-primary:hover svg {
+      transform: translate(3px, -3px);
+    }
+
+    .button-ghost {
+      background: transparent;
+    }
+
+    .button-ghost:hover {
+      background: rgba(255, 255, 255, 0.45);
+      transform: translateY(-3px);
+    }
+
+    .button-ghost:hover svg {
+      transform: translate(2px, -2px);
+    }
+
+    .hero-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: 100%;
+      max-width: 900px;
+      margin: clamp(48px, 8vh, 92px) auto 0;
+      padding-top: 18px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 0.63rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .scroll-cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .scroll-cue::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: var(--muted);
+      animation: pulse-line 2.4s ease-in-out infinite;
+    }
+
+    .hero-place {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .hero-place .clock {
+      color: var(--ink);
+    }
+
+    /* ============================================================
+       05. 横向技能滚动条
+       ============================================================ */
+    .ticker {
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+      padding: 18px 0;
+      color: var(--paper);
+      background: var(--ink);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 24s linear infinite;
+    }
+
+    .ticker:hover .ticker-track {
+      animation-play-state: paused;
+    }
+
+    .ticker-group {
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(26px, 3.2vw, 50px);
+      padding-right: clamp(26px, 3.2vw, 50px);
+      font-family: var(--font-mono);
+      font-size: clamp(0.68rem, 0.9vw, 0.8rem);
+      letter-spacing: 0.17em;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .ticker-item::after {
+      content: "✦";
+      color: var(--accent);
+      font-family: var(--font-serif);
+      font-size: 1.15em;
+      letter-spacing: 0;
+    }
+
+    /* ============================================================
+       06. 通用章节
+       ============================================================ */
+    .section {
+      position: relative;
+      padding: clamp(92px, 12vw, 158px) 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: clamp(48px, 6vw, 74px);
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading h2 {
+      margin-top: 12px;
+      font-family: var(--font-serif);
+      font-size: clamp(2.3rem, 4.6vw, 4.2rem);
+      font-weight: 600;
+      letter-spacing: -0.055em;
+      line-height: 1.1;
+    }
+
+    .section-note {
+      max-width: 330px;
+      padding-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.8;
+      text-align: right;
+    }
+
+    /* ============================================================
+       07. 关于
+       ============================================================ */
+    .about {
+      overflow: hidden;
+    }
+
+    .about::before {
+      content: "";
+      position: absolute;
+      top: 22%;
+      right: -220px;
+      width: 500px;
+      height: 500px;
+      border: 1px solid rgba(24, 23, 18, 0.07);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      align-items: start;
+      gap: clamp(50px, 9vw, 132px);
+    }
+
+    .about-statement {
+      position: relative;
+      padding-top: 8px;
+    }
+
+    .about-statement::before {
+      content: "“";
+      position: absolute;
+      top: -0.45em;
+      left: -0.24em;
+      color: var(--accent);
+      font-family: var(--font-serif);
+      font-size: 7rem;
+      line-height: 1;
+      opacity: 0.24;
+      pointer-events: none;
+    }
+
+    .about-quote {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-serif);
+      font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1.4;
+    }
+
+    .about-quote em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .about-sign {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .about-sign::before {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    .about-body {
+      padding-top: 8px;
+    }
+
+    .about-lead {
+      color: var(--ink);
+      font-size: clamp(1.05rem, 1.45vw, 1.18rem);
+      font-weight: 500;
+      line-height: 1.9;
+    }
+
+    .about-body > p:not(.about-lead) {
+      margin-top: 20px;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      line-height: 2;
+    }
+
+    .about-body > p .mark {
+      padding: 1px 4px;
+      background: linear-gradient(transparent 58%, rgba(233, 88, 51, 0.18) 58%);
+    }
+
+    .about-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 42px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--ink);
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 3.4vw, 2.9rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .fact strong sup {
+      margin-left: 2px;
+      color: var(--accent);
+      font-family: var(--font-sans);
+      font-size: 0.35em;
+      font-weight: 500;
+      vertical-align: super;
+    }
+
+    .fact span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      line-height: 1.55;
+    }
+
+    /* ============================================================
+       08. 专长卡片
+       ============================================================ */
+    .skills {
+      padding-top: clamp(74px, 9vw, 120px);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .skill-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 350px;
+      padding: clamp(24px, 3vw, 34px);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      isolation: isolate;
+      transition:
+        transform 0.55s var(--ease),
+        box-shadow 0.55s ease,
+        border-color 0.4s ease;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(24, 23, 18, 0.28);
+      box-shadow: 0 24px 50px rgba(44, 36, 22, 0.12);
+      transform: translateY(-6px);
+    }
+
+    .skill-card--wide {
+      grid-column: span 7;
+    }
+
+    .skill-card--small {
+      grid-column: span 5;
+    }
+
+    .skill-card--dark {
+      color: var(--paper);
+      background: var(--ink);
+    }
+
+    .skill-card--accent {
+      color: var(--ink);
+      background: var(--accent);
+    }
+
+    .skill-card--sage {
+      color: var(--ink);
+      background: var(--sage);
+    }
+
+    .skill-card--light {
+      color: var(--ink);
+      background: #fbf7ee;
+    }
+
+    .skill-top {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .skill-top .skill-en {
+      opacity: 0.56;
+    }
+
+    .skill-card h3 {
+      position: relative;
+      z-index: 2;
+      max-width: 410px;
+      margin-top: auto;
+      padding-top: 58px;
+      font-family: var(--font-serif);
+      font-size: clamp(1.65rem, 2.8vw, 2.55rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.32;
+    }
+
+    .skill-card p {
+      position: relative;
+      z-index: 2;
+      max-width: 440px;
+      margin-top: 14px;
+      color: inherit;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      opacity: 0.72;
+    }
+
+    .skill-tags {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 22px;
+    }
+
+    .skill-tags li {
+      padding: 5px 10px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 0.62rem;
+      line-height: 1.4;
+      letter-spacing: 0.02em;
+      opacity: 0.55;
+    }
+
+    .skill-orbit {
+      position: absolute;
+      top: -28%;
+      right: -12%;
+      z-index: 0;
+      width: 300px;
+      height: 300px;
+      border: 1px solid rgba(243, 239, 230, 0.22);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .skill-orbit::before,
+    .skill-orbit::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(243, 239, 230, 0.12);
+      border-radius: 50%;
+    }
+
+    .skill-orbit::before {
+      inset: 16%;
+    }
+
+    .skill-orbit::after {
+      inset: 32%;
+    }
+
+    .skill-card--accent .skill-orbit {
+      top: -35%;
+      right: -18%;
+      width: 260px;
+      height: 260px;
+      border-color: rgba(24, 23, 18, 0.2);
+    }
+
+    .skill-card--accent .skill-orbit::before,
+    .skill-card--accent .skill-orbit::after {
+      border-color: rgba(24, 23, 18, 0.13);
+    }
+
+    .skill-scribble {
+      position: absolute;
+      right: 24px;
+      bottom: 22px;
+      z-index: 1;
+      color: currentColor;
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      line-height: 1;
+      opacity: 0.32;
+      transform: rotate(8deg);
+      pointer-events: none;
+      transition: transform 0.5s var(--ease), opacity 0.5s ease;
+    }
+
+    .skill-card:hover .skill-scribble {
+      opacity: 0.7;
+      transform: rotate(-8deg) scale(1.12);
+    }
+
+    .skill-card--light::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: radial-gradient(rgba(24, 23, 18, 0.12) 0.8px, transparent 0.8px);
+      background-size: 17px 17px;
+      -webkit-mask-image: linear-gradient(135deg, transparent 32%, #000 100%);
+      mask-image: linear-gradient(135deg, transparent 32%, #000 100%);
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       09. 作品
+       ============================================================ */
+    .work {
+      padding-top: clamp(92px, 11vw, 150px);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(34px, 4vw, 52px) 24px;
+    }
+
+    .project {
+      min-width: 0;
+    }
+
+    .project--wide {
+      grid-column: 1 / -1;
+      max-width: 100%;
+    }
+
+    .project-cover {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      border: 1px solid rgba(24, 23, 18, 0.1);
+      border-radius: 20px;
+      isolation: isolate;
+    }
+
+    .project--wide .project-cover {
+      aspect-ratio: 16 / 8.2;
+    }
+
+    .project-cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .project-art {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.9s var(--ease);
+    }
+
+    .project:hover .project-art {
+      transform: scale(1.025);
+    }
+
+    .cover-index {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      z-index: 12;
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      opacity: 0.7;
+    }
+
+    .cover-tag {
+      position: absolute;
+      top: 20px;
+      left: 22px;
+      z-index: 12;
+      padding: 5px 10px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      line-height: 1.4;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 17px 4px 0;
+    }
+
+    .project-meta h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.25rem, 2vw, 1.55rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+
+    .project-meta p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.73rem;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+
+    .project-year {
+      padding-top: 7px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    /* 作品一：第一张网页 */
+    .art-tea {
+      color: #1e3a2b;
+      background:
+        radial-gradient(circle at 77% 40%, #e95833 0 17%, transparent 17.4%),
+        linear-gradient(135deg, #e3e8d5 0%, #c3d0ae 58%, #a9bb92 100%);
+    }
+
+    .tea-title {
+      position: absolute;
+      top: 18%;
+      left: 7%;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 8.4vw, 7.5rem);
+      font-weight: 500;
+      letter-spacing: -0.08em;
+      line-height: 0.94;
+    }
+
+    .tea-title span:last-child {
+      padding-left: 0.78em;
+    }
+
+    .tea-sub {
+      position: absolute;
+      bottom: 29%;
+      left: 8%;
+      z-index: 2;
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+    }
+
+    .tea-hill {
+      position: absolute;
+      bottom: -2px;
+      left: -4%;
+      z-index: 1;
+      width: 115%;
+      height: 31%;
+      background: #34533d;
+      border-radius: 54% 46% 0 0 / 90% 85% 0 0;
+      transform: rotate(-2deg);
+    }
+
+    .tea-hill::before {
+      content: "";
+      position: absolute;
+      top: -25%;
+      left: 38%;
+      width: 78%;
+      height: 120%;
+      background: #486a4f;
+      border-radius: 55% 45% 0 0 / 90% 75% 0 0;
+      transform: rotate(4deg);
+    }
+
+    .tea-stamp {
+      position: absolute;
+      right: 8%;
+      bottom: 7%;
+      z-index: 3;
+      display: grid;
+      width: 62px;
+      height: 62px;
+      place-items: center;
+      color: #1e3a2b;
+      background: rgba(245, 241, 229, 0.68);
+      border: 1px solid rgba(30, 58, 43, 0.32);
+      border-radius: 50%;
+      font-family: var(--font-serif);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      transform: rotate(9deg);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+
+    /* 作品二：GitHub 起步 */
+    .art-echo {
+      color: #f4eee4;
+      background:
+        radial-gradient(circle at 68% 40%, rgba(233, 88, 51, 0.34), transparent 31%),
+        linear-gradient(140deg, #1a2431 0%, #141b27 62%, #293544 100%);
+    }
+
+    .echo-glow {
+      position: absolute;
+      top: 8%;
+      right: -25%;
+      width: 75%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(244, 238, 228, 0.18);
+      border-radius: 50%;
+    }
+
+    .echo-glow::before,
+    .echo-glow::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(244, 238, 228, 0.1);
+      border-radius: 50%;
+    }
+
+    .echo-glow::before {
+      inset: 15%;
+    }
+
+    .echo-glow::after {
+      inset: 31%;
+    }
+
+    .echo-title {
+      position: absolute;
+      top: 18%;
+      left: 8%;
+      z-index: 2;
+      font-family: var(--font-serif);
+      font-size: clamp(2.7rem, 7.5vw, 6.8rem);
+      font-weight: 500;
+      letter-spacing: -0.08em;
+      line-height: 0.95;
+    }
+
+    .echo-en {
+      position: absolute;
+      bottom: 11%;
+      left: 8.5%;
+      z-index: 2;
+      color: rgba(244, 238, 228, 0.52);
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.23em;
+    }
+
+    .echo-card {
+      position: absolute;
+      right: 8%;
+      bottom: 13%;
+      z-index: 3;
+      width: min(43%, 232px);
+      padding: 13px;
+      color: #1c2430;
+      background: #f6f0e4;
+      border-radius: 10px;
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.23);
+      transform: rotate(3.5deg);
+      transition: transform 0.7s var(--ease);
+    }
+
+    .project:hover .echo-card {
+      transform: rotate(-1deg) translateY(-5px);
+    }
+
+    .echo-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 13px;
+      font-family: var(--font-mono);
+      font-size: 0.42rem;
+      letter-spacing: 0.08em;
+    }
+
+    .echo-card-head span:last-child {
+      width: 5px;
+      height: 5px;
+      background: #58a35e;
+      border-radius: 50%;
+    }
+
+    .echo-bars {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 48px;
+    }
+
+    .echo-bars span {
+      display: block;
+      width: 100%;
+      background: #1c2430;
+      border-radius: 3px;
+      opacity: 0.78;
+    }
+
+    .echo-bars span:nth-child(1) { height: 24%; }
+    .echo-bars span:nth-child(2) { height: 55%; }
+    .echo-bars span:nth-child(3) { height: 83%; }
+    .echo-bars span:nth-child(4) { height: 42%; }
+    .echo-bars span:nth-child(5) { height: 72%; }
+    .echo-bars span:nth-child(6) { height: 100%; }
+    .echo-bars span:nth-child(7) { height: 61%; }
+    .echo-bars span:nth-child(8) { height: 34%; }
+    .echo-bars span:nth-child(9) { height: 70%; }
+    .echo-bars span:nth-child(10) { height: 46%; }
+    .echo-bars span:nth-child(11) { height: 20%; }
+
+    .echo-card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 12px;
+      color: #6b706b;
+      font-size: 0.46rem;
+      line-height: 1.4;
+    }
+
+    .echo-play {
+      display: grid;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      color: #f6f0e4;
+      background: var(--accent);
+      border-radius: 50%;
+      font-size: 0.44rem;
+    }
+
+    /* 作品三：下一件作品 */
+    .art-film {
+      color: #201d16;
+      background: linear-gradient(135deg, #e8aa68 0%, #efb77c 48%, #d99955 100%);
+    }
+
+    .film-strip {
+      position: absolute;
+      right: -5%;
+      left: -5%;
+      height: 12%;
+      background: #1d211d;
+    }
+
+    .film-strip::before,
+    .film-strip::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 0;
+      left: 0;
+      height: 27%;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(245, 239, 229, 0.8) 0 7px,
+        transparent 7px 22px
+      );
+      transform: translateY(-50%);
+      opacity: 0.7;
+    }
+
+    .film-strip--top {
+      top: 8%;
+      transform: rotate(-2.3deg);
+    }
+
+    .film-strip--bottom {
+      bottom: 8%;
+      transform: rotate(1.6deg);
+    }
+
+    .film-title {
+      position: absolute;
+      top: 29%;
+      left: 9%;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-serif);
+      font-size: clamp(2.9rem, 7.6vw, 6.7rem);
+      font-weight: 500;
+      letter-spacing: -0.07em;
+      line-height: 0.92;
+    }
+
+    .film-title em {
+      padding-left: 0.72em;
+      color: #f7ede0;
+      font-style: italic;
+    }
+
+    .film-caption {
+      position: absolute;
+      right: 8%;
+      bottom: 28%;
+      z-index: 2;
+      max-width: 27%;
+      font-family: var(--font-mono);
+      font-size: 0.51rem;
+      line-height: 1.7;
+      letter-spacing: 0.08em;
+      text-align: right;
+    }
+
+    .film-frame {
+      position: absolute;
+      top: 35%;
+      right: 12%;
+      z-index: 1;
+      width: 22%;
+      aspect-ratio: 3 / 4;
+      background: #f4eadb;
+      border: 7px solid #f4eadb;
+      box-shadow: 0 15px 30px rgba(61, 39, 17, 0.16);
+      transform: rotate(8deg);
+    }
+
+    .film-frame::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 37%, #e95833 0 15%, transparent 15.5%),
+        linear-gradient(160deg, #819b83, #395148);
+    }
+
+    /* ============================================================
+       10. 工作信条
+       ============================================================ */
+    .belief {
+      padding: clamp(64px, 8vw, 100px) 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .belief-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 36px;
+    }
+
+    .belief-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3.8vw, 3.4rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1.35;
+    }
+
+    .belief-quote .accent {
+      color: var(--accent);
+    }
+
+    .belief-note {
+      max-width: 210px;
+      padding-bottom: 7px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.61rem;
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       11. 联系
+       ============================================================ */
+    .contact-section {
+      padding: clamp(60px, 8vw, 100px) 0 0;
+    }
+
+    .contact-panel {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(250px, 0.85fr);
+      gap: clamp(40px, 7vw, 110px);
+      overflow: hidden;
+      padding: clamp(34px, 6vw, 76px);
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: var(--radius-lg);
+      isolation: isolate;
+    }
+
+    .contact-panel::before {
+      content: "";
+      position: absolute;
+      top: -32%;
+      right: -11%;
+      z-index: -1;
+      width: clamp(300px, 48vw, 620px);
+      aspect-ratio: 1;
+      background: radial-gradient(circle, rgba(233, 88, 51, 0.34), transparent 68%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .contact-panel::after {
+      content: "✦";
+      position: absolute;
+      top: 30px;
+      right: 38px;
+      z-index: -1;
+      color: var(--accent);
+      font-family: var(--font-serif);
+      font-size: clamp(4rem, 8vw, 7rem);
+      line-height: 1;
+      opacity: 0.8;
+      animation: spin 34s linear infinite;
+      pointer-events: none;
+    }
+
+    .contact-main {
+      position: relative;
+      z-index: 2;
+    }
+
+    .contact-main .eyebrow {
+      color: rgba(243, 239, 230, 0.58);
+    }
+
+    .contact-title {
+      margin-top: 22px;
+      font-family: var(--font-serif);
+      font-size: clamp(2.7rem, 6vw, 5.6rem);
+      font-weight: 500;
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .contact-title em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 100%;
+      margin-top: clamp(34px, 5vw, 58px);
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(243, 239, 230, 0.38);
+      font-family: var(--font-mono);
+      font-size: clamp(0.8rem, 1.45vw, 1.04rem);
+      letter-spacing: 0.02em;
+      overflow-wrap: anywhere;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .email-link span {
+      color: var(--accent);
+      transition: transform 0.35s var(--ease);
+    }
+
+    .email-link:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .email-link:hover span {
+      transform: translate(3px, -3px);
+    }
+
+    .contact-aside {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: 40px;
+    }
+
+    .contact-aside > p {
+      max-width: 290px;
+      color: rgba(243, 239, 230, 0.62);
+      font-size: 0.85rem;
+      line-height: 1.9;
+    }
+
+    .contact-list {
+      margin-top: 34px;
+      border-top: 1px solid var(--line-light);
+    }
+
+    .contact-list > div {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .contact-list dt {
+      color: rgba(243, 239, 230, 0.42);
+      font-family: var(--font-mono);
+      font-size: 0.57rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .contact-list dd {
+      color: rgba(243, 239, 230, 0.86);
+      font-size: 0.76rem;
+      letter-spacing: 0.03em;
+      text-align: right;
+    }
+
+    .contact-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .contact-status .status-dot {
+      width: 5px;
+      height: 5px;
+      box-shadow: 0 0 0 3px rgba(88, 163, 94, 0.12);
+    }
+
+    .local-time {
+      margin-top: 20px;
+      color: rgba(243, 239, 230, 0.37);
+      font-family: var(--font-mono);
+      font-size: 0.59rem;
+      letter-spacing: 0.06em;
+    }
+
+    .local-time span {
+      color: rgba(243, 239, 230, 0.75);
+    }
+
+    /* ============================================================
+       12. 页脚
+       ============================================================ */
+    .site-footer {
+      padding: 34px 0 38px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px 30px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.07em;
+    }
+
+    .footer-mid {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-mid span {
+      color: var(--accent);
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+    }
+
+    .to-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--ink-soft);
+      transition: color 0.25s ease;
+    }
+
+    .to-top:hover {
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       13. 动效与 reveal
+       ============================================================ */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition:
+        opacity 0.9s var(--ease),
+        transform 0.9s var(--ease);
+      transition-delay: var(--delay, 0s);
+    }
+
+    .js .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes breathe {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(88, 163, 94, 0.12); }
+      50% { box-shadow: 0 0 0 6px rgba(88, 163, 94, 0.04); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes pulse-line {
+      0%, 100% { transform: scaleX(0.6); transform-origin: left; opacity: 0.5; }
+      50% { transform: scaleX(1); transform-origin: left; opacity: 1; }
+    }
+
+    /* ============================================================
+       14. 响应式
+       ============================================================ */
+    @media (max-width: 1080px) {
+      .hero {
+        padding-top: 132px;
+      }
+
+      .about-grid {
+        gap: 56px;
+      }
+    }
+
+    @media (max-width: 860px) {
+      :root {
+        --container: min(100% - 40px, 680px);
+      }
+
+      .header-inner {
+        position: relative;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .main-nav {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        left: 0;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0;
+        padding: 8px 18px 18px;
+        background: #f9f5ec;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: 0 22px 60px rgba(44, 36, 22, 0.16);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-8px) scale(0.99);
+        transform-origin: top center;
+        transition:
+          opacity 0.3s var(--ease),
+          transform 0.35s var(--ease),
+          visibility 0.3s ease;
+        -webkit-backdrop-filter: blur(18px);
+        backdrop-filter: blur(18px);
+      }
+
+      .main-nav.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+      }
+
+      .nav-link {
+        display: block;
+        padding: 14px 2px;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.92rem;
+      }
+
+      .nav-link::after {
+        display: none;
+      }
+
+      .nav-cta {
+        justify-content: center;
+        margin-top: 15px;
+        padding: 13px 18px;
+        border-radius: 12px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 126px 0 78px;
+      }
+
+      .hero-title {
+        font-size: clamp(3.3rem, 9vw, 5.5rem);
+      }
+
+      .hero-desc {
+        max-width: 580px;
+      }
+
+      .hero-foot {
+        margin-top: 48px;
+      }
+
+      .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .section-note {
+        max-width: 480px;
+        padding-bottom: 0;
+        text-align: left;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 42px;
+      }
+
+      .about-quote {
+        max-width: 580px;
+      }
+
+      .skill-card--wide,
+      .skill-card--small {
+        grid-column: span 6;
+      }
+
+      .skill-card {
+        min-height: 330px;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+        gap: 38px;
+      }
+
+      .project--wide .project-cover,
+      .project-cover {
+        aspect-ratio: 16 / 10.5;
+      }
+
+      .belief-inner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .belief-note {
+        max-width: none;
+        text-align: left;
+      }
+
+      .contact-panel {
+        grid-template-columns: 1fr;
+        gap: 26px;
+      }
+
+      .contact-aside {
+        padding-top: 10px;
+        max-width: 480px;
+      }
+    }
+
+    @media (max-width: 580px) {
+      :root {
+        --container: calc(100% - 32px);
+        --radius-lg: 24px;
+        --radius-md: 18px;
+      }
+
+      .site-header {
+        padding: 15px 0;
+      }
+
+      .header-inner {
+        gap: 14px;
+      }
+
+      .brand-name {
+        display: none;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+      }
+
+      .nav-cta {
+        padding: 9px 14px;
+        font-size: 0.72rem;
+      }
+
+      .hero {
+        padding-top: 108px;
+      }
+
+      .hello {
+        gap: 8px;
+        margin-bottom: 24px;
+        font-size: 0.7rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2.35rem, 12.7vw, 4.15rem);
+        letter-spacing: -0.06em;
+        line-height: 1.12;
+      }
+
+      .hero-star {
+        right: -0.1em;
+        font-size: 0.36em;
+      }
+
+      .hero-desc {
+        margin-top: 24px;
+        font-size: 0.9rem;
+        line-height: 1.85;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .hero-foot {
+        align-items: center;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 38px;
+        font-size: 0.56rem;
+        text-align: center;
+      }
+
+      .ticker {
+        padding: 14px 0;
+      }
+
+      .section {
+        padding: 78px 0;
+      }
+
+      .section-heading {
+        margin-bottom: 36px;
+        padding-bottom: 18px;
+      }
+
+      .section-heading h2 {
+        font-size: 2.5rem;
+      }
+
+      .section-note {
+        font-size: 0.8rem;
+      }
+
+      .about-quote {
+        font-size: clamp(1.8rem, 7.7vw, 2.4rem);
+      }
+
+      .about-body > p:not(.about-lead) {
+        font-size: 0.87rem;
+        line-height: 1.9;
+      }
+
+      .about-facts {
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .fact strong {
+        font-size: 2rem;
+      }
+
+      .fact span {
+        font-size: 0.62rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .skill-card--wide,
+      .skill-card--small {
+        grid-column: auto;
+      }
+
+      .skill-card {
+        min-height: 290px;
+        padding: 24px;
+      }
+
+      .skill-card h3 {
+        padding-top: 44px;
+        font-size: 1.72rem;
+      }
+
+      .skill-card p {
+        font-size: 0.78rem;
+      }
+
+      .project-cover,
+      .project--wide .project-cover {
+        aspect-ratio: 4 / 3;
+        border-radius: 15px;
+      }
+
+      .tea-title {
+        font-size: 3.6rem;
+      }
+
+      .echo-title {
+        font-size: 3rem;
+      }
+
+      .film-title {
+        font-size: 3.4rem;
+      }
+
+      .echo-card {
+        width: 43%;
+      }
+
+      .film-caption {
+        display: none;
+      }
+
+      .project-meta {
+        padding-top: 13px;
+      }
+
+      .project-meta h3 {
+        font-size: 1.2rem;
+      }
+
+      .project-meta p {
+        font-size: 0.68rem;
+      }
+
+      .belief {
+        padding: 54px 0;
+      }
+
+      .belief-quote {
+        font-size: 1.72rem;
+      }
+
+      .contact-section {
+        padding-top: 48px;
+      }
+
+      .contact-panel {
+        padding: 28px 22px 30px;
+        gap: 20px;
+      }
+
+      .contact-title {
+        font-size: clamp(2.5rem, 12vw, 3.4rem);
+      }
+
+      .contact-panel::after {
+        top: 20px;
+        right: 20px;
+        font-size: 3.6rem;
+      }
+
+      .email-link {
+        margin-top: 30px;
+        font-size: 0.75rem;
+      }
+
+      .contact-aside > p {
+        font-size: 0.8rem;
+      }
+
+      .contact-list {
+        margin-top: 24px;
+      }
+
+      .contact-list > div {
+        gap: 12px;
+      }
+
+      .footer-inner {
+        gap: 10px;
+        font-size: 0.56rem;
+      }
+
+      .footer-mid {
+        order: 3;
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
+
+  <!-- ==================== 页头 ==================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="路明非的个人主页">
+        <span class="brand-mark" aria-hidden="true">非</span>
+        <span class="brand-name">
+          LU MINGFEI
+          <small>LEARN &amp; BUILD</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" id="mainNav" aria-label="主导航">
+        <a class="nav-link" href="#about">关于</a>
+        <a class="nav-link" href="#skills">学习</a>
+        <a class="nav-link" href="#work">在做</a>
+        <a class="nav-cta" href="#contact">联系我 <span aria-hidden="true">↗</span></a>
+      </nav>
+
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mainNav"
+        aria-label="打开菜单"
+      >
+        <span>菜单</span>
+        <span class="menu-toggle-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ==================== 首屏 ==================== -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="hello reveal">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>你好，我是路明非</span>
+            <span class="divider" aria-hidden="true">/</span>
+            <span>代码爱好者 · GitHub 新手</span>
+          </p>
+
+          <h1 class="hero-title reveal" id="hero-title" style="--delay: 0.08s">
+            <span class="line">把好奇心，</span>
+            <span class="line"><span class="accent-word">写进代码</span>里。</span>
+            <span class="hero-star" aria-hidden="true">✦</span>
+          </h1>
+
+          <p class="hero-desc reveal" style="--delay: 0.16s">
+            常驻广州的代码爱好者，也是 <strong>GitHub 新手</strong>。正在从一行行代码开始，把脑海里的点子变成真正能运行的东西。会的不算多，但好奇心管够。
+          </p>
+
+          <div class="hero-actions reveal" style="--delay: 0.24s">
+            <a class="button button-primary" href="#work">
+              看看最近在做
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a class="button button-ghost" href="#about">
+              认识一下
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4 10H16M11 5L16 10L11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="hero-foot reveal" style="--delay: 0.3s">
+            <span class="scroll-cue">Scroll to explore</span>
+            <span class="hero-place">
+              Guangzhou, CN
+              <span class="clock" id="heroClock">--:--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 技能跑马灯 ==================== -->
+    <div class="ticker" aria-label="我的兴趣与学习方向">
+      <div class="ticker-track">
+        <div class="ticker-group">
+          <span class="ticker-item">Code &amp; Curiosity</span>
+          <span class="ticker-item">Git &amp; GitHub</span>
+          <span class="ticker-item">Side Projects</span>
+          <span class="ticker-item">Learn In Public</span>
+          <span class="ticker-item">Hello World</span>
+          <span class="ticker-item">Good Coffee</span>
+        </div>
+        <div class="ticker-group" aria-hidden="true">
+          <span class="ticker-item">Code &amp; Curiosity</span>
+          <span class="ticker-item">Git &amp; GitHub</span>
+          <span class="ticker-item">Side Projects</span>
+          <span class="ticker-item">Learn In Public</span>
+          <span class="ticker-item">Hello World</span>
+          <span class="ticker-item">Good Coffee</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 关于 ==================== -->
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">01 / About me</span>
+            <h2 id="about-title">关于我</h2>
+          </div>
+          <p class="section-note">
+            还在学习，也还在路上。<br>
+            把每一次报错，当成下一次进步。
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-statement reveal">
+            <p class="about-quote">
+              写代码不总是顺利，<br>
+              但每次「跑通了」，<br>
+              <em>都值得开心很久。</em>
+            </p>
+            <p class="about-sign">My learning manifesto</p>
+          </div>
+
+          <div class="about-body reveal" style="--delay: 0.1s">
+            <p class="about-lead">
+              你好，我是路明非，常驻广州的代码爱好者，也是 <span class="no-break">GitHub 新手</span>。
+            </p>
+            <p>
+              我对代码的兴趣，来自那种「敲下几行字，屏幕上就真的出现了一个东西」的魔法感。现在还在打基础，偶尔做点小练习，也会把踩过的坑记下来。享受这种<span class="mark">从零开始、边做边学</span>的过程。
+            </p>
+            <p>
+              比起急着成为高手，我更想保持好奇、保持动手：多读一点，多写一点，也多和厉害的人交流一点。希望有一天，能做出让自己骄傲的作品。
+            </p>
+
+            <div class="about-facts" aria-label="一些数字">
+              <div class="fact">
+                <strong>0→1</strong>
+                <span>从第一行代码开始</span>
+              </div>
+              <div class="fact">
+                <strong>∞</strong>
+                <span>个还没实现的小点子</span>
+              </div>
+              <div class="fact">
+                <strong>100<sup>%</sup></strong>
+                <span>愿意学习和折腾</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 专长 ==================== -->
+    <section class="section skills" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">02 / Currently learning</span>
+            <h2 id="skills-title">我在学什么</h2>
+          </div>
+          <p class="section-note">
+            方向还在探索，但手没有停。<br>
+            每个小练习，都是往前一步。
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-card skill-card--wide skill-card--dark">
+            <div class="skill-top">
+              <span>01</span>
+              <span class="skill-en">Learning by doing</span>
+            </div>
+            <h3>从第一行代码开始，<br>把想法跑起来。</h3>
+            <p>
+              正在打基础，喜欢先动手试，再回头弄懂。遇到报错就查文档、做笔记，然后继续。
+            </p>
+            <ul class="skill-tags" aria-label="代码学习状态">
+              <li>边学边做</li>
+              <li>查文档</li>
+              <li>解决问题</li>
+              <li>好奇心</li>
+            </ul>
+            <span class="skill-orbit" aria-hidden="true"></span>
+            <span class="skill-scribble" aria-hidden="true">✦</span>
+          </article>
+
+          <article class="skill-card skill-card--small skill-card--accent">
+            <div class="skill-top">
+              <span>02</span>
+              <span class="skill-en">Git &amp; GitHub</span>
+            </div>
+            <h3>GitHub 新手，<br>正在学会分享。</h3>
+            <p>
+              学习 Git 的基本操作，试着把练习和小项目放上 GitHub，让成长有迹可循。
+            </p>
+            <ul class="skill-tags" aria-label="GitHub 学习状态">
+              <li>Git</li>
+              <li>GitHub</li>
+              <li>README</li>
+              <li>公开学习</li>
+            </ul>
+            <span class="skill-orbit" aria-hidden="true"></span>
+            <span class="skill-scribble" aria-hidden="true">＋</span>
+          </article>
+
+          <article class="skill-card skill-card--small skill-card--sage">
+            <div class="skill-top">
+              <span>03</span>
+              <span class="skill-en">Learning habits</span>
+            </div>
+            <h3>保持输入，<br>也保持输出。</h3>
+            <p>
+              看教程、读代码、写笔记。把踩过的坑记下来，下一次就能少绕一点路。
+            </p>
+            <ul class="skill-tags" aria-label="学习习惯">
+              <li>自学</li>
+              <li>笔记</li>
+              <li>复盘</li>
+              <li>折腾</li>
+            </ul>
+            <span class="skill-scribble" aria-hidden="true">✦</span>
+          </article>
+
+          <article class="skill-card skill-card--wide skill-card--light">
+            <div class="skill-top">
+              <span>04</span>
+              <span class="skill-en">Learn together</span>
+            </div>
+            <h3>和同路的人一起，<br>走得更远一点。</h3>
+            <p>
+              如果你也在学代码，欢迎一起交流、互相监督，或者从一个小项目开始合作。
+            </p>
+            <ul class="skill-tags" aria-label="协作与交流">
+              <li>一起学习</li>
+              <li>交换笔记</li>
+              <li>Side project</li>
+              <li>开源</li>
+            </ul>
+            <span class="skill-scribble" aria-hidden="true">→</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 作品 ==================== -->
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">03 / Building in public</span>
+            <h2 id="work-title">最近在做</h2>
+          </div>
+          <p class="section-note">
+            不急着惊艳谁，<br>
+            先把每个想法做完。
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <!-- 作品 01 -->
+          <article class="project project--wide reveal">
+            <div class="project-cover">
+              <div class="project-art art-tea">
+                <span class="cover-tag">First web page</span>
+                <span class="cover-index">01 / 03</span>
+                <span class="tea-title" aria-hidden="true">
+                  <span>第一张</span>
+                  <span>网页</span>
+                </span>
+                <span class="tea-sub">HELLO WORLD, THIS IS ME · 2026</span>
+                <span class="tea-hill" aria-hidden="true"></span>
+                <span class="tea-stamp" aria-hidden="true">持续<br>更新</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <div>
+                <h3>个人主页 1.0</h3>
+                <p>用 HTML / CSS / JavaScript 完成的第一个完整网页</p>
+              </div>
+              <span class="project-year">NOW</span>
+            </div>
+          </article>
+
+          <!-- 作品 02 -->
+          <article class="project reveal">
+            <div class="project-cover">
+              <div class="project-art art-echo">
+                <span class="cover-tag">Learning in public</span>
+                <span class="cover-index">02 / 03</span>
+                <span class="echo-glow" aria-hidden="true"></span>
+                <span class="echo-title" aria-hidden="true">Git<br>新手</span>
+                <span class="echo-en">HELLO, OPEN SOURCE</span>
+                <div class="echo-card" aria-hidden="true">
+                  <div class="echo-card-head">
+                    <span>FIRST COMMIT · MAIN</span>
+                    <span></span>
+                  </div>
+                  <div class="echo-bars">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="echo-card-foot">
+                    <span>从第一个仓库<br>开始</span>
+                    <span class="echo-play">→</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="project-meta">
+              <div>
+                <h3>GitHub 起步</h3>
+                <p>学习 Git / 创建第一个仓库 / 写第一份 README</p>
+              </div>
+              <span class="project-year">WIP</span>
+            </div>
+          </article>
+
+          <!-- 作品 03 -->
+          <article class="project reveal" style="--delay: 0.08s">
+            <div class="project-cover">
+              <div class="project-art art-film">
+                <span class="cover-tag">Idea in progress</span>
+                <span class="cover-index">03 / 03</span>
+                <span class="film-strip film-strip--top" aria-hidden="true"></span>
+                <span class="film-strip film-strip--bottom" aria-hidden="true"></span>
+                <span class="film-title" aria-hidden="true">
+                  <span>下一件</span>
+                  <em>作品</em>
+                </span>
+                <span class="film-frame" aria-hidden="true"></span>
+                <span class="film-caption">AN IDEA<br>ON THE WAY</span>
+              </div>
+            </div>
+            <div class="project-meta">
+              <div>
+                <h3>下一件想做的事</h3>
+                <p>一个还没成形的小项目，正在慢慢想</p>
+              </div>
+              <span class="project-year">SOON</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 学习信条 ==================== -->
+    <section class="belief" aria-label="学习信条">
+      <div class="container belief-inner reveal">
+        <p class="belief-quote">
+          先跑起来，<br>
+          再慢慢<span class="accent">变好。</span>
+        </p>
+        <p class="belief-note">My learning loop<br>Try · Fail · Learn · Repeat</p>
+      </div>
+    </section>
+
+    <!-- ==================== 联系 ==================== -->
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-panel reveal">
+          <div class="contact-main">
+            <span class="eyebrow">04 / Say hello</span>
+            <h2 class="contact-title" id="contact-title">
+              有想法？<br>
+              一起聊聊<br>
+              <em>代码吧。</em>
+            </h2>
+            <!-- 把这里的 GitHub 链接换成你的个人主页：https://github.com/你的用户名 -->
+            <a class="email-link" href="https://github.com/" target="_blank" rel="noopener noreferrer">
+              GitHub · 新手起步中
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="contact-aside">
+            <p>
+              如果你也在学代码，或者只是想交换一个有趣的想法，欢迎来打个招呼。我们可以一起研究报错、交换笔记，或者从一句 Hello, World 开始。
+            </p>
+            <dl class="contact-list">
+              <div>
+                <dt>GitHub</dt>
+                <dd>新手起步中</dd>
+              </div>
+              <div>
+                <dt>Location</dt>
+                <dd>广州，中国</dd>
+              </div>
+              <div>
+                <dt>Status</dt>
+                <dd>
+                  <span class="contact-status">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    持续学习中
+                  </span>
+                </dd>
+              </div>
+            </dl>
+            <p class="local-time">LOCAL TIME <span id="contactClock">--:--</span> CST</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 路明非 · Keep learning.</p>
+      <p class="footer-mid">Made with curiosity &amp; coffee <span aria-hidden="true">✦</span></p>
+      <a class="to-top" href="#top">回到顶部 <span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      root.classList.add("js");
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* ---------- 滚动进度 + 页头状态 ---------- */
+      const progress = document.getElementById("scrollBar");
+      const header = document.getElementById("siteHeader");
+      let ticking = false;
+
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          const scrollTop = window.scrollY || window.pageYOffset;
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          const ratio = scrollable > 0 ? Math.min(scrollTop / scrollable, 1) : 0;
+          if (progress) progress.style.transform = `scaleX(${ratio})`;
+          if (header) header.classList.toggle("is-scrolled", scrollTop > 24);
+          ticking = false;
+        });
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      /* ---------- 滚动入场 ---------- */
+      const revealItems = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window && !reduceMotion) {
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+        );
+
+        revealItems.forEach((item) => revealObserver.observe(item));
+      } else {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      }
+
+      /* ---------- 广州当地时间 ---------- */
+      const clocks = [document.getElementById("heroClock"), document.getElementById("contactClock")];
+      const timeFormatter = new Intl.DateTimeFormat("zh-CN", {
+        timeZone: "Asia/Shanghai",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+
+      const updateClocks = () => {
+        const time = timeFormatter.format(new Date());
+        clocks.forEach((clock) => {
+          if (clock) clock.textContent = time;
+        });
+      };
+
+      updateClocks();
+      window.setInterval(updateClocks, 30000);
+
+      /* ---------- 移动端菜单 ---------- */
+      const menuToggle = document.getElementById("menuToggle");
+      const mainNav = document.getElementById("mainNav");
+      const desktopNav = window.matchMedia("(min-width: 861px)");
+
+      if (menuToggle && mainNav && header) {
+        const setMenu = (open) => {
+          menuToggle.setAttribute("aria-expanded", String(open));
+          menuToggle.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+          menuToggle.classList.toggle("is-active", open);
+          mainNav.classList.toggle("is-open", open);
+          header.classList.toggle("is-menu-open", open);
+        };
+
+        menuToggle.addEventListener("click", () => {
+          setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
+        });
+
+        mainNav.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => setMenu(false));
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!mainNav.classList.contains("is-open")) return;
+          if (mainNav.contains(event.target) || menuToggle.contains(event.target)) return;
+          setMenu(false);
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key !== "Escape" || !mainNav.classList.contains("is-open")) return;
+          setMenu(false);
+          menuToggle.focus();
+        });
+
+        desktopNav.addEventListener("change", (event) => {
+          if (event.matches) setMenu(false);
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>
