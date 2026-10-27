@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mel0nyrame</title>
+  <style>
+    :root {
+      --bg-gradient-start: #f7e3e9;
+      --bg-gradient-mid: #f5e6f3;
+      --bg-gradient-end: #f6f0fa;
+      --text-primary: #5a4b5f;
+      --text-secondary: #6f617a;
+      --card-bg: rgba(255, 248, 251, 0.94);
+      --border: rgba(156, 139, 179, 0.38);
+      --border-strong: rgba(156, 139, 179, 0.55);
+      --shadow: 0 14px 44px -14px rgba(156, 139, 179, 0.26);
+      --shadow-hover: 0 28px 68px -18px rgba(156, 139, 179, 0.38);
+      --glow-pink: rgba(247, 210, 222, 0.55);
+      --glow-purple: rgba(174, 159, 200, 0.5);
+      --accent-title-start: #b9a7d1;
+      --accent-title-mid: #9c8bb3;
+      --accent-title-end: #b9a7d1;
+      --button-bg: linear-gradient(135deg, #b9a7d1 0%, #9c8bb3 100%);
+      --button-text: #f7f5fb;
+      --star-small: rgba(174, 159, 200, 0.6);
+      --star-mid: rgba(174, 159, 200, 0.72);
+      --star-large: rgba(247, 210, 222, 0.9);
+    }
+
+    [data-theme="dark"] {
+      --bg-gradient-start: #2a232d;
+      --bg-gradient-mid: #2d2538;
+      --bg-gradient-end: #26212f;
+      --text-primary: #f5f2fa;
+      --text-secondary: #d7d0e6;
+      --card-bg: rgba(42, 35, 49, 0.86);
+      --border: rgba(174, 159, 200, 0.48);
+      --border-strong: rgba(174, 159, 200, 0.68);
+      --shadow: 0 16px 48px -16px rgba(174, 159, 200, 0.32);
+      --shadow-hover: 0 30px 72px -18px rgba(174, 159, 200, 0.44);
+      --glow-pink: rgba(247, 210, 222, 0.42);
+      --glow-purple: rgba(174, 159, 200, 0.58);
+      --accent-title-start: #d0c3e6;
+      --accent-title-mid: #b9a7d1;
+      --accent-title-end: #d0c3e6;
+      --button-bg: linear-gradient(135deg, #c7b7dd 0%, #b9a7d1 100%);
+      --button-text: #2a232d;
+      --star-small: rgba(190, 178, 214, 0.7);
+      --star-mid: rgba(190, 178, 214, 0.82);
+      --star-large: rgba(247, 210, 222, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(ellipse at top, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 48%, var(--bg-gradient-end) 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    canvas#starfield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      max-width: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.8rem 2rem;
+      max-width: 880px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      background: linear-gradient(135deg, var(--accent-title-start) 0%, var(--accent-title-mid) 55%, var(--accent-title-end) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 6px 22px rgba(156, 139, 179, 0.16));
+    }
+
+    .theme-toggle {
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: 1px solid rgba(156, 139, 179, 0.45);
+      border-radius: 999px;
+      padding: 0.58rem 1.5rem;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      box-shadow: 0 12px 32px -14px var(--glow-purple);
+      transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 100%;
+      letter-spacing: 0.01em;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 44px -16px var(--glow-purple);
+    }
+
+    .theme-toggle:active {
+      transform: translateY(0);
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 2rem 3.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.45rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.1rem 2.4rem;
+      box-shadow: var(--shadow);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 100%;
+      word-break: break-word;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--glow-pink), transparent);
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      box-shadow: 0 0 0 1px rgba(156, 139, 179, 0.18) inset;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-strong);
+    }
+
+    .card:hover::before {
+      background: linear-gradient(90deg, transparent, var(--glow-pink), var(--glow-purple), transparent);
+    }
+
+    h2 {
+      font-size: 1.42rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg, var(--accent-title-start) 0%, var(--accent-title-mid) 58%, var(--accent-title-end) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    li {
+      color: var(--text-secondary);
+      padding: 0.9rem 1.15rem;
+      background: linear-gradient(90deg, rgba(247, 210, 222, 0.16) 0%, rgba(174, 159, 200, 0.14) 100%);
+      border-radius: 14px;
+      border: 1px solid rgba(156, 139, 179, 0.42);
+      transition: all 0.26s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    [data-theme="dark"] li {
+      background: linear-gradient(90deg, rgba(247, 210, 222, 0.14) 0%, rgba(174, 159, 200, 0.18) 100%);
+      border-color: rgba(174, 159, 200, 0.56);
+    }
+
+    li:hover {
+      transform: translateX(6px);
+      border-color: var(--border-strong);
+      box-shadow: 0 10px 28px -16px var(--glow-purple);
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 1.45rem 1.25rem;
+      }
+
+      .logo {
+        font-size: 1.68rem;
+      }
+
+      .theme-toggle {
+        font-size: 0.9rem;
+        padding: 0.52rem 1.24rem;
+      }
+
+      main {
+        padding: 0 1.25rem 2.9rem;
+        gap: 1.15rem;
+      }
+
+      .card {
+        padding: 1.7rem 1.5rem;
+        border-radius: 18px;
+      }
+
+      h2 {
+        font-size: 1.28rem;
+        margin-bottom: 0.9rem;
+      }
+
+      li {
+        padding: 0.78rem 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <header>
+    <div class="logo">mel0nyrame</div>
+    <button class="theme-toggle" id="themeToggle" type="button">切换主题</button>
+  </header>
+  <main>
+    <section class="card">
+      <h2>昵称</h2>
+      <p>mel0nyrame</p>
+    </section>
+    <section class="card">
+      <h2>学习方向</h2>
+      <p>Git、GitHub</p>
+    </section>
+    <section class="card">
+      <h2>学习目标</h2>
+      <ul>
+        <li>Hello,Git!</li>
+        <li>Hi,Github!</li>
+      </ul>
+    </section>
+  </main>
+  <script>
+    (function () {
+      const toggle = document.getElementById('themeToggle');
+      const root = document.documentElement;
+      const storageKey = 'theme-preference-mel0nyrame-peach-mist';
+
+      const applyTheme = function (theme) {
+        if (theme === 'dark') {
+          root.setAttribute('data-theme', 'dark');
+        } else {
+          root.removeAttribute('data-theme');
+        }
+      };
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved === 'dark' || saved === 'light') {
+        applyTheme(saved);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        applyTheme('dark');
+      }
+
+      toggle.addEventListener('click', function () {
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          applyTheme('light');
+          localStorage.setItem(storageKey, 'light');
+        } else {
+          applyTheme('dark');
+          localStorage.setItem(storageKey, 'dark');
+        }
+      });
+    })();
+
+    (function () {
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      let animationId;
+
+      const resize = function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        createStars();
+      };
+
+      const createStars = function () {
+        stars = [];
+        const area = canvas.width * canvas.height;
+        const count = Math.min(64, Math.max(42, Math.floor(area / 22000)));
+        for (let i = 0; i < count; i++) {
+          const type = Math.random();
+          let size = 0.8;
+          let speed = 0.08;
+          if (type > 0.82) {
+            size = Math.random() * 1.6 + 2.2;
+            speed = (Math.random() - 0.5) * 0.09;
+          } else if (type > 0.52) {
+            size = Math.random() * 1.0 + 1.4;
+            speed = (Math.random() - 0.5) * 0.09;
+          } else {
+            size = Math.random() * 0.8 + 0.9;
+            speed = (Math.random() - 0.5) * 0.08;
+          }
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: size,
+            vx: speed,
+            vy: speed,
+            alpha: Math.random() * 0.28 + 0.32,
+            twinkle: Math.random() * 0.01 + 0.006
+          });
+        }
+      };
+
+      const draw = function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < stars.length; i++) {
+          const s = stars[i];
+          s.alpha += s.twinkle;
+          if (s.alpha > 0.92 || s.alpha < 0.3) {
+            s.twinkle = -s.twinkle;
+          }
+          s.x += s.vx;
+          s.y += s.vy;
+          if (s.x < -4) s.x = canvas.width + 4;
+          if (s.x > canvas.width + 4) s.x = -4;
+          if (s.y < -4) s.y = canvas.height + 4;
+          if (s.y > canvas.height + 4) s.y = -4;
+          ctx.beginPath();
+          ctx.globalAlpha = s.alpha;
+          if (s.r >= 2.0) {
+            ctx.fillStyle = 'rgba(247, 210, 222, 0.95)';
+          } else if (s.r >= 1.3) {
+            ctx.fillStyle = 'rgba(174, 159, 200, 0.88)';
+          } else {
+            ctx.fillStyle = 'rgba(174, 159, 200, 0.72)';
+          }
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        animationId = requestAnimationFrame(draw);
+      };
+
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+  </script>
+</body>
+
+</html>
