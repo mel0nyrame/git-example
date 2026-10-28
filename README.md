@@ -100,6 +100,7 @@
   <a href="https://github.com/l206ar"><img src="https://avatars.githubusercontent.com/u/345330698?s=96&amp;v=4" width="48" height="48" alt="@l206ar" title="@l206ar" /></a>
   <a href="https://github.com/liangzhicong0226"><img src="https://avatars.githubusercontent.com/u/345584926?s=96&amp;v=4" width="48" height="48" alt="@liangzhicong0226" title="@liangzhicong0226" /></a>
   <a href="https://github.com/WYH1598"><img src="https://avatars.githubusercontent.com/u/232414115?s=96&amp;v=4" width="48" height="48" alt="@WYH1598" title="@WYH1598" /></a>
+  <a href="https://github.com/zhuoer6688"><img src="https://avatars.githubusercontent.com/u/345296331?s=96&amp;v=4" width="48" height="48" alt="@zhuoer6688" title="@zhuoer6688" /></a>
   <a href="https://github.com/charteruse-K"><img src="https://avatars.githubusercontent.com/u/344867481?s=96&amp;v=4" width="48" height="48" alt="@charteruse-K" title="@charteruse-K" /></a>
   <a href="https://github.com/H091228"><img src="https://avatars.githubusercontent.com/u/344719473?s=96&amp;v=4" width="48" height="48" alt="@H091228" title="@H091228" /></a>
   <a href="https://github.com/jiang1-w"><img src="https://avatars.githubusercontent.com/u/345634707?s=96&amp;v=4" width="48" height="48" alt="@jiang1-w" title="@jiang1-w" /></a>
