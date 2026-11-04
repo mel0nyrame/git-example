@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taoruiran · 个人主页</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --bg-card: #ffffff;
+      --text: #1f2430;
+      --text-muted: #5c6475;
+      --accent: #4f6ef7;
+      --border: #e3e6ef;
+      --shadow: 0 10px 30px rgba(20, 28, 60, 0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg: #11151e;
+      --bg-card: #1a202c;
+      --text: #eef1f7;
+      --text-muted: #9aa4b8;
+      --accent: #7d94ff;
+      --border: #2a3242;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background-color .25s ease, color .25s ease;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 40px 36px;
+      box-shadow: var(--shadow);
+      transition: background-color .25s ease, border-color .25s ease;
+    }
+
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .identity {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .avatar {
+      width: 68px;
+      height: 68px;
+      flex: 0 0 68px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #a06bff);
+      user-select: none;
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: 26px;
+      letter-spacing: .5px;
+    }
+
+    .role {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      font: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color .2s ease, border-color .2s ease, transform .1s ease;
+    }
+
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-toggle:active { transform: scale(.96); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .intro {
+      margin: 28px 0 0;
+      font-size: 15.5px;
+      line-height: 1.85;
+      color: var(--text-muted);
+    }
+
+    .intro strong { color: var(--text); font-weight: 600; }
+
+    .divider {
+      margin: 30px 0 24px;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .tags li {
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      margin-top: 28px;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s ease;
+    }
+
+    .links a:hover { border-color: currentColor; }
+
+    footer {
+      margin-top: 34px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 520px) {
+      .card { padding: 30px 22px; }
+      h1 { font-size: 22px; }
+      .top { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="top">
+      <div class="identity">
+        <div class="avatar" aria-hidden="true">T</div>
+        <div>
+          <h1>Taoruiran</h1>
+          <p class="role">开发者 · 学习者 · 开源爱好者</p>
+        </div>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-live="polite">
+        <span id="themeIcon" aria-hidden="true">🌙</span>
+        <span id="themeLabel">深色模式</span>
+      </button>
+    </div>
+
+    <p class="intro">
+      你好，我是 <strong>Taoruiran</strong>。一个喜欢写代码、折腾工具、也喜欢把复杂问题拆成小步骤慢慢解决的人。
+      平时关注 Web 开发与开源项目，习惯用文档和笔记记录学到的东西，也乐于和他人分享。
+      这个页面是一个简单的单文件个人主页，用来练习 HTML、CSS 与 JavaScript 的组合使用。
+    </p>
+
+    <hr class="divider" />
+
+    <ul class="tags">
+      <li>HTML / CSS</li>
+      <li>JavaScript</li>
+      <li>Git</li>
+      <li>开源协作</li>
+      <li>持续学习</li>
+    </ul>
+
+    <nav class="links">
+      <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="mailto:hello@example.com">Email</a>
+      <a href="#top">回到顶部</a>
+    </nav>
+
+    <footer>© <span id="year"></span> Taoruiran · 单文件个人主页</footer>
+  </main>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var toggle = document.getElementById('themeToggle');
+      var icon = document.getElementById('themeIcon');
+      var label = document.getElementById('themeLabel');
+      var STORAGE_KEY = 'taoruiran-theme';
+
+      function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        var isDark = theme === 'dark';
+        icon.textContent = isDark ? '☀️' : '🌙';
+        label.textContent = isDark ? '浅色模式' : '深色模式';
+        toggle.setAttribute('aria-label', isDark ? '切换到浅色主题' : '切换到深色主题');
+      }
+
+      function getPreferredTheme() {
+        try {
+          var saved = localStorage.getItem(STORAGE_KEY);
+          if (saved === 'dark' || saved === 'light') return saved;
+        } catch (e) { /* localStorage 不可用时忽略 */ }
+
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+      }
+
+      applyTheme(getPreferredTheme());
+
+      toggle.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        try {
+          localStorage.setItem(STORAGE_KEY, next);
+        } catch (e) { /* 忽略存储失败 */ }
+      });
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
